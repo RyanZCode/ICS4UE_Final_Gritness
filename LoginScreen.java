@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 public class LoginScreen extends JPanel implements ActionListener{
     private JFrame window;
+    ProfileTab main;
     private JLabel title, text, username, password, account;
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -26,7 +27,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         window = new JFrame("Gritness Login");
         window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        //figure out how to make things not squish together on minimize
         canvas = new GraphicsPanel();
         window.add(canvas);
         
@@ -47,7 +48,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         showPassword = new JCheckBox("Show password");
 
         login = new JButton("Login");
-        register = new JButton("Register");
+        register = new JButton("New user?");
 
         login.addActionListener(this);
         showPassword.addActionListener(this);
@@ -59,8 +60,14 @@ public class LoginScreen extends JPanel implements ActionListener{
         text.setBounds(150, 200, 1000, 50);
         text.setFont(new Font("Calibri", Font.BOLD, 16));
         
-        username.setBounds(100, 300, 1000, 50);
-        password.setBounds(100, 350, 1000, 50);
+        username.setBounds(120, 250, 1000, 30);
+        password.setBounds(120, 280, 1000, 30);
+        usernameField.setBounds(200, 250, 150, 30);
+        passwordField.setBounds(200, 280, 150, 30);
+        //passwordField.setEchoChar('●');
+        showPassword.setBounds(190, 310, 300, 30);        
+        login.setBounds(175, 340, 150, 30);
+        register.setBounds(175, 420, 150, 30);
 
         canvas.add(title);
         canvas.add(text);
@@ -86,22 +93,32 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
     }
     
-
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
+        if (e.getSource() == login) {
+            //search entire database
+            
+            //after successful login 
+            main = new ProfileTab();
+            window.dispose();            
+        }
+        else if (e.getSource() == showPassword) {
+            if(showPassword.isSelected()) {
+                passwordField.setEchoChar((char) 0);
+            }
+            else {
+                passwordField.setEchoChar('*');
+            }
+        }
+        else if (e.getSource() == register) {
+            //change screens, load in new password and field boxes
+        }
     }
 
     public static void main(String[] args) {
         LoginScreen login = new LoginScreen();
-        login.run();
+        login.window.repaint();
+        //login.run();
     }
-
-    private void run() {
-        window.repaint();
-    }
-
+    //run function if needed
 }
