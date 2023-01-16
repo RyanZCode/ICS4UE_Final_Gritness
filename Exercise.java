@@ -2,18 +2,23 @@ package gritnessApp;
 
 import java.util.*;
 
+// Ryan
 public class Exercise {
 	String name;
 	ArrayList<Set> sets;
 	
-}
-
-class Set {
-	double lbs;
-	int reps;
+	Exercise(String name) {
+		this.name = name;
+	}
 	
-	Set(double lbs, int reps) {
-		this.lbs = lbs;
-		this.reps = reps;
+	public void addSet(double lbs, int reps) {
+		sets.add(new Set(lbs, reps));
+	}
+	
+	public void removeSet(int num) {
+		if (num < sets.size()) {
+			sets.remove(num - 1);
+		}
 	}
 }
+

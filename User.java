@@ -2,6 +2,7 @@ package gritnessApp;
 
 import java.util.*;
 
+// Ryan
 public class User {
 	String displayName;
 	String username;
@@ -9,18 +10,34 @@ public class User {
 	double weight;
 	String goal;
 	ArrayList<Workout> userWorkoutTemplates;
-	ArrayList<Workout> userMealTemplates;
+	ArrayList<Meal> userMealTemplates;
+	ArrayList<Day> history;
 	
-	public User(String username, String displayName, String password) {
+	User(String username, String displayName, String password) {
 		this.username = username;
 		this.displayName = displayName;
 		this.password = password;
+		this.history = new ArrayList<Day>();
+		// Preload some templates 
+	}
+	
+	public void updateWeight(double weight) {
+		this.weight = weight;
+	}
+	
+	public void updateGoal(String goal) {
+		this.weight = weight;
+	}
+	
+	public void addUserWorkoutTemplate(Workout workout) {
+		this.userWorkoutTemplates.add(workout);
+	}
+	
+	public void addUserMealTemplate(Meal meal) {
+		this.userMealTemplates.add(meal);
 	}
 	
 	public String getPassword() {
 		return this.password;
 	}
-	
-	
-	
 }

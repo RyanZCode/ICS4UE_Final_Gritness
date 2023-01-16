@@ -5,6 +5,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+// Jason
 class CentralDatabase {
 	final int PORT = 5000;
 
@@ -55,15 +56,6 @@ class CentralDatabase {
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				output = new PrintWriter(socket.getOutputStream());
 				// receive a message from the client
-//                data = input.readLine();
-
-//                System.out.println("Message from the client: " + msg);
-//                //send a response to the client
-//                output.println("Client "+clientCounter+", you are connected!");
-//                output.flush();         
-//                //after completing the communication close the streams but do not close the socket!
-//                input.close();
-//                output.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
