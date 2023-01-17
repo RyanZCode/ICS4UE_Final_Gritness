@@ -20,7 +20,7 @@ class CentralDatabase {
 		CentralDatabase server = new CentralDatabase();
 		server.go();
 	}
-
+					
 	public void go() throws Exception {
 		// create a socket with the local IP address and wait for connection request
 		System.out.println("Waiting for a connection request from a client ...");
@@ -81,8 +81,7 @@ class CentralDatabase {
 								output.println("success");
 							}
 							break;
-						}
-						case "login": {
+						} case "login": {
 							String username = inputData[0];
 							String password = inputData[1];
 							User user = loginInfo.get(username);
@@ -94,7 +93,7 @@ class CentralDatabase {
 								output.println("wrong password");
 							}
 							break;
-						}
+						} 
 						}
 					}
 

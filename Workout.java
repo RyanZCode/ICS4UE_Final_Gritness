@@ -20,4 +20,8 @@ public class Workout {
 	public void addExercise(Exercise exercise) {
 		this.exercises.add(exercise);
 	}
+	
+	public void removeExercise(Exercise exercise) {
+		this.exercises.remove(exercise);
+	}
 }
