@@ -12,13 +12,13 @@ public class User {
 	ArrayList<Workout> userWorkoutTemplates;
 	ArrayList<Meal> userMealTemplates;
 	ArrayList<Day> history;
+	ArrayList<String> friends;
 	
 	User(String username, String displayName, String password) {
 		this.username = username;
 		this.displayName = displayName;
 		this.password = password;
 		this.history = new ArrayList<Day>();
-		// Preload some templates 
 	}
 	
 	public void updateWeight(double weight) {

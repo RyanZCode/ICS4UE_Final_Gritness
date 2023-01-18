@@ -13,18 +13,37 @@ class CentralDatabase {
 	Socket clientSocket;
 	PrintWriter output;
 	BufferedReader input;
-	int clientCounter = 0;
-	HashMap<String, User> loginInfo = new HashMap<String, User>();
+	int clientCounter;
+	HashMap<String, User> loginInfo;
+	ArrayList<Workout> allPreloadedWorkoutTemplates;
+	ArrayList<Meal> allPreloadedMealTemplates;
+	ArrayList<Workout> allUserWorkoutTemplates;
+	ArrayList<Meal> allUserMealTemplates;
 
 	public static void main(String[] args) throws Exception {
-		CentralDatabase server = new CentralDatabase();
+		CentralDatabase server = new CentralDatabase();		
 		server.go();
+	}
+	
+	CentralDatabase() {
+		loginInfo = new HashMap<String, User>();
+		clientCounter = 0;
+		allPreloadedWorkoutTemplates = new ArrayList<Workout>();	
+		
+		
+		String[] push = {"Bench Press", "Triceps Extension", "Lateral Raise", "Shoulder Press"};
+		allPreloadedWorkoutTemplates.add(new Workout("Push Workout", push));
+		
+		allPreloadedMealTemplates = new ArrayList<Meal>();	
+		allUserWorkoutTemplates = new ArrayList<Workout>();	
+		allUserMealTemplates = new ArrayList<Meal>();	
 	}
 					
 	public void go() throws Exception {
 		// create a socket with the local IP address and wait for connection request
 		System.out.println("Waiting for a connection request from a client ...");
 		serverSocket = new ServerSocket(PORT); // create and bind a socket
+		
 		while (true) {
 			clientSocket = serverSocket.accept(); // wait for connection request
 			clientSocket.setTcpNoDelay(true);

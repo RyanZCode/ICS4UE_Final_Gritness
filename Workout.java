@@ -8,9 +8,17 @@ public class Workout {
 	ArrayList<Exercise> exercises;
 	int secondsTime;
 	
-	Workout(String templateName, ArrayList<Exercise> exercises) {
+	Workout(String templateName) {
 		this.templateName = templateName;
-		this.exercises = exercises;
+		this.exercises = new ArrayList<Exercise>();
+	}
+	
+	Workout(String templateName, String[] exerciseNames) {
+		this.templateName = templateName;
+		this.exercises = new ArrayList<Exercise>();
+		for (int i = 0; i < exerciseNames.length; i++) {
+			exercises.add(new Exercise(exerciseNames[i]));
+		}
 	}
 	
 	public void startWorkout() {
