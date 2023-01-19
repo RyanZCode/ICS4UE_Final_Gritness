@@ -7,43 +7,24 @@ import java.util.*;
 
 // Jason
 class CentralDatabase {
-	final int PORT = 5000;
+	final int PORT = 4323;
 
 	ServerSocket serverSocket;
 	Socket clientSocket;
 	PrintWriter output;
 	BufferedReader input;
-	int clientCounter;
-	HashMap<String, User> loginInfo;
-	ArrayList<Workout> allPreloadedWorkoutTemplates;
-	ArrayList<Meal> allPreloadedMealTemplates;
-	ArrayList<Workout> allUserWorkoutTemplates;
-	ArrayList<Meal> allUserMealTemplates;
+	int clientCounter = 0;
+	HashMap<String, User> loginInfo = new HashMap<String, User>();
 
 	public static void main(String[] args) throws Exception {
-		CentralDatabase server = new CentralDatabase();		
+		CentralDatabase server = new CentralDatabase();
 		server.go();
 	}
-	
-	CentralDatabase() {
-		loginInfo = new HashMap<String, User>();
-		clientCounter = 0;
-		allPreloadedWorkoutTemplates = new ArrayList<Workout>();	
-		
-		
-		String[] push = {"Bench Press", "Triceps Extension", "Lateral Raise", "Shoulder Press"};
-		allPreloadedWorkoutTemplates.add(new Workout("Push Workout", push));
-		
-		allPreloadedMealTemplates = new ArrayList<Meal>();	
-		allUserWorkoutTemplates = new ArrayList<Workout>();	
-		allUserMealTemplates = new ArrayList<Meal>();	
-	}
-					
+
 	public void go() throws Exception {
 		// create a socket with the local IP address and wait for connection request
 		System.out.println("Waiting for a connection request from a client ...");
 		serverSocket = new ServerSocket(PORT); // create and bind a socket
-		
 		while (true) {
 			clientSocket = serverSocket.accept(); // wait for connection request
 			clientSocket.setTcpNoDelay(true);
@@ -87,6 +68,7 @@ class CentralDatabase {
 					if (!dataQ.isEmpty()) {
 						data = dataQ.poll();
 						String[] inputData = data.split(" ");
+						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
 						switch (inputType) {
 						case "signup": {
@@ -100,10 +82,12 @@ class CentralDatabase {
 								output.println("success");
 							}
 							break;
-						} case "login": {
+						}
+						case "login": {
 							String username = inputData[0];
 							String password = inputData[1];
 							User user = loginInfo.get(username);
+							
 							if (user == null) {
 								output.println("username not found");
 							} else if (loginInfo.get(username).getPassword().equals(password)) {
@@ -112,7 +96,7 @@ class CentralDatabase {
 								output.println("wrong password");
 							}
 							break;
-						} 
+						}
 						}
 					}
 

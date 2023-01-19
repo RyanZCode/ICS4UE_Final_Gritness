@@ -1,17 +1,10 @@
 package gritnessApp;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 
 public class LoginScreen extends JPanel implements ActionListener{
     private JFrame window;
@@ -22,9 +15,16 @@ public class LoginScreen extends JPanel implements ActionListener{
     private JCheckBox showPassword;
     private JButton login, register;
     private GraphicsPanel canvas;  
-
+    private JTextArea textArea = new JTextArea();
+    private boolean loggedIn;
+    private String usernameEntered;
+    private String passwordEntered;
     LoginScreen(){
+    	
+    	
+    	
         window = new JFrame("Gritness Login");
+        window.setResizable(false);
         window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //figure out how to make things not squish together on minimize
@@ -35,13 +35,12 @@ public class LoginScreen extends JPanel implements ActionListener{
         window.setResizable(false);
         window.setLayout(null);
         canvas.setVisible(true);
-
+        
         title = new JLabel("Welcome to Gritness!");
         text = new JLabel("Sign into your account below:");
         username = new JLabel("Username:");
         password = new JLabel("Password:");
         account = new JLabel("Create an account");
-
         usernameField = new JTextField();
         passwordField = new JPasswordField();
 
@@ -53,7 +52,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         login.addActionListener(this);
         showPassword.addActionListener(this);
         register.addActionListener(this);
-
+        
         title.setBounds(100, 50, 1000, 50);
         title.setFont(new Font("Calibri", Font.BOLD, 32));
         
@@ -64,7 +63,8 @@ public class LoginScreen extends JPanel implements ActionListener{
         password.setBounds(120, 280, 1000, 30);
         usernameField.setBounds(200, 250, 150, 30);
         passwordField.setBounds(200, 280, 150, 30);
-        //passwordField.setEchoChar('●');
+        
+        //passwordField.setEchoChar('â—�');
         showPassword.setBounds(190, 310, 300, 30);        
         login.setBounds(175, 340, 150, 30);
         register.setBounds(175, 420, 150, 30);
@@ -80,7 +80,11 @@ public class LoginScreen extends JPanel implements ActionListener{
         canvas.add(login);
         canvas.add(register);
         
+        this.loggedIn = false;
+        
+        this.setLayout(null);
         repaint();
+        this.setVisible(true);
     }
 
     public class GraphicsPanel extends JPanel{
@@ -93,11 +97,16 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
+        	String pwd = new String(passwordField.getPassword());
+        	setEnteredUsername(usernameField.getText());
+        	setEnteredPassword(pwd);
+        	this.loggedIn = true;
             //search entire database
-            
+        	
             //after successful login 
             main = new ProfileTab();
             window.dispose();            
@@ -114,11 +123,28 @@ public class LoginScreen extends JPanel implements ActionListener{
             //change screens, load in new password and field boxes
         }
     }
-
     public static void main(String[] args) {
         LoginScreen login = new LoginScreen();
-        login.window.repaint();
-        //login.run();
+        
+        login.run(login);
+    }
+    public boolean userLoggedIn() {
+    	return this.loggedIn;
+    }
+    public void run(LoginScreen login) {
+    	login.window.repaint();
     }
     //run function if needed
+	public String getEnteredUsername() {
+		return usernameEntered;
+	}
+	public void setEnteredUsername(String enteredUsername) {
+		this.usernameEntered = enteredUsername;
+	}
+	public void setEnteredPassword(String enteredPassword) {
+		this.passwordEntered = enteredPassword;
+	}
+	public String getEnteredPassword() {
+		return this.passwordEntered;
+	}
 }
