@@ -19,12 +19,11 @@ public class ProfileTab extends JPanel implements ActionListener{
         
         canvas = new GraphicsPanel();
         window.add(canvas);
-        
-        window.setVisible(true);
         window.setResizable(false);
-        window.setLayout(null);
-        canvas.setVisible(true);
-    }
+
+        window.setVisible(true);
+        canvas.setLayout(null);
+    }	
     
     public class GraphicsPanel extends JPanel{
         public GraphicsPanel() {

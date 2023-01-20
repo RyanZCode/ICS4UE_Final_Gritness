@@ -31,7 +31,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         
         window.setVisible(true);
         window.setResizable(false);
-        window.setLayout(null);
+        canvas.setLayout(null);
         canvas.setVisible(true);
         
         title = new JLabel("Welcome to Gritness!");
