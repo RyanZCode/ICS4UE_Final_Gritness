@@ -19,10 +19,8 @@ public class LoginScreen extends JPanel implements ActionListener{
     private boolean loggedIn;
     private String usernameEntered;
     private String passwordEntered;
+    
     LoginScreen(){
-    	
-    	
-    	
         window = new JFrame("Gritness Login");
         window.setResizable(false);
         window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
@@ -121,6 +119,8 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
         else if (e.getSource() == register) {
             //change screens, load in new password and field boxes
+        	new SignUpTab();
+        	window.dispose();
         }
     }
     public static void main(String[] args) {
