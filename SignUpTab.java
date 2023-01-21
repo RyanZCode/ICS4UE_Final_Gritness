@@ -20,16 +20,16 @@ public class SignUpTab extends JPanel implements ActionListener{
     private String usernameEntered;
     private String passwordEntered;
     SignUpTab(){
-        window = new JFrame("Sign Up");
-        window.setResizable(false);
-        window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        window = new JFrame("Sign Up");
+//        window.setResizable(false);
+//        window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
+//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         canvas = new GraphicsPanel();
-        window.add(canvas);
-        
-        window.setVisible(true);
-        window.setResizable(false);
-        canvas.setLayout(null);
+//        window.add(canvas);
+//        
+//        window.setVisible(true);
+//        window.setResizable(false);
+//        canvas.setLayout(null);
         
         title = new JLabel("Create Account", SwingConstants.CENTER);
         text = new JLabel("Create your account:", SwingConstants.CENTER);
@@ -46,35 +46,35 @@ public class SignUpTab extends JPanel implements ActionListener{
         signup.addActionListener(this);
         showPassword.addActionListener(this);
         
-        title.setBounds(0, 50, Const.LOGIN_WIDTH, 50);
-        title.setFont(new Font("Calibri", Font.BOLD, 32));
+        title.setBounds(0, 150, Const.MAIN_LENGTH, 50);
+        title.setFont(new Font("Calibri", Font.PLAIN, 48));
         
-        text.setBounds(0, 200, Const.LOGIN_WIDTH, 50);
+        text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
         text.setFont(new Font("Calibri", Font.BOLD, 16));
         
-        username.setBounds(120, 250, 1000, 30);
-        password.setBounds(120, 280, 1000, 30);
-        usernameField.setBounds(200, 250, 150, 30);
-        passwordField.setBounds(200, 280, 150, 30);
+        username.setBounds(520, 250, 1000, 30);
+        password.setBounds(520, 280, 1000, 30);
+        usernameField.setBounds(600, 250, 150, 30);
+        passwordField.setBounds(600, 280, 150, 30);
         
         //passwordField.setEchoChar('â—�');
-        showPassword.setBounds(190, 310, 300, 30);        
-        signup.setBounds(175, 340, 150, 30);
+        showPassword.setBounds(590, 310, 300, 30);        
+        signup.setBounds(575, 340, 150, 30);
 
-        canvas.add(title);
-        canvas.add(text);
-        canvas.add(username);
-        canvas.add(password);
-        canvas.add(account);
-        canvas.add(usernameField);
-        canvas.add(passwordField);
-        canvas.add(showPassword);
-        canvas.add(signup);
+        this.add(title);
+        this.add(text);
+        this.add(username);
+        this.add(password);
+        this.add(account);
+        this.add(usernameField);
+        this.add(passwordField);
+        this.add(showPassword);
+        this.add(signup);
         
         this.loggedIn = false;
         
         this.setLayout(null);
-        window.repaint();
+//        window.repaint();
         this.setVisible(true);
     }
 
@@ -99,8 +99,7 @@ public class SignUpTab extends JPanel implements ActionListener{
             //search entire database
         	
             //after successful login 
-            main = new ProfileTab();
-            window.dispose();            
+            Window.layout.show(Window.container, "profile");         
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {
