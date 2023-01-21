@@ -1,5 +1,6 @@
 package gritnessApp;
 
-public class NavigationBar {
-
+public class NavigationBar{
+    
+    
 }
