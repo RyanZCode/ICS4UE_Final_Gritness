@@ -8,9 +8,10 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import gritnessApp.User;
 
 public class ProfileTab extends JPanel implements ActionListener{
     private GraphicsPanel canvas;
@@ -26,6 +27,10 @@ public class ProfileTab extends JPanel implements ActionListener{
         age.setFont(Const.TEXT_FONT);
         age.setBounds(50, 50, 500, 500);
         this.add(age);
+        
+        //name = new JLabel(User.getDisplayName());
+        //name.setBounds(20, 100, 500, 500);
+        //this.add(name);
         
         height = new JLabel("Height");
         bmi = new JLabel("BMI");

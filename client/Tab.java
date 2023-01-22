@@ -17,7 +17,7 @@ public class Tab {
     public static JPanel tabs;
     public static CardLayout cardLayout;
 
-    Tab(){
+    public Tab(){
         login = new LoginScreen();
         profile = new ProfileTab();
         history = new HistoryTab();
@@ -32,16 +32,13 @@ public class Tab {
 
     public void run() {        
         Window window = new Window();
-        tabs.setLayout(cardLayout);
-        tabs.add(login, "login");
-        tabs.add(signup, "signup");
-        tabs.add(profile, "profile");
-        tabs.add(history, "history");
-        tabs.add(workout, "workout");
-        tabs.add(nutrition, "nutrition");
-        tabs.add(social, "social");
-        window.add(tabs, BorderLayout.NORTH);
-        window.add(nav, BorderLayout.SOUTH);
+        Window.container.add(login, "login");
+        Window.container.add(signup, "signup");
+        Window.container.add(profile, "profile");
+        Window.container.add(history, "history");
+        Window.container.add(workout, "workout");
+        Window.container.add(nutrition, "nutrition");
+        Window.container.add(social, "social");
         
         window.setVisible(true);
     }

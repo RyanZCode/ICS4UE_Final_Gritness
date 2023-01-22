@@ -2,6 +2,7 @@ package gritnessApp.client;
 
 import java.awt.*;
 import java.awt.event.*;
+import gritnessApp.CentralDatabase;
 
 import javax.swing.*;
 
@@ -17,7 +18,7 @@ public class LoginScreen extends JPanel implements ActionListener{
     private String usernameEntered;
     private String passwordEntered;
 
-    LoginScreen(){
+    public LoginScreen(){
         title = new JLabel("Welcome to Gritness!");
         text = new JLabel("Sign into your account below:");
         username = new JLabel("Username:");
@@ -62,7 +63,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         this.add(register);
 
         this.loggedIn = false;
-
+        this.setLayout(null);
         this.setVisible(true);
     }
 
@@ -86,8 +87,7 @@ public class LoginScreen extends JPanel implements ActionListener{
             //search entire database
 
             //after successful login 
-            Tab.cardLayout.show(Tab.tabs, "profile");   
-            Tab.nav.setVisible(true);
+            Window.layout.show(Window.container, "profile");
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {
@@ -99,7 +99,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
         else if (e.getSource() == register) {
             //change screens, load in new password and field boxes
-            Tab.cardLayout.show(Tab.tabs, "profile");
+            Window.layout.show(Window.container, "register");
         }
     }
     public boolean userLoggedIn() {

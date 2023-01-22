@@ -84,30 +84,30 @@ public class NavigationBar extends JPanel implements ActionListener{
         this.add(workout);
         this.add(food);
         this.add(social);
-       
-        this.setVisible(false);
+        this.setLayout(null);
+        this.setVisible(true);
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
-            Tab.cardLayout.show(Tab.tabs, "profile");
+            Window.layout.show(Window.container, "profile");
         }
 
         else if(e.getSource() == history) {
-            Tab.cardLayout.show(Tab.tabs, "history");
+            Window.layout.show(Window.container, "history");
         }
 
         else if (e.getSource() == workout) {
-            Tab.cardLayout.show(Tab.tabs, "workout");
+            Window.layout.show(Window.container, "workout");
         }
 
         else if (e.getSource() == food) {
-            Tab.cardLayout.show(Tab.tabs, "nutrition");
+            Window.layout.show(Window.container, "food");
         }
 
         else if (e.getSource() == social) {
-            Tab.cardLayout.show(Tab.tabs, "social");
+            Window.layout.show(Window.container, "social");
         }
     }
 }
