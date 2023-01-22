@@ -7,7 +7,7 @@ import java.util.*;
 
 // Jason
 class CentralDatabase {
-	final int PORT = 4323;
+	final int PORT = 10111;
 
 	ServerSocket serverSocket;
 	Socket clientSocket;
@@ -70,33 +70,44 @@ class CentralDatabase {
 						String[] inputData = data.split(" ");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
+						System.out.println("type: " + inputType);
 						switch (inputType) {
 						case "signup": {
-							String displayName = inputData[1];
-							String username = inputData[2];
-							String password = inputData[3];
+							//String displayName = inputData[1];
+							String displayName = "Tester";
+							// need to make displayname field
+							String username = inputData[1];
+							String password = inputData[2];
 							if (loginInfo.containsKey(username)) {
 								output.println("username taken");
+								output.flush();
 							} else {
 								createNewUser(username, displayName, password);
 								output.println("success");
+								output.flush();
 							}
 							break;
 						}
 						case "login": {
-							String username = inputData[0];
-							String password = inputData[1];
+							String username = inputData[1];
+							String password = inputData[2];
 							User user = loginInfo.get(username);
-							
 							if (user == null) {
 								output.println("username not found");
+								output.flush();
 							} else if (loginInfo.get(username).getPassword().equals(password)) {
 								output.println("success");
+								output.flush();
 							} else {
 								output.println("wrong password");
+								output.flush();
 							}
 							break;
 						}
+						default:
+							output.println("null input");
+							// idk where to put output.flush(), have to figure it out
+							output.flush();
 						}
 					}
 
