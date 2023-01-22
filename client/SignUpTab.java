@@ -99,7 +99,7 @@ public class SignUpTab extends JPanel implements ActionListener{
             //search entire database
         	
             //after successful login 
-        	Tab.cardLayout.show(Tab.tabs, "profile");     
+        	 Window.layout.show(Window.container, "profile");
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {

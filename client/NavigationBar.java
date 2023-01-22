@@ -10,7 +10,11 @@ import javax.swing.JPanel;
 
 public class NavigationBar extends JPanel implements ActionListener{
 
-    JButton profile, history, food, workout, social;
+    static JButton profile;
+    static JButton history;
+    static JButton food;
+    static JButton workout;
+    static JButton social;
 
     NavigationBar(){
         profile = new JButton ("Profile");
@@ -78,16 +82,34 @@ public class NavigationBar extends JPanel implements ActionListener{
         workout.addActionListener(this);
         food.addActionListener(this);
         social.addActionListener(this);
-        
-        this.add(profile);
-        this.add(history);
-        this.add(workout);
-        this.add(food);
-        this.add(social);
-        this.setLayout(null);
-        this.setVisible(true);
     }
     
+    
+    public static JButton getProfile() {
+        return profile;
+    }
+
+
+    public static JButton getHistory() {
+        return history;
+    }
+
+
+    public static JButton getFood() {
+        return food;
+    }
+
+
+    public static JButton getWorkout() {
+        return workout;
+    }
+
+
+    public static JButton getSocial() {
+        return social;
+    }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
