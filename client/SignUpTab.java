@@ -1,4 +1,4 @@
-package gritnessApp;
+package gritnessApp.client;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -99,7 +99,7 @@ public class SignUpTab extends JPanel implements ActionListener{
             //search entire database
         	
             //after successful login 
-            Window.layout.show(Window.container, "profile");         
+        	Tab.cardLayout.show(Tab.tabs, "profile");     
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {
