@@ -18,4 +18,8 @@ public class Const {
     public static final ImageIcon SOCIAL_ICON = new ImageIcon("src/gritnessApp.client.icons/social.png");
     public static final Font BUTTON_FONT = new Font("Calibri", Font.PLAIN, 35);
     public static final Font TEXT_FONT = new Font("Calibri", Font.PLAIN, 25);
+    public static final Font TITLE_FONT = new Font("Calibri", Font.BOLD, 60);
+    public static final int NAV_Y = 570;
+    public static final int NAV_WIDTH = 125;
+    public static final int NAV_LENGTH = 270;
 }
