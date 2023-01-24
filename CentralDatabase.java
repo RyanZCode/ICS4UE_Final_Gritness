@@ -67,7 +67,7 @@ class CentralDatabase {
 					}
 					if (!dataQ.isEmpty()) {
 						data = dataQ.poll();
-						String[] inputData = data.split(" ");
+						String[] inputData = data.split("$$");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
 						System.out.println("type: " + inputType);
@@ -104,9 +104,43 @@ class CentralDatabase {
 							}
 							break;
 						}
+						case "profileTab": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getDisplayName() + "$$" + user.getAge()  + "$$" +  user.getWeight()  + "$$" +  user.getHeight());
+							output.println(user.getCalorieHistory());
+							output.println(user.getWorkoutNumberHistory());
+						}
+						case "profileCalHistory": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getCalorieHistory());
+						}
+						case "profileWorkoutNum": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getWorkoutNumberHistory());
+						}
+						case "historyTab": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							
+						}
+						case "workoutTab": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+						}
+						case "foodTab": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+						}
+						case "socialTab": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getFriendsString());
+						}
 						default:
 							output.println("null input");
-							// idk where to put output.flush(), have to figure it out
 							output.flush();
 						}
 					}
