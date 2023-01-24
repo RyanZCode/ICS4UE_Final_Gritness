@@ -2,7 +2,6 @@ package gritnessApp;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -20,14 +19,12 @@ public class SignUpTab extends JPanel implements ActionListener{
     private boolean loggedIn;
     private String usernameEntered;
     private String passwordEntered;
-    Client client;
-    SignUpTab(Client client){
+    SignUpTab(){
 //        window = new JFrame("Sign Up");
 //        window.setResizable(false);
 //        window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
 //        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         canvas = new GraphicsPanel();
-        this.client = client;
 //        window.add(canvas);
 //        
 //        window.setVisible(true);
@@ -99,20 +96,10 @@ public class SignUpTab extends JPanel implements ActionListener{
         	setEnteredUsername(usernameField.getText());
         	setEnteredPassword(pwd);
         	this.loggedIn = true;
-        	String serverMessage = null;
-            try {
-				serverMessage = client.sendSignUp(usernameField.getText(), new String(passwordField.getPassword()));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+            //search entire database
         	
-            //after successful login
-            if (serverMessage.equals("success")) {
-            	Window.layout.show(Window.container, "profile");
-            } else {
-            	System.out.println("server message: " + serverMessage);
-            }
+            //after successful login 
+        	 Window.layout.show(Window.container, "profile");
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {

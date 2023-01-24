@@ -12,16 +12,25 @@ public class LineGraph extends Graph{
         // Draw x and y axis
         // x= 50, y = 250
         
+    	
+    	// Draw data points
+        for (int i = 0; i < data.length - 1; i++) {
+        	g.setColor(Color.red);
+        	if(data[i + 1] != 0) {
+        		g.drawLine(x + i*(AXIS_LENGTH / NUMBER_DAYS), y - data[i] / 10, x + (i+1)*(AXIS_LENGTH / NUMBER_DAYS), y - data[i+1] / 10);
+        	}
+            
+        }
+        
+        
         //X-Axis line
+        g.setColor(Color.black);
         g.drawLine(x, y, x + AXIS_LENGTH, y);
         
         //Y-Axis line
         g.drawLine(x, y , x, y - AXIS_LENGTH);
 
-        // Draw data points
-        for (int i = 0; i < data.length - 1; i++) {
-            g.drawLine(x + i*(AXIS_LENGTH / NUMBER_DAYS), y - data[i] / 10, x + (i+1)*(AXIS_LENGTH / NUMBER_DAYS), y - data[i+1] / 10);
-        }
+        
 
         // Draw labels
         g.drawString(xAxisLabel,(2 * x + AXIS_LENGTH) / 2, y + LABEL_DISTANCE_BETWEEN_AXIS);

@@ -8,7 +8,6 @@ public class Main {
     	
     	Tab tab = new Tab();
     	tab.run();
-
     }
 
 }

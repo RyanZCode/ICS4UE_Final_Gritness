@@ -11,18 +11,27 @@ public class BarGraph extends Graph{
     public void draw(Graphics g) {
     	
 
-        // Draw x and y axis
         
+    	for (int i = 0; i < data.length; i++) {
+        	
+        	g.setColor(Color.red);
+        	if(data[i] != 0) {
+        		 g.fillRect(x + i* (AXIS_LENGTH / NUMBER_DAYS) , y -  data[i] * (AXIS_LENGTH / MAX_VALUE), 10, data[i] * (AXIS_LENGTH / MAX_VALUE));
+        	}
+           
+        }
+    	
+    	
+    	// Draw x and y axis
         //X-Axis line
+    	g.setColor(Color.black);
         g.drawLine(x, y, x + AXIS_LENGTH, y);
         
         //Y-Axis line
         g.drawLine(x, y , x, y - AXIS_LENGTH);
 
         // Draw data bars
-        for (int i = 0; i < data.length; i++) {
-            g.fillRect(x + i* (AXIS_LENGTH / NUMBER_DAYS) , y -  data[i] * (AXIS_LENGTH / MAX_VALUE), 10, data[i] * (AXIS_LENGTH / MAX_VALUE));
-        }
+        
 
         // Draw labels
         g.drawString(xAxisLabel,(2 * x + AXIS_LENGTH) / 2, y + LABEL_DISTANCE_BETWEEN_AXIS);

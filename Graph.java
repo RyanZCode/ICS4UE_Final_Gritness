@@ -8,7 +8,7 @@ public class Graph extends JPanel {
     String yAxisLabel;
     String title;
     int x, y;
-    final int AXIS_LENGTH = 250;
+    final int AXIS_LENGTH = 200;
     final int LABEL_DISTANCE_BETWEEN_AXIS = 35;
     int MAX_VALUE = 5;
     final int NUMBER_DAYS = 7;

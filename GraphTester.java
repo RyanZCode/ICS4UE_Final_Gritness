@@ -9,16 +9,15 @@ public class GraphTester {
 	JFrame window;
 	GraphTester(){
 		window = new JFrame();
-		Panel panel = new Panel();
+		GraphicsPanel panel = new GraphicsPanel();
 		window.setSize(600,500);
 		window.add(panel);
 		window.setVisible(true);
 	}
-    public class Panel extends JPanel{
+    public class GraphicsPanel extends JPanel{
     	BarGraph barGraph;
     	LineGraph lineGraph;
-    	int[] data = {1, 2, 3, 4, 3, 2, 3};
-    	Panel(){
+    	GraphicsPanel(){
             setFocusable(true);
             requestFocusInWindow();
         }
@@ -26,6 +25,8 @@ public class GraphTester {
     	@Override
     	public void paintComponent(Graphics g){ 
     		super.paintComponent(g);
+    		
+    		
     		int[] data = {1, 2, 3, 4, 3, 2, 1};
             barGraph = new BarGraph(data, "Day", "Calories", "Calories", 150, 350, 5);
             barGraph.draw(g);
