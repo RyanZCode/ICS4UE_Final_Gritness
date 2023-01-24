@@ -7,15 +7,27 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class NutritionTab extends JPanel implements ActionListener{
    JLabel age;
    JButton profile, workout, food, social, history;
+   JTable table;
+   JScrollPane scroll;
+   String[] columnNames = {"Meal","Calories", "Protein", "Carbs", "Sugar", "Fiber", "Fats", "Sodium"};
+   Object[][] meals = {{"Chicken Shawarma", "500", "20", "30", "5", "5", "15", "300"}};
+   
     NutritionTab(){
         age = new JLabel("Nutrition");
         age.setFont(Const.TEXT_FONT);
         age.setBounds(50, 50, 500, 500);
         this.add(age);
+       
+        table = new JTable(meals, columnNames);
+        scroll = new JScrollPane(table);
+        scroll.setBounds(100, 270, 800, 300);
+        this.add(scroll);        
         
         profile = new JButton ("Profile");
         profile.setBackground(Const.NAV_BAR_COLOUR);
@@ -91,7 +103,10 @@ public class NutritionTab extends JPanel implements ActionListener{
         
         this.setLayout(null);
     }
-    @Override
+    
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+          
+    }
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         if(e.getSource() == profile) {

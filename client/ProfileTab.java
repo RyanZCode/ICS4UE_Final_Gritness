@@ -147,7 +147,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         }
 
         else if (e.getSource() == food) {
-            Window.layout.show(Window.container, "food");
+            Window.layout.show(Window.container, "nutrition");
         }
 
         else if (e.getSource() == social) {
