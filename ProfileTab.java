@@ -2,30 +2,25 @@ package gritnessApp;
 
 import gritnessApp.NavigationBar;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class ProfileTab extends JPanel implements ActionListener  {
     Client Client;
+    JFrame window;
     JButton profile, workout, food, social, history;
     JButton ageButton, heightButton, BMIButton, BMRButton, nameButton, weightButton;
     String age, height, name;
-    int BMI, BMR;
+    JTextField heightField, weightField, ageField;
     BarGraph barGraph;
+    Object[] BMRMessage, BMIMessage;
     LineGraph lineGraph;
+    
+    
     ProfileTab(){   
+    	window = new JFrame();
         nameButton = newProfileButton("Name:", 80,35,165);
         ageButton = newProfileButton("Age:", 75,165,145);
         weightButton = newProfileButton("Weight:", 320,165,185);
@@ -39,6 +34,24 @@ public class ProfileTab extends JPanel implements ActionListener  {
         workout = newNavBarButton("Workout", 512, Const.WORKOUT_ICON);
         food = newNavBarButton("Food", 768, Const.FOOD_ICON);   
         social = newNavBarButton("Social", 1024,Const.SOCIAL_ICON);
+        
+        heightField  = new JTextField();
+        weightField  = new JTextField();
+        ageField  = new JTextField();
+        
+        this.add(heightField);
+        this.add(weightField);
+        this.add(ageField);
+        
+        BMRMessage = new Object[]{
+        		"Height(cm): ", heightField,
+        		"Weight(kg): ", weightField,
+        		"Age: ", ageField
+        };
+        BMIMessage = new Object[] {
+        	"Weight(kg): ", weightField,
+        	"Height(cm): ", heightField,
+        };
         
         this.setVisible(true);
         this.setLayout(null);
@@ -80,12 +93,70 @@ public class ProfileTab extends JPanel implements ActionListener  {
         else if (e.getSource() == social) {
             Window.layout.show(Window.container, "social");
         }
+        else if(e.getSource() == nameButton) {
+        	String name = JOptionPane.showInputDialog(window, "Enter name: ", null);
+        	if(name != null) {
+        		nameButton.setText("Name: " + name);
+        		nameButton.setSize(nameButton.getPreferredSize());
+        	}
+        }
         else if(e.getSource() == ageButton) {
+        	String age = JOptionPane.showInputDialog(window,
+                    "Enter age: ", null);
+        	if(age != null) {
+        		ageButton.setText("Age: " + age);
+        		ageField.setText(age);
+        		ageButton.setSize(ageButton.getPreferredSize());
+        	}
+        	
         	
         }
+        else if(e.getSource() == heightButton) {
+        	String height = JOptionPane.showInputDialog(window, "Enter height (cm): ", JOptionPane.OK_CANCEL_OPTION);
+        	if(height != null) {
+        		heightButton.setText("Height: " + height +  " cm");	
+        		heightField.setText(height);
+        		heightButton.setSize(heightButton.getPreferredSize());
+        	}
+        	
+        	
+        }
+        else if(e.getSource() == weightButton) {
+        	String weight = JOptionPane.showInputDialog(window, "Enter weight(kg): ", JOptionPane.OK_CANCEL_OPTION);
+        	if(weight != null) {
+        		weightButton.setText("Weight: " + weight + " kg");
+        		weightField.setText(weight);
+        		weightButton.setSize(weightButton.getPreferredSize());
+        	}
+        }
+        else if(e.getSource() == BMRButton) {
+        	JOptionPane.showConfirmDialog(window, BMRMessage, "BMR", JOptionPane.OK_CANCEL_OPTION);
+        	if(!weightField.getText().equals("") && !heightField.getText().equals("") && !ageField.getText().equals("")) {
+        		double weight = Double.parseDouble(weightField.getText());
+            	double height = Double.parseDouble(heightField.getText());
+            	double age = Double.parseDouble(ageField.getText());
+
+            	Double BMRCalculation = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 *age);
+            	BMRButton.setText("BMR: " + Math.round(BMRCalculation) + "Cal");
+            	BMRButton.setSize(BMRButton.getPreferredSize());
+        	}
+        }else if(e.getSource() == BMIButton) {
+        	JOptionPane.showConfirmDialog(window, BMIMessage, "BMI", JOptionPane.OK_CANCEL_OPTION);
+        	if(!weightField.getText().equals("") && !heightField.getText().equals("")) {
+        		double weight = Double.parseDouble(weightField.getText());
+            	double height = Double.parseDouble(heightField.getText());
+            	
+            	Double BMICalculation = weight / Math.pow(height / 100, 2);
+            	BMIButton.setText("BMI: " + Math.round(BMICalculation));
+            	BMIButton.setSize(BMIButton.getPreferredSize());
+        	}
+        }
+        
     }
+
     public JButton newProfileButton(String name, int x, int y, int width) {
-    	JButton button = new JButton();
+    	JButton button = new JButton();    	
+    	
     	button.setBackground(Const.BACKGROUND_COLOUR);
     	button.setForeground(Color.black);
     	button.setFocusable(false);
@@ -94,6 +165,8 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setBounds(x,y,width,70);
     	button.addActionListener(this);
         button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        
     	this.add(button);
     	return button;
 	    
@@ -110,6 +183,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalAlignment(JButton.CENTER);
     	button.setVerticalAlignment(JButton.CENTER);
+    	
     	this.add(button);
     	return button;
     }
