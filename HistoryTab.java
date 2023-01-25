@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
+//Jason
 public class HistoryTab extends JPanel implements ActionListener{
     JLabel age;
     JButton profile, workout, food, social, history;
@@ -17,77 +20,12 @@ public class HistoryTab extends JPanel implements ActionListener{
         age.setBounds(50, 50, 500, 500);
         this.add(age);
         
-        profile = new JButton ("Profile");
-        profile.setBackground(Const.NAV_BAR_COLOUR);
-        profile.setForeground(Color.white);
-        profile.setFocusable(false);
-        profile.addActionListener(this);
-        profile.setBorderPainted(false);
-        profile.setIcon(Const.PROFILE_ICON);
-        profile.setFont(Const.BUTTON_FONT);
-        profile.setBounds(0, 570, 270, 125);
-        profile.setHorizontalTextPosition(JButton.CENTER);
-        profile.setVerticalTextPosition(JButton.CENTER);
-
-        history = new JButton ("History");
-        history.setBackground(Const.NAV_BAR_COLOUR);
-        history.setForeground(Color.white);
-        history.setFocusable(false);
-        history.setBorderPainted(false);
-        history.addActionListener(this);
-        history.setIcon(Const.HISTORY_ICON);
-        history.setFont(Const.BUTTON_FONT);
-        history.setBounds(250, 570, 270, 125);
-        history.setHorizontalTextPosition(JButton.CENTER);
-        history.setVerticalTextPosition(JButton.CENTER);
-
-        workout = new JButton ("Workout");
-        workout.setBackground(Const.NAV_BAR_COLOUR);
-        workout.setForeground(Color.white);
-        workout.setFocusable(false);
-        workout.setBorderPainted(false);
-        workout.addActionListener(this);
-        workout.setIcon(Const.WORKOUT_ICON);
-        workout.setFont(Const.BUTTON_FONT);
-        workout.setBounds(500, 570, 270, 125);
-        workout.setHorizontalTextPosition(JButton.CENTER);
-        workout.setVerticalTextPosition(JButton.CENTER);
-
-        food = new JButton ("Food");
-        food.setBackground(Const.NAV_BAR_COLOUR);
-        food.setForeground(Color.white);
-        food.setFocusable(false);
-        food.setBorderPainted(false);
-        food.addActionListener(this);
-        food.setIcon(Const.FOOD_ICON);
-        food.setFont(Const.BUTTON_FONT);
-        food.setBounds(750, 570, 270, 125);
-        food.setHorizontalTextPosition(JButton.CENTER);
-        food.setVerticalTextPosition(JButton.CENTER);
-
-        social = new JButton ("Social");
-        social.setBackground(Const.NAV_BAR_COLOUR);
-        social.setForeground(Color.white);
-        social.setFocusable(false);
-        social.setBorderPainted(false);
-        social.addActionListener(this);
-        social.setIcon(Const.SOCIAL_ICON);
-        social.setFont(Const.BUTTON_FONT);
-        social.setBounds(1000, 570, 270, 125);
-        social.setHorizontalTextPosition(JButton.CENTER);
-        social.setVerticalTextPosition(JButton.CENTER);
-        
-        profile.addActionListener(this);
-        history.addActionListener(this);
-        workout.addActionListener(this);
-        food.addActionListener(this);
-        social.addActionListener(this);
-        
-        this.add(profile);
-        this.add(history);
-        this.add(workout);
-        this.add(food);
-        this.add(social);
+        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
+        profile.setBackground(Const.NAV_BAR_COLOUR.brighter());
+        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
+        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
+        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
+        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
         
         this.setLayout(null);
     }
@@ -114,5 +52,20 @@ public class HistoryTab extends JPanel implements ActionListener{
             Window.layout.show(Window.container, "social");
         }
     }
-
+    public JButton newNavBarButton(String name, int x, ImageIcon icon) {
+    	JButton button = new JButton(name);
+    	button.setBackground(Const.NAV_BAR_COLOUR);
+    	button.setForeground(Color.white);
+    	button.setFocusable(false);
+    	button.setBorderPainted(false);
+    	button.addActionListener(this);
+    	button.setIcon(icon);
+    	button.setFont(Const.BUTTON_FONT);
+    	button.setBounds(x, 570, 270, 125);
+    	button.setHorizontalTextPosition(JButton.CENTER);
+    	button.setVerticalTextPosition(JButton.BOTTOM);
+    	
+    	this.add(button);
+    	return button;
+    }
 }

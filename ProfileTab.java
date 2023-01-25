@@ -1,12 +1,10 @@
 package gritnessApp;
-
-import gritnessApp.NavigationBar;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
+
+//Jason
 public class ProfileTab extends JPanel implements ActionListener  {
     Client Client;
     JFrame window;
@@ -76,7 +74,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
             Window.layout.show(Window.container, "profile");
-            profile.repaint();
         }
 
         else if(e.getSource() == history) {
@@ -172,11 +169,11 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setBorderPainted(false);
     	button.addActionListener(this);
     	button.setIcon(icon);
-    	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 256, 125);
-    	button.setHorizontalAlignment(JButton.CENTER);
-    	button.setVerticalAlignment(JButton.CENTER);
     	
+    	button.setFont(Const.BUTTON_FONT);
+    	button.setBounds(x, 570, 270, 125);
+    	button.setHorizontalTextPosition(JButton.CENTER);
+    	button.setVerticalTextPosition(JButton.BOTTOM);
     	this.add(button);
     	return button;
     }
