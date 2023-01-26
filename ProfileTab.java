@@ -133,6 +133,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
          	Double weight = Double.parseDouble(weightField.getText());
          	Double height = Double.parseDouble(heightField.getText());
          	Double BMI = (weight) / (Math.pow(height / 100,2));
+         	
          	BMIButton.setText("BMI: " + Math.round(BMI));
          	BMIButton.setSize(BMIButton.getPreferredSize());
          	
