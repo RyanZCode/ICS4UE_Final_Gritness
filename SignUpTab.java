@@ -1,4 +1,4 @@
-package gritnessApp.client;
+package gritnessApp;
 
 import java.awt.*;
 import java.awt.event.*;
