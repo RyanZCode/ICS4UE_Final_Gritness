@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import gritnessApp.client.Const;
+
 //Jason
 public class HistoryTab extends JPanel implements ActionListener{
     JLabel age;
@@ -53,14 +55,14 @@ public class HistoryTab extends JPanel implements ActionListener{
         dateComboBox.setSize(dateComboBox.getPreferredSize());
   
         
-        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
-        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
-        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
-        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
-        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
-        history.setBackground(Const.NAV_BAR_COLOUR.brighter());
-
-        dateDisplay = newDisplayLabel(selectedDate, Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 385)/ 2, 75,400,300 );
+        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history =  newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);history.setBackground(Const.NAV_BAR_COLOUR.brighter());
+        history.setBackground(Const.BUTTON_COLOUR2.brighter());
+        
+        dateDisplay = newDisplayLabel(selectedDate, gritnessApp.Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 385)/ 2, 75,400,300 );
 
         workoutColumn = new String[]{"Column 1", "Column 2"};
         workoutData = new Object[][]{
@@ -171,7 +173,7 @@ public class HistoryTab extends JPanel implements ActionListener{
     	button.addActionListener(this);
     	button.setIcon(icon);
     	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 270, 125);
+    	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
     	

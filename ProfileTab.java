@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import gritnessApp.client.Const;
+
 
 //Jason
 public class ProfileTab extends JPanel implements ActionListener  {
@@ -26,12 +28,12 @@ public class ProfileTab extends JPanel implements ActionListener  {
         BMIButton = newProfileButton("BMI:", 75,425,145);
         BMRButton = newProfileButton("BMR: ", 355, 425, 145);
         
-        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
-        profile.setBackground(Const.NAV_BAR_COLOUR.brighter());
-        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
-        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
-        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
-        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
+        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history =  newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        profile.setBackground(Const.BUTTON_COLOUR2.brighter());
         
         heightField  = new JTextField();
         weightField  = new JTextField();
@@ -85,7 +87,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         }
 
         else if (e.getSource() == food) {
-            Window.layout.show(Window.container, "food");
+            Window.layout.show(Window.container, "nutrition");
         }
 
         else if (e.getSource() == social) {
@@ -151,7 +153,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setBackground(Const.BACKGROUND_COLOUR);
     	button.setForeground(Color.black);
     	button.setFocusable(false);
-    	button.setFont(Const.PROFILE_BUTTON_FONT);
+    	button.setFont(gritnessApp.Const.PROFILE_BUTTON_FONT);
     	button.setText(name);
     	button.setBounds(x,y,width,70);
     	button.addActionListener(this);
@@ -169,10 +171,9 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setFocusable(false);
     	button.setBorderPainted(false);
     	button.addActionListener(this);
-    	button.setIcon(icon);
-    	
+    	button.setIcon(icon);    	
     	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 270, 125);
+    	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
     	this.add(button);

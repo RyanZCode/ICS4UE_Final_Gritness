@@ -28,6 +28,7 @@ public class Const {
     public static final Font BUTTON_FONT = new Font("Calibri", Font.PLAIN, 35);
     public static final Font BUTTON_FONT2 = new Font("Calibri", Font.PLAIN, 25);
     public static final Font TEXT_FONT = new Font("Calibri", Font.PLAIN, 25);
+    public static final Font SMALLER_FONT = new Font("Calibri", Font.PLAIN, 18);
     public static final Font SUBTITLE_FONT = new Font("Calibri", Font.PLAIN, 30);
     public static final Font TITLE_FONT = new Font("Calibri", Font.BOLD, 45);
     public static final Font COVER_FONT = new Font("Arial", Font.BOLD, 55);

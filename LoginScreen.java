@@ -2,13 +2,12 @@ package gritnessApp;
 
 import java.awt.*;
 import java.awt.event.*;
-import gritnessApp.CentralDatabase;
+
 
 import javax.swing.*;
 
 public class LoginScreen extends JPanel implements ActionListener{
-    private JFrame window;
-    private JLabel title, text, username, password, account;
+    private JLabel title, text, username, password, account, background;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JCheckBox showPassword;
@@ -19,37 +18,53 @@ public class LoginScreen extends JPanel implements ActionListener{
     private String passwordEntered;
 
     public LoginScreen(){
-        title = new JLabel("Welcome to Gritness!");
-        text = new JLabel("Sign into your account below:");
-        username = new JLabel("Username:");
-        password = new JLabel("Password:");
-        account = new JLabel("Create an account");
+        title = new JLabel("WELCOME TO GRITNESS.", SwingConstants.CENTER);
+        title.setForeground(Color.white);
+        title.setFont(Const.COVER_FONT);
+        title.setBounds(0, 100, Const.MAIN_LENGTH, 50);
+        
+        text = new JLabel("SIGN IN:", SwingConstants.CENTER);
+        text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
+        text.setFont(new Font("Arial", Font.BOLD, 24));
+        text.setForeground(Color.white);
+        
+        username = new JLabel("USERNAME:");
+        username.setForeground(Color.white);
+        username.setBounds(490, 250, 1000, 30);
+        
         usernameField = new JTextField();
+        usernameField.setBounds(570, 250, 150, 30);
+        
+        password = new JLabel("PASSWORD:");
+        password.setBounds(490, 280, 1000, 30);
+        password.setForeground(Color.white);
+        
+        account = new JLabel("Create an account");
+        
         passwordField = new JPasswordField();
-
-        showPassword = new JCheckBox("Show password");
-
-        login = new JButton("Login");
-        register = new JButton("New user?");
-
+        passwordField.setBounds(570, 280, 150, 30);
+        
+//        showPassword = new JCheckBox("Show Password");
+//        showPassword.setBounds(600, 310, 150, 30);
+//        showPassword.setBackground(Color.BLACK);
+//        showPassword.setForeground(Color.WHITE);
+        
+        background = new JLabel(Const.COVER_PHOTO);
+        background.setBounds(0,0,1280,720);
+        
+        login = new JButton("LETS GET BIG.");
+        login.setBounds(570, 330, 150, 30);
         login.addActionListener(this); 
-        showPassword.addActionListener(this);
+        login.setBackground(Color.WHITE);
+        login.setFocusable(false);
+        login.setBorderPainted(false);
+        
+        register = new JButton("New User?");
+        register.setBounds(570, 400, 150, 30);
         register.addActionListener(this);
-
-        title.setBounds(450, 100, 1000, 50);
-        title.setFont(new Font("Calibri", Font.PLAIN, 48));
-
-        text.setBounds(500, 200, 1000, 50);
-        text.setFont(new Font("Calibri", Font.PLAIN, 24));
-
-        username.setBounds(520, 250, 1000, 30);
-        password.setBounds(520, 280, 1000, 30);
-        usernameField.setBounds(600, 250, 150, 30);
-        passwordField.setBounds(600, 280, 150, 30);
-
-        showPassword.setBounds(590, 310, 300, 30);        
-        login.setBounds(575, 340, 150, 30);
-        register.setBounds(575, 420, 150, 30);
+        register.setBackground(Color.WHITE);
+        register.setFocusable(false);
+        register.setBorderPainted(false);
 
         this.add(title);
         this.add(text);
@@ -58,10 +73,11 @@ public class LoginScreen extends JPanel implements ActionListener{
         this.add(account);
         this.add(usernameField);
         this.add(passwordField);
-        this.add(showPassword);
+//        this.add(showPassword);
         this.add(login);
         this.add(register);
-
+        this.add(background);
+        
         this.loggedIn = false;
         this.setLayout(null);
         this.setVisible(true);
@@ -74,7 +90,13 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D)g;
+            
+            // Anti-aliasing
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            super.paintComponent(g);
         }
+        
     }
 
     @Override
@@ -99,7 +121,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         }
         else if (e.getSource() == register) {
             //change screens, load in new password and field boxes
-            Window.layout.show(Window.container, "register");
+            Window.layout.show(Window.container, "signup");
         }
     }
     public boolean userLoggedIn() {

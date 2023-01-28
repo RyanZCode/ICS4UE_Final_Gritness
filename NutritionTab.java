@@ -1,4 +1,4 @@
-package gritnessApp.client;
+package gritnessApp;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -13,8 +13,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import gritnessApp.client.Const;
+
 public class NutritionTab extends JPanel implements ActionListener{
-    JLabel meal, calories, protein, carbs, sugar, fiber, fats, sodium;
+    JLabel meal, calories, protein, carbs, sugar, fiber, fats, sodium, nutrients, caloriesSum, proteinSum, carbsSum, fiberSum, sugarSum, fatSum, sodiumSum;
     JTextField mealNameField, caloriesField, proteinField, carbsField, sugarField, fiberField, fatsField, sodiumField;
     JButton profile, workout, food, social, history, addMeal;
     JTable table;
@@ -23,11 +25,19 @@ public class NutritionTab extends JPanel implements ActionListener{
     Object[] row = new Object[8];
 
     NutritionTab(){
-        //        age = new JLabel("Nutrition");
-        //        age.setFont(Const.TEXT_FONT);
-        //        age.setBounds(50, 50, 500, 500);
-        //        this.add(age)
-        //meals[0] =  {"Chicken Shawarma", "500", "20", "30", "5", "5", "15", "300"};
+        
+        DefaultTableModel model = new DefaultTableModel();
+        table = new JTable(model);
+        model.setColumnIdentifiers(columnNames);
+
+        scroll = new JScrollPane(table);
+        scroll.setBounds(100, 270, 800, 300);
+        this.add(scroll);  
+
+        addMeal = new JButton("Add meal");
+        addMeal.setBounds(1010, 520, 129, 20);
+        this.add(addMeal);
+        
         meal = newText("Meal:", 280);
         calories = newText("Calories:", 310);
         protein = newText("Protein:", 340);
@@ -45,25 +55,29 @@ public class NutritionTab extends JPanel implements ActionListener{
         fiberField = newField(430);
         fatsField = newField(460);
         sodiumField = newField(490);
+        
+        nutrients = new JLabel("Nutrients");
+        nutrients.setFont(Const.TITLE_FONT);
+        nutrients.setBounds(900, 100, 200, 200);
+        this.add(nutrients);
+        
+//        proteinSum = new JLabel("Protein: " + nutrientSum(model, 2));
+//        carbsSum = new JLabel("Carbs: " + nutrientSum(model, 3));
+//        sugarSum = new JLabel("Sugar: " + nutrientSum(model, 4));
+//        fiberSum = new JLabel("Fiber: " + nutrientSum(model, 5));
+//        fatSum = new JLabel("Fats: " + nutrientSum(model, 6));
+//        sodiumSum = new JLabel("Sodium: " + nutrientSum(model, 7));
+//       
 
-        DefaultTableModel model = new DefaultTableModel();
-        table = new JTable(model);
-        model.setColumnIdentifiers(columnNames);
-
-        scroll = new JScrollPane(table);
-        scroll.setBounds(100, 270, 800, 300);
-        this.add(scroll);  
-
-        addMeal = new JButton("Add meal");
-        addMeal.setBounds(1010, 520, 129, 20);
-        this.add(addMeal);
+       
 
         profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
-        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
-        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
-        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
-
+        history =  newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        food.setBackground(Const.BUTTON_COLOUR2.brighter());
+        
         profile.addActionListener(this);
         history.addActionListener(this);
         workout.addActionListener(this);
@@ -89,19 +103,28 @@ public class NutritionTab extends JPanel implements ActionListener{
                 row[6] = fatsField.getText();
                 row[7] = sodiumField.getText();
                 model.addRow(row);
+                proteinSum = new JLabel("Protein: " + nutrientSum(model, 2));
+                carbsSum = new JLabel("Carbs: " + nutrientSum(model, 3));
+                sugarSum = new JLabel("Sugar: " + nutrientSum(model, 4));
+                fiberSum = new JLabel("Fiber: " + nutrientSum(model, 5));
+                fatSum = new JLabel("Fats: " + nutrientSum(model, 6));
+                sodiumSum = new JLabel("Sodium: " + nutrientSum(model, 7));
             }
         });   
     }
-
-
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-
+    
+    private int nutrientSum(DefaultTableModel table, int row) {
+        int sum = 0;
+        for(int i=0; i<table.getColumnCount(); i++) {
+            sum += (Integer) table.getValueAt(i, row);
+        }
+        return sum;
     }
 
     public JLabel newText(String text, int y) {
         JLabel label = new JLabel(text);
         label.setBounds(975, y, 120, 20);
-        label.setFont(Const.SMALLER_FONT);
+        label.setFont(gritnessApp.Const.SMALLER_FONT);
         this.add(label);
         return label;
     }
@@ -122,7 +145,7 @@ public class NutritionTab extends JPanel implements ActionListener{
         button.addActionListener(this);
         button.setIcon(icon);
         button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 270, 125);
+        button.setBounds(x, 570, 256, 125);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
         this.add(button);
