@@ -1,96 +1,95 @@
 package gritnessApp;
 
 import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import gritnessApp.client.Const;
+
 public class WorkoutTab extends JPanel implements ActionListener{
-    JLabel age;
-    JButton profile, workout, food, social, history;
+    JLabel myWorkout, sampleWorkouts;
+    JButton profile, workout, createWorkout, beginWorkout, food, social, history;
     WorkoutTab(){
-        age = new JLabel("Workout");
-        age.setFont(Const.TEXT_FONT);
-        age.setBounds(50, 50, 500, 500);
-        this.add(age);
         
-        profile = new JButton ("Profile");
-        profile.setBackground(Const.NAV_BAR_COLOUR);
-        profile.setForeground(Color.white);
-        profile.setFocusable(false);
-        profile.addActionListener(this);
-        profile.setBorderPainted(false);
-        profile.setIcon(Const.PROFILE_ICON);
-        profile.setFont(Const.BUTTON_FONT);
-        profile.setBounds(0, 570, 270, 125);
-        profile.setHorizontalTextPosition(JButton.CENTER);
-        profile.setVerticalTextPosition(JButton.BOTTOM);
-
-        history = new JButton ("History");
-        history.setBackground(Const.NAV_BAR_COLOUR);
-        history.setForeground(Color.white);
-        history.setFocusable(false);
-        history.setBorderPainted(false);
-        history.addActionListener(this);
-        history.setIcon(Const.HISTORY_ICON);
-        history.setFont(Const.BUTTON_FONT);
-        history.setBounds(250, 570, 270, 125);
-        history.setHorizontalTextPosition(JButton.CENTER);
-        history.setVerticalTextPosition(JButton.BOTTOM);
-
-        workout = new JButton ("Workout");
-        workout.setBackground(Const.NAV_BAR_COLOUR);
-        workout.setForeground(Color.white);
-        workout.setFocusable(false);
-        workout.setBorderPainted(false);
-        workout.addActionListener(this);
-        workout.setIcon(Const.WORKOUT_ICON);
-        workout.setFont(Const.BUTTON_FONT);
-        workout.setBounds(500, 570, 270, 125);
-        workout.setHorizontalTextPosition(JButton.CENTER);
-        workout.setVerticalTextPosition(JButton.BOTTOM);
-
-        food = new JButton ("Food");
-        food.setBackground(Const.NAV_BAR_COLOUR);
-        food.setForeground(Color.white);
-        food.setFocusable(false);
-        food.setBorderPainted(false);
-        food.addActionListener(this);
-        food.setIcon(Const.FOOD_ICON);
-        food.setFont(Const.BUTTON_FONT);
-        food.setBounds(750, 570, 270, 125);
-        food.setHorizontalTextPosition(JButton.CENTER);
-        food.setVerticalTextPosition(JButton.BOTTOM);
-
-        social = new JButton ("Social");
-        social.setBackground(Const.NAV_BAR_COLOUR);
-        social.setForeground(Color.white);
-        social.setFocusable(false);
-        social.setBorderPainted(false);
-        social.addActionListener(this);
-        social.setIcon(Const.SOCIAL_ICON);
-        social.setFont(Const.BUTTON_FONT);
-        social.setBounds(1000, 570, 270, 125);
-        social.setHorizontalTextPosition(JButton.CENTER);
-        social.setVerticalTextPosition(JButton.BOTTOM);
+    	
+    	//all we have to do here is if those buttons r clicked they bring u to the card and once we get some actual data
+        //it displays it where i left it blank
+    	myWorkout = new JLabel("My Workouts");
+        myWorkout.setFont(Const.TITLE_FONT);
+        myWorkout.setBounds(250,20,700,100);
         
-        profile.addActionListener(this);
-        history.addActionListener(this);
-        workout.addActionListener(this);
-        food.addActionListener(this);
-        social.addActionListener(this);
+        sampleWorkouts = new JLabel("Sample Workouts");
+        sampleWorkouts.setFont(Const.TITLE_FONT);
+        sampleWorkouts.setBounds(800,20,350,100);
+        
+        beginWorkout = new JButton ("Begin Workout");
+        beginWorkout.addActionListener(this);
+        beginWorkout.setBounds(50, 125, 300, 85);
+        beginWorkout.setFont(Const.BUTTON_FONT);
+        beginWorkout.setBackground(Const.BUTTON_COLOUR);
+        beginWorkout.setForeground(Color.white);
+        beginWorkout.setFocusable(false);
+        
+        createWorkout = new JButton ("Create Workout Plan");
+        createWorkout.addActionListener(this);
+        createWorkout.setBounds(350, 125, 330, 85);
+        createWorkout.setFont(Const.BUTTON_FONT);
+        createWorkout.setBackground(Const.BUTTON_COLOUR2);
+        createWorkout.setForeground(Color.white);
+        createWorkout.setFocusable(false);
+
+        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
+
         
         this.add(profile);
         this.add(history);
         this.add(workout);
         this.add(food);
         this.add(social);
-        
+        this.add(beginWorkout);
+        this.add(myWorkout);
+        this.add(createWorkout);
+        this.add(sampleWorkouts);
         this.setLayout(null);
+          
+        Scrollbar scroll = new Scrollbar();    
+        scroll.setBounds (650, 220, 20, 300);  
+        this.add(scroll);    
+        
+        Scrollbar scroll2 = new Scrollbar();    
+        scroll2.setBounds (1245, 0, 20, 550);  
+        this.add(scroll2);  
+
     }
+    
+    public JButton newNavBarButton(String name, int x, ImageIcon icon) {
+        JButton button = new JButton(name);
+        button.setBackground(Const.NAV_BAR_COLOUR);
+        button.setForeground(Color.white);
+        button.setFocusable(false);
+        button.setBorderPainted(false);
+        button.addActionListener(this);
+        button.setIcon(icon);
+        button.setFont(Const.BUTTON_FONT);
+        button.setBounds(x, 570, 270, 125);
+        button.setHorizontalTextPosition(JButton.CENTER);
+        button.setVerticalTextPosition(JButton.BOTTOM);
+        this.add(button);
+        return button;
+    }
+   
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
@@ -111,6 +110,17 @@ public class WorkoutTab extends JPanel implements ActionListener{
 
         else if (e.getSource() == social) {
             Window.layout.show(Window.container, "social");
+        }
+    }
+    public class GraphicsPanel extends JPanel{
+        public GraphicsPanel() {
+            setFocusable(true);
+            requestFocusInWindow();
+        }
+        public void paintComponent(Graphics g) {
+        	
+        	super.paintComponent(g);
+          
         }
     }
 

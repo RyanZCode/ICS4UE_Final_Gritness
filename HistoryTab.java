@@ -68,6 +68,13 @@ public class HistoryTab extends JPanel implements ActionListener{
             {"Text 4", "Text 5"},
             {"Text 7", "Text 8"},
             {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
+            {"Text 10", "Text 11"},
             {"Text 12", "Text 13"}
         };
         
@@ -86,6 +93,9 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         
         workoutTable = newTable(workoutColumn, workoutData,30);
+        JScrollPane scrollPane = new JScrollPane(workoutTable);
+        scrollPane.setBounds(30,225,TABLE_WIDTH,330);
+        this.add(scrollPane, BorderLayout.CENTER);
         nutritionTable = newTable(nutritionColumn, nutritionData,TABLE_WIDTH + 40);
 
         this.add(dateComboBox);
@@ -102,13 +112,11 @@ public class HistoryTab extends JPanel implements ActionListener{
     	table.setRowHeight(ROW_HEIGHT);
     	table.setShowHorizontalLines(false);
     	table.setShowVerticalLines(false);
-    	table.setBounds(x,225,TABLE_WIDTH,TABLE_HEIGHT);
+    	table.setBounds(x,225,TABLE_WIDTH,330);
+    	table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     	table.setBorder((new LineBorder(Color.GRAY, 1)));
     	table.setBackground(Const.BACKGROUND_COLOUR);
-    	
-    	JScrollPane scrollPane = new JScrollPane(table);
-    	add(scrollPane, BorderLayout.CENTER);
-    	
+
     	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     	centerRenderer.setHorizontalAlignment( JLabel.CENTER );
     	for(int i = 0; i < columns.length; i++) {
@@ -116,7 +124,7 @@ public class HistoryTab extends JPanel implements ActionListener{
     	}
     	
     	this.add(table);
-    	this.add(scrollPane);
+
     	return table;
     }
     @Override
