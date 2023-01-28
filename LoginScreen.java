@@ -21,8 +21,7 @@ public class LoginScreen extends JPanel implements ActionListener{
         title = new JLabel("WELCOME TO GRITNESS.", SwingConstants.CENTER);
         title.setForeground(Color.white);
         title.setFont(Const.COVER_FONT);
-        title.setBounds(0, 100, Const.MAIN_LENGTH, 50);
-        
+        title.setBounds(0, 100, Const.MAIN_LENGTH, 75);
         text = new JLabel("SIGN IN:", SwingConstants.CENTER);
         text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
         text.setFont(new Font("Arial", Font.BOLD, 24));
