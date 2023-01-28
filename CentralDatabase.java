@@ -67,7 +67,7 @@ class CentralDatabase {
 					}
 					if (!dataQ.isEmpty()) {
 						data = dataQ.poll();
-						String[] inputData = data.split("$$");
+						String[] inputData = data.split("\\$\\$");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
 						System.out.println("type: " + inputType);
