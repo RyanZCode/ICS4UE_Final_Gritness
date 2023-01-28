@@ -1,4 +1,4 @@
-package gritnessApp;
+package gritnessApp.client;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +9,7 @@ import javax.swing.border.EtchedBorder;
 public class SignUpTab extends JPanel implements ActionListener{
     private JFrame window;
     ProfileTab main;
-    private JLabel title, text, username, password, account;
+    private JLabel title, text, username, password, account, background;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JCheckBox showPassword;
@@ -20,46 +20,48 @@ public class SignUpTab extends JPanel implements ActionListener{
     private String usernameEntered;
     private String passwordEntered;
     SignUpTab(){
-//        window = new JFrame("Sign Up");
-//        window.setResizable(false);
-//        window.setSize(Const.LOGIN_LENGTH, Const.LOGIN_WIDTH);
-//        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         canvas = new GraphicsPanel();
-//        window.add(canvas);
-//        
-//        window.setVisible(true);
-//        window.setResizable(false);
-//        canvas.setLayout(null);
+        background = new JLabel(Const.COVER_PHOTO);
+        background.setBounds(0,0,1280,720);
         
-        title = new JLabel("Create Account", SwingConstants.CENTER);
-        text = new JLabel("Create your account:", SwingConstants.CENTER);
-        username = new JLabel("Username:");
-        password = new JLabel("Password:");
-        account = new JLabel("Create an account");
+        title = new JLabel("LETS GET STARTED", SwingConstants.CENTER);
+        title.setBounds(0, 100, Const.MAIN_LENGTH, 50);
+        title.setFont(Const.COVER_FONT);
+        title.setForeground(Color.white);
+        
+        text = new JLabel("START YOUR FITNESS JOURNEY TODAY:", SwingConstants.CENTER);
+        text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
+        text.setFont(new Font("Arial", Font.BOLD, 24));
+        text.setForeground(Color.white);
+        
+        username = new JLabel("USERNAME:");
+        username.setForeground(Color.white);
+        username.setBounds(490, 250, 1000, 30);
+        
         usernameField = new JTextField();
+        usernameField.setBounds(570, 250, 150, 30);
+        
+        password = new JLabel("PASSWORD:");
+        password.setBounds(490, 280, 1000, 30);
+        password.setForeground(Color.white);
+        
+        account = new JLabel("Create an account");
+        
         passwordField = new JPasswordField();
+        passwordField.setBounds(570, 280, 150, 30);
 
-        showPassword = new JCheckBox("Show password");
+//        showPassword = new JCheckBox("Show password");
 
         signup = new JButton("Create Account");
-
         signup.addActionListener(this);
-        showPassword.addActionListener(this);
-        
-        title.setBounds(0, 150, Const.MAIN_LENGTH, 50);
-        title.setFont(new Font("Calibri", Font.PLAIN, 48));
-        
-        text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
-        text.setFont(new Font("Calibri", Font.BOLD, 16));
-        
-        username.setBounds(520, 250, 1000, 30);
-        password.setBounds(520, 280, 1000, 30);
-        usernameField.setBounds(600, 250, 150, 30);
-        passwordField.setBounds(600, 280, 150, 30);
+        signup.setBounds(570, 340, 150, 30);
+        signup.setBackground(Color.WHITE);
+        signup.setFocusable(false);
+        signup.setBorderPainted(false);
+//        showPassword.addActionListener(this);
         
         //passwordField.setEchoChar('â—�');
-        showPassword.setBounds(590, 310, 300, 30);        
-        signup.setBounds(575, 340, 150, 30);
+//        showPassword.setBounds(590, 310, 300, 30);        
 
         this.add(title);
         this.add(text);
@@ -68,8 +70,9 @@ public class SignUpTab extends JPanel implements ActionListener{
         this.add(account);
         this.add(usernameField);
         this.add(passwordField);
-        this.add(showPassword);
+//        this.add(showPassword);
         this.add(signup);
+        this.add(background);
         
         this.loggedIn = false;
         
