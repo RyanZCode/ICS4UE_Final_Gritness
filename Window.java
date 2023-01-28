@@ -2,13 +2,16 @@ package gritnessApp;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Window extends JFrame{
     public static Container container;
     public static CardLayout layout;
     public NavigationBar nav;
-
+    
+    
     Window(){
         setTitle("GRITNESS");
         setResizable(false);
@@ -16,6 +19,7 @@ public class Window extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
+        setIconImage(Const.APP_ICON.getImage());
 
         container = getContentPane();
         layout = new CardLayout();
