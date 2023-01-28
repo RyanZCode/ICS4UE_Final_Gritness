@@ -6,6 +6,7 @@ import java.util.*;
 public class Workout {
 	String templateName;
 	ArrayList<Exercise> exercises;
+	String name;
 	int secondsTime;
 	
 	Workout(String templateName) {
@@ -20,11 +21,13 @@ public class Workout {
 			exercises.add(new Exercise(exerciseNames[i]));
 		}
 	}
-	
+	public String getWorkoutName() {
+		return this.name;
+	}
 	public void startWorkout() {
 		secondsTime = 0;
 	}
-	
+		
 	public void addExercise(Exercise exercise) {
 		this.exercises.add(exercise);
 	}

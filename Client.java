@@ -20,176 +20,84 @@ public class Client implements Runnable {
 	BufferedReader input;
 	String serverData;
 	Queue<String> dataQ = new LinkedList<>();
-	private String username;
-
-	Client() {
+	
+	Client(){
+		Thread connectionThread = new Thread(this);
+		connectionThread.start();
 	}
+
+//	public static void main(String[] args) throws Exception {
+//		Client client = new Client();
+//		Thread connectionThread = new Thread(new Client());
+//		connectionThread.start();
+//		client.start();
+//		client.stop();
+//	}
 
 	public void start() throws Exception {
 		// create a socket with the local IP address and attempt a connection
-		System.out.println("Connecting to server...");
-
-		// create and bind a socket, and request connection
-		clientSocket = new Socket(LOCAL_HOST, PORT);
+		System.out.println("Attempting to establish a connection ...");
+		clientSocket = new Socket(LOCAL_HOST, PORT); // create and bind a socket, and request connection
 		output = new PrintWriter(clientSocket.getOutputStream());
 		input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		System.out.println("Connected succesfully!");
+		System.out.println("Connection to server established!");
 
-		try {Thread.sleep(5);} catch (InterruptedException e) {throw new RuntimeException(e);}
+		// send data
+		//while (true) {
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			// sending data
+//            if(login.userLoggedIn()) {
+//            	output.println("login" + " " +login.getEnteredUsername() + " " + login.getEnteredPassword());
+//            	
+//            }
+//            output.println("");
+			//output.flush();
+
+			// receiving data
+//			if (input.ready()) {
+//				serverData = input.readLine(); // get a response from the server
+//				dataQ.add(serverData);
+//			}
+//			if (!dataQ.isEmpty()) {
+//				serverData = dataQ.poll();
+//				String[] Data = serverData.split("-");
+//			}
+		//}
 	}
-
 	// maybe make the identifiers "login", "signup", etc. into constants
-	// Send login data to server, receive whether login was successful or not
 	public String sendLogin(String username, String password) throws IOException {
-		// Send message to server
-		output.println("login" + "$$" + username + "$$" + password);
+		output.println("login" + " " + username + " " + password);
 		output.flush();
 		String serverMessage = null;
 		while (serverMessage == null) {
 			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine(); 
+				serverMessage = input.readLine(); // get a response from the server
 			}
 		}
-		return (serverMessage);
+		return(serverMessage);
 	}
-
-	// Send signup data to server, receive whether signup was successful or not
+	
 	public String sendSignUp(String username, String password) throws IOException {
-		// Send message to server
-		output.println("signup" + "$$" + username + "$$" + password);
+		output.println("signup" + " " + username + " " + password);
 		output.flush();
 		String serverMessage = null;
 		while (true) {
 			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
+				serverMessage = input.readLine(); // get a response from the server
 				break;
 			}
 		}
-		return (serverMessage);
-	}
-	
-	// Get profile data from server
-	public String getProfileInfo() throws IOException {
-		// Send message to server
-		output.println("profileTab" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get profile data from server
-	public String getProfileCalHistory() throws IOException {
-		// Send message to server
-		output.println("profileCalHistory" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get profile data from server
-	public String getProfileWorkoutNumHistory() throws IOException {
-		// Send message to server
-		output.println("profileWorkoutNum" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get history data from server
-	public String getHistory() throws IOException {
-		// Send message to server
-		output.println("historyTab" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get workout data from server
-	public String getWorkouts() throws IOException {
-		// Send message to server
-		output.println("workoutTab" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get food data from server
-	public String getFood() throws IOException {
-		// Send message to server
-		output.println("foodTab" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
-	
-	// Get social data from server
-	public String getSocial() throws IOException {
-		// Send message to server
-		output.println("socialTab" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
+		return(serverMessage);
 	}
 
 	public void stop() throws Exception {
 		input.close();
 		output.close();
 		clientSocket.close();
-	}
-	
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	@Override
