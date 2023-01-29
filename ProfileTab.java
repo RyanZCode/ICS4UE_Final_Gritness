@@ -1,6 +1,8 @@
 package gritnessApp;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 
@@ -8,18 +10,28 @@ import javax.swing.*;
 public class ProfileTab extends JPanel implements ActionListener  {
     Client Client;
     JFrame window;
+    User user;
     JButton profile, workout, food, social, history;
     JButton ageButton, heightButton, BMIButton, BMRButton, nameButton, weightButton;
     String age, height, name;
     JTextField heightField, weightField, ageField;
     BarGraph barGraph;
     Object[] BMRMessage, BMIMessage;
+    int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
     
     
     ProfileTab(){   
     	window = new JFrame();
-        nameButton = newProfileButton("Name:", 80,35,165);
+    	
+    	user = new User("a", "asdf", "asdf");
+    	
+    	barGraphData = getGraphData(user.getWorkoutNumberHistory());
+    	lineGraphData = getGraphData(user.getCalorieHistory());
+        
+    	nameButton = newProfileButton("Name: " + user.getDisplayName(), 80,35,250);
+    	
+    	
         ageButton = newProfileButton("Age:", 75,165,145);
         weightButton = newProfileButton("Weight:", 320,165,185);
         heightButton = newProfileButton("Height:", 75,295, 185);
@@ -32,6 +44,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
         food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
         social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
+
         
         heightField  = new JTextField();
         weightField  = new JTextField();
@@ -50,23 +63,55 @@ public class ProfileTab extends JPanel implements ActionListener  {
         	"Weight(kg): ", weightField,
         	"Height(cm): ", heightField,
         };
-        
-       
+               
         this.setVisible(true);
         this.setLayout(null);
     }	 
-    
+    public int[] getGraphData(String data) {
+    	//add a '&&' between the day and the number, it makes it easier to process
+    	//like SATURDAY$$1500
+    	String[] dataArr = data.split("\\$+");
+    	int[] graphData = new int[7];
+    	for(int i = 0; i < dataArr.length; i += 2) {
+    		String dayOfWeek = dataArr[i];
+    		int calories = Integer.parseInt(dataArr[i + 1]);
+    		switch(dayOfWeek) {
+    		case "SUNDAY":{
+    			graphData[0] = calories;
+    			break;
+    		}case "MONDAY":{
+    			graphData[1] = calories;
+    			break;
+    		}case "TUESDAY":{
+    			graphData[2] = calories;
+    			break;
+    		}case "WEDNESDAY":{
+    			graphData[3] = calories;
+    			break;
+    		}case "THURSDAY":{
+    			graphData[4] = calories;
+    			break;
+    		}case "FRIDAY":{
+    			graphData[5] = calories;
+    			break;
+    		}case "SATURDAY":{
+    			graphData[6] = calories;
+    			break;
+    		}
+    		}
+    	}
+    	return graphData;
+    }
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
         // Anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         
-        int[] barGraphData = {1, 2, 3, 4, 3, 2, 1};
         barGraph = new BarGraph(barGraphData, "Day", "Calories", "Workouts", 850, 275, 5);
         barGraph.draw(g);
         
-        int[] lineGraphData = {450, 300, 1500, 1770, 690, 580, 280};
         lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
         lineGraph.draw(g);
     }
@@ -85,7 +130,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         }
 
         else if (e.getSource() == food) {
-            Window.layout.show(Window.container, "nutrition");
+            Window.layout.show(Window.container, "food");
         }
 
         else if (e.getSource() == social) {

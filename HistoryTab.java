@@ -14,27 +14,28 @@ public class HistoryTab extends JPanel implements ActionListener{
     JLabel age;
     JFrame window;
     JButton profile, workout, food, social, history;
-    JLabel dateDisplay, workoutDisplay, nutritionDisplay;
+    JLabel dateLabel, workoutLabel, caloriesLabel;
     JComboBox<String> dateComboBox;
     JTable workoutTable, nutritionTable;
     JScrollPane workoutScrollPane, nutritionScrollPane;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("EE yyyy MMMM dd");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EE MMMM dd yyyy");
     String selectedDate;
     String[] workoutColumn, nutritionColumn;
     Object[][] workoutData, nutritionData;
-    final int NUMBER_ROWS = 5;
+    DemoMouseListener mouseListener;
+    final int NUMBER_ROWS_DISPLAYED = 5;
     final int ROW_HEIGHT = 66;
     final int TABLE_WIDTH = Const.MAIN_LENGTH / 2 - 40;
-    final int TABLE_HEIGHT = NUMBER_ROWS * ROW_HEIGHT;
+    final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
     
-    HistoryTab(){
+    HistoryTab(){    	
     	
-    	
+    	mouseListener = new DemoMouseListener();
     	
     	dateComboBox = new JComboBox<>();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        for (int i = 0; i < 31; i++) {
+        for (int i = 0; i < 59; i++) {
             Date date = calendar.getTime();
             String dateString = dateFormat.format(date);
             dateComboBox.addItem(dateString);
@@ -47,9 +48,9 @@ public class HistoryTab extends JPanel implements ActionListener{
         }
         
         dateComboBox.addActionListener(this);
-        int x = (int)((Const.MAIN_LENGTH - 200)/2);
+        int x = (int)((Const.MAIN_LENGTH - 300)/2);
         
-        dateComboBox.setBounds(x,35,300,35);
+        dateComboBox.setBounds(x,0,300,35);
         dateComboBox.setSize(dateComboBox.getPreferredSize());
   
         
@@ -60,15 +61,22 @@ public class HistoryTab extends JPanel implements ActionListener{
         social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
         history.setBackground(Const.NAV_BAR_COLOUR.brighter());
 
-        dateDisplay = newDisplayLabel(selectedDate, Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 385)/ 2, 75,400,300 );
-
-        workoutColumn = new String[]{"Column 1", "Column 2"};
+        
+        
+        
+        workoutColumn = new String[]{""};
         workoutData = new Object[][]{
-            {"Text 1", "Text 2"},
-            {"Text 4", "Text 5"},
-            {"Text 7", "Text 8"},
-            {"Text 10", "Text 11"},
-            {"Text 12", "Text 13"}
+        	{"Lat Pulldown"},
+            {"1. 135 x 10lbs"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 10"},
+            {"Text 12"}
         };
         
         nutritionColumn = new String[] {"", "Total","Goal"};
@@ -86,10 +94,22 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         
         workoutTable = newTable(workoutColumn, workoutData,30);
+        JScrollPane scrollPane = new JScrollPane(workoutTable);
+        scrollPane.setBounds(30,225,TABLE_WIDTH,TABLE_HEIGHT);
+        workoutTable.addMouseListener(mouseListener);
+        
+        this.add(scrollPane, BorderLayout.CENTER);
+        
         nutritionTable = newTable(nutritionColumn, nutritionData,TABLE_WIDTH + 40);
-
+        
+        
+        dateLabel = newDisplayLabel(selectedDate, Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 500)/ 2, 55,500, 65);
+        workoutLabel= newDisplayLabel("Workout", Const.HISTORY_LABEL_FONT, workoutTable.getX() + 75, 130, TABLE_WIDTH - 150, 90);
+        caloriesLabel = newDisplayLabel("Nutrition", Const.HISTORY_LABEL_FONT, nutritionTable.getX() + 75, 130, TABLE_WIDTH - 150, 90 );
+        
+        
+        this.addMouseListener(mouseListener);
         this.add(dateComboBox);
-        this.add(dateDisplay);
         this.setVisible(true);
         this.setLayout(null);
         
@@ -100,24 +120,29 @@ public class HistoryTab extends JPanel implements ActionListener{
     	JTable table = new JTable(data, columns);
     	
     	table.setRowHeight(ROW_HEIGHT);
+    	table.setFont(new Font("Calibri", Font.PLAIN, 30));
     	table.setShowHorizontalLines(false);
     	table.setShowVerticalLines(false);
-    	table.setBounds(x,225,TABLE_WIDTH,TABLE_HEIGHT);
+    	table.setBounds(x,225,TABLE_WIDTH,330);
+    	
     	table.setBorder((new LineBorder(Color.GRAY, 1)));
     	table.setBackground(Const.BACKGROUND_COLOUR);
-    	
-    	JScrollPane scrollPane = new JScrollPane(table);
-    	add(scrollPane, BorderLayout.CENTER);
-    	
     	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-    	centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+    	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
     	for(int i = 0; i < columns.length; i++) {
     		table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
     	}
     	
     	this.add(table);
-    	this.add(scrollPane);
+
     	return table;
+    }
+    
+    
+    public void mouseClicked(MouseEvent e) {
+    	if(e.getButton() == MouseEvent.BUTTON1) {
+    		System.out.println("a");
+    	}
     }
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -142,16 +167,37 @@ public class HistoryTab extends JPanel implements ActionListener{
         }
         else if(e.getSource() == dateComboBox) {
         	selectedDate = (String)(dateComboBox.getSelectedItem());
-        	dateDisplay.setText(selectedDate.replace('-', ' '));
-        	dateDisplay.setSize(dateDisplay.getPreferredSize());
+        	dateLabel.setText(selectedDate.replace('-', ' '));
+        	dateLabel.setSize(dateLabel.getPreferredSize());
         }
+    }
+    public class DemoMouseListener implements MouseListener{
+        public void mouseClicked(MouseEvent e){
+            int row = workoutTable.rowAtPoint(e.getPoint());
+            int col = workoutTable.columnAtPoint(e.getPoint());
+            if (row >= 0 && col >= 0) {
+                JPopupMenu popup = new JPopupMenu();
+                workoutTable.setComponentPopupMenu(popup);
+//                JOptionPane.showMessageDialog(workoutTable, "Cell contents: " + workoutTable.getValueAt(row, col));
+                popup.show(workoutTable, e.getX(), e.getY());
+            }
+        }
+        public void mousePressed(MouseEvent e) {}
+    	public void mouseReleased(MouseEvent e) {}
+    	public void mouseEntered(MouseEvent e) {}
+    	public void mouseExited(MouseEvent e) {}
     }
     public JLabel newDisplayLabel(String text, Font font, int x, int y, int width, int height) {
     	JLabel label = new JLabel(text);
     	label.setFont(font);
     	label.setFocusable(true);
     	label.setBounds(x,y,width,height);
-    	label.setSize(label.getPreferredSize());
+    	label.setOpaque(true);
+    	label.setBackground(Const.BUTTON_COLOUR);
+    	label.setForeground(Color.white);
+    	label.setHorizontalAlignment(JLabel.CENTER);
+    	label.setVerticalAlignment(JLabel.BOTTOM);
+    	this.add(label);
     	return label;
     }
     public JButton newNavBarButton(String name, int x, ImageIcon icon) {
@@ -170,4 +216,5 @@ public class HistoryTab extends JPanel implements ActionListener{
     	this.add(button);
     	return button;
     }
+	
 }
