@@ -9,8 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import gritnessApp.client.Const;
-
 public class SocialTab extends JPanel implements ActionListener{
     JLabel name, calorieGoal, proteinGoal, carbGoal, calories, protein, fats, carbs, fibers;
     JButton profile, workout, food, social, history, addFriend;
@@ -32,17 +30,11 @@ public class SocialTab extends JPanel implements ActionListener{
         name.setBounds(200,150,700,100);
         
         profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history =  newNavBarButton ("History", 256, Const.HISTORY_ICON);
-        workout =  newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
-        food =  newNavBarButton ("Food", 768, Const.FOOD_ICON);
-        social =  newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
-        social.setBackground(Const.BUTTON_COLOUR2.brighter());
-       
-        this.add(profile);
-        this.add(history);
-        this.add(workout);
-        this.add(food);
-        this.add(social);
+        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
+        
         this.add(addFriend);
         this.add(name);
         this.setLayout(null);
@@ -57,7 +49,7 @@ public class SocialTab extends JPanel implements ActionListener{
         button.addActionListener(this);
         button.setIcon(icon);
         button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 256, 125);
+        button.setBounds(x, 570, 270, 125);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
         this.add(button);

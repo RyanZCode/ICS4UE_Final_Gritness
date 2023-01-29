@@ -24,6 +24,11 @@ public class User {
 		this.password = password;
 		this.history = new ArrayList<Day>();
 	}
+	
+    public static void main(String[] args) {
+    	User user = new User("dog", "dog", "dog");
+    	user.getCalorieHistory();
+    }
     
     public String getFriendsString() {
     	String friendsString = "";
@@ -34,17 +39,20 @@ public class User {
     }
 	
 	public String getCalorieHistory() {
+		Day day = new Day();
+		day.setDate(LocalDate.now());
+		history.add(day);
 		String calHistory = "";
 		if (history.size() < 7) {
-			for (int i = history.size() - 1; i >= 0; i--) {
-				Day date = history.get(i);
+			for (int i = history.size() + 1; i > 1; i--) {
+				Day date = history.get(history.size() - i);
 				calHistory += String.valueOf(date.getDate().getDayOfWeek());
 				calHistory += date.getTotalCalories();
 				calHistory += "$$";
 			}
 		} else {
-			for (int i = history.size() - 1; i > history.size() - 8; i--) {
-				Day date = history.get(i);
+			for (int i = 8; i > 1; i--) {
+				Day date = history.get(history.size() - i);
 				calHistory += String.valueOf(date.getDate().getDayOfWeek());
 				calHistory += date.getTotalCalories();
 				calHistory += "$$";
@@ -52,20 +60,22 @@ public class User {
 		}
 		return calHistory;
 	}
-
 	
-	public String getWorkoutNumberHistory() {		
+	public String getWorkoutNumberHistory() {
+		Day day = new Day();
+		day.setDate(LocalDate.now());
+		history.add(day);
 		String workoutHistory = "";
 		if (history.size() < 7) {
-			for (int i = history.size() - 1; i >= 0; i--) {
-				Day date = history.get(i);
+			for (int i = history.size() + 1; i > 1; i--) {
+				Day date = history.get(history.size() - i);
 				workoutHistory += String.valueOf(date.getDate().getDayOfWeek());
 				workoutHistory += date.getNumberWorkouts();
 				workoutHistory += "$$";
 			}
 		} else {
-			for (int i = history.size() - 1; i > history.size() - 8; i--) {
-				Day date = history.get(i);
+			for (int i = 8; i > 1; i--) {
+				Day date = history.get(history.size() - i);
 				workoutHistory += String.valueOf(date.getDate().getDayOfWeek());
 				workoutHistory += date.getNumberWorkouts();
 				workoutHistory += "$$";
@@ -79,7 +89,7 @@ public class User {
 	}
 	
 	public void updateGoal(String goal) {
-		this.goal = goal;
+		this.weight = weight;
 	}
 	
 	public int getAge() {

@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 public class Window extends JFrame{
     public static Container container;
     public static CardLayout layout;
-    public NavigationBar nav;
     
     
     Window(){

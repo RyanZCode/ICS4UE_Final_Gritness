@@ -25,7 +25,7 @@ public class SignUpTab extends JPanel implements ActionListener{
         background.setBounds(0,0,1280,720);
         
         title = new JLabel("LETS GET STARTED", SwingConstants.CENTER);
-        title.setBounds(0, 100, Const.MAIN_LENGTH, 50);
+        title.setBounds(0, 100, Const.MAIN_LENGTH, 75);
         title.setFont(Const.COVER_FONT);
         title.setForeground(Color.white);
         
@@ -102,7 +102,7 @@ public class SignUpTab extends JPanel implements ActionListener{
             //search entire database
         	
             //after successful login 
-        	 Window.layout.show(Window.container, "profile");
+        	 Window.layout.show(Window.container, "information");
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {
@@ -113,19 +113,11 @@ public class SignUpTab extends JPanel implements ActionListener{
             }
         }
     }
-//    public static void main(String[] args) {
-////        new SignUpTab();
-//        //change this, no need for main
-//        //login.run(login);
-//    }
+
     public boolean userLoggedIn() {
     	return this.loggedIn;
     }
-//    public void run(SignUpTab login) {
-//    	//login.window.repaint();
-//
-//    }
-    //run function if needed
+
 	public String getEnteredUsername() {
 		return usernameEntered;
 	}

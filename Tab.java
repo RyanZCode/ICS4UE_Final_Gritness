@@ -13,7 +13,7 @@ public class Tab {
     private WorkoutTab workout;
     private NutritionTab nutrition;
     private SocialTab social;
-    public static NavigationBar nav;
+    private InformationTab information;
     public static JPanel tabs;
     public static CardLayout cardLayout;
 
@@ -25,7 +25,7 @@ public class Tab {
         nutrition = new NutritionTab();
         social = new SocialTab();
         signup = new SignUpTab();
-        nav = new NavigationBar();
+        information = new InformationTab();
         tabs = new JPanel();
         cardLayout = new CardLayout();
     }
@@ -39,6 +39,7 @@ public class Tab {
         Window.container.add(workout, "workout");
         Window.container.add(nutrition, "nutrition");
         Window.container.add(social, "social");
+        Window.container.add(information, "information");
         window.setVisible(true);
     }
     public void paintProfile() {

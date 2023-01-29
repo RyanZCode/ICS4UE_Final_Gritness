@@ -125,8 +125,4 @@ public class Day {
 		this.totalExerciseMinutes = totalExerciseMinutes;
 	}	
 	
-	public int getNumberWorkouts() {
-		return this.workouts.size();
-	}
-	
 }

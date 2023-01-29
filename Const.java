@@ -38,6 +38,7 @@ public class Const {
     public static final ImageIcon APP_ICON = new ImageIcon("gritnessicon.png");
     public static final Font PROFILE_BUTTON_FONT = new Font("Calibri", Font.PLAIN, 45);
     public static final Font HISTORY_LABEL_FONT = new Font("Calibri", Font.PLAIN, 55);
+    public static final Font FIELD_FONT = new Font("Bahnschrift", Font.PLAIN, 18);
     public static final Color BACKGROUND_COLOUR2 = new Color(41,43,45);
     public static final int NAV_Y = 570;
     public static final int NAV_WIDTH = 125;
