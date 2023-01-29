@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -21,9 +22,8 @@ import gritnessApp.LoginScreen.GraphicsPanel;
 
 public class InformationTab extends JPanel implements ActionListener{
 	
-    private JLabel background, quote, text, age,  account, quoteIcon, name, height, weight, calorieGoal;
+    private JLabel background, quote, quoteIcon, reminder;
     private JTextField ageField, nameField, heightField, weightField, calorieField;
-    private JPasswordField passwordField;
     private JButton login;
     
 	InformationTab(){
@@ -37,13 +37,13 @@ public class InformationTab extends JPanel implements ActionListener{
 		background = new JLabel(Const.COVER_PHOTO);
         background.setBounds(0,0,1280,720);
 		
-        text = newInformationPanel("Before we get started, tell us a little about yourself.", 175);
+        newInformationPanel("Before we get started, tell us a little about yourself.", 175);
 
-        name = newInformationPanel("Display Name:", 240);
-        age = newInformationPanel("Age:", 315);
-        height = newInformationPanel("Height (CM):", 390);
-        weight = newInformationPanel("Weight (KG):", 465);
-        calorieGoal = newInformationPanel("Daily Calorie Goal:", 540);
+        newInformationPanel("Display Name:", 240);
+        newInformationPanel("Age:", 315);
+        newInformationPanel("Height (CM):", 390);
+        newInformationPanel("Weight (KG):", 465);
+        newInformationPanel("Daily Calorie Goal:", 540);
         
         nameField = newTextField(285);
         ageField = newTextField(360);
@@ -106,7 +106,27 @@ public class InformationTab extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == login) {
-            Window.layout.show(Window.container, "profile");
+			String nameText;
+			String ageText;
+			String heightText;
+			String weightText;
+			String calorieText;
+			
+			nameText = nameField.getText();
+			ageText = ageField.getText();
+			heightText = heightField.getText();
+			weightText = weightField.getText();
+			calorieText = calorieField.getText();
+			
+			if(!nameText.equalsIgnoreCase("") && !ageText.equalsIgnoreCase("") && !heightText.equalsIgnoreCase("") 
+					&& !weightText.equalsIgnoreCase("") && !calorieText.equalsIgnoreCase("")){
+				
+	            Window.layout.show(Window.container, "profile");
+			}
+	        else {
+	        	JOptionPane.showMessageDialog(this, "Please fill in the remaining blanks");
+	        }
+
         }
 		// TODO Auto-generated method stub
 		
