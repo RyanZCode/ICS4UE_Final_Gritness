@@ -61,12 +61,12 @@ public class NutritionTab extends JPanel implements ActionListener{
         caloriesTitle.setBounds(420, 30, 200, 50);
         this.add(caloriesTitle);
         
-        operators = new JLabel("-                               +                                  =");
+        operators = new JLabel("-                            +                         =");
         operators.setFont(Const.TEXT_FONT);
         operators.setBounds(280, 120, 800, 50);
         this.add(operators);
 
-        caloriesText = new JLabel("Goal                           Food                      Exercise                  Remaining");
+        caloriesText = new JLabel("Goal                       Food                  Exercise            Remaining");
         caloriesText.setFont(Const.TEXT_FONT);
         caloriesText.setBounds(160, 170, 800, 50);
         this.add(caloriesText);
@@ -101,32 +101,32 @@ public class NutritionTab extends JPanel implements ActionListener{
         this.add(nutrients);
 
         proteinSum = new JLabel("Protein: " + numProtein + "g");
-        proteinSum.setFont(Const.TEXT_FONT3);
+        proteinSum.setFont(Const.SMALLER_FONT);
         proteinSum.setBounds(930, 100, 120, 20);
         this.add(proteinSum);
 
         carbsSum = new JLabel("Carbs: " + numCarbs + "g");
-        carbsSum.setFont(Const.TEXT_FONT3);
+        carbsSum.setFont(Const.SMALLER_FONT);
         carbsSum.setBounds(930, 150, 120, 20);
         this.add(carbsSum);
 
         sugarSum = new JLabel("Sugar: " + numSugar + "g");
-        sugarSum.setFont(Const.TEXT_FONT3);
+        sugarSum.setFont(Const.SMALLER_FONT);
         sugarSum.setBounds(930, 200, 120, 20);
         this.add(sugarSum);
 
         fiberSum = new JLabel("Fiber: " + numFiber + "g");
-        fiberSum.setFont(Const.TEXT_FONT3);
+        fiberSum.setFont(Const.SMALLER_FONT);
         fiberSum.setBounds(1080, 100, 120, 20);
         this.add(fiberSum);
 
         fatsSum = new JLabel("Fats: " + numFats + "g"); 
-        fatsSum.setFont(Const.TEXT_FONT3);
+        fatsSum.setFont(Const.SMALLER_FONT);
         fatsSum.setBounds(1080, 150, 120, 20);
         this.add(fatsSum);
 
         sodiumSum = new JLabel("Sodium: " + numSodium + "mg");
-        sodiumSum.setFont(Const.TEXT_FONT3);
+        sodiumSum.setFont(Const.SMALLER_FONT);
         sodiumSum.setBounds(1080, 200, 120, 20);
         this.add(sodiumSum);
 
@@ -193,7 +193,7 @@ public class NutritionTab extends JPanel implements ActionListener{
     public JLabel newText(String text, int y) {
         JLabel label = new JLabel(text);
         label.setBounds(975, y, 120, 20);
-        label.setFont(Const.TEXT_FONT3);
+        label.setFont(Const.SMALLER_FONT);
         this.add(label);
         return label;
     }

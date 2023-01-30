@@ -54,7 +54,7 @@ public class SocialTab extends JPanel implements ActionListener{
         name.setFont(Const.PROFILE_BUTTON_FONT);
         name.setBounds(50,115,700,100);
         
-        profileTab = new ProfileTab();
+        //profileTab = new ProfileTab();
         
         numberWorkoutsData = new int[]{1,3,2,4,2,1,5};
         caloriesData = new int[] {0,0,0,0,0,0,0};
@@ -66,11 +66,12 @@ public class SocialTab extends JPanel implements ActionListener{
         BMR = newLabel("BMR: ", 290, 465, 175);
        
         
-        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
-        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
-        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
-        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        social.setBackground(Const.BUTTON_COLOUR2.brighter());
         
         mouseListener = new DemoMouseListener();
         friendsColumn = new String[]{""};
@@ -174,7 +175,7 @@ public class SocialTab extends JPanel implements ActionListener{
         button.addActionListener(this);
         button.setIcon(icon);
         button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 270, 125);
+        button.setBounds(x, 570, 256, 125);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
         this.add(button);

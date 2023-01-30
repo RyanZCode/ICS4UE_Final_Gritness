@@ -51,18 +51,14 @@ public class HistoryTab extends JPanel implements ActionListener{
         int x = (int)((Const.MAIN_LENGTH - 300)/2);
         
         dateComboBox.setBounds(x,0,300,35);
-        dateComboBox.setSize(dateComboBox.getPreferredSize());
-  
+        dateComboBox.setSize(dateComboBox.getPreferredSize());  
         
-        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
-        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
-        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
-        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
-        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
-        history.setBackground(Const.NAV_BAR_COLOUR.brighter());
-
-        
-        
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        history.setBackground(Const.BUTTON_COLOUR2.brighter());       
         
         workoutColumn = new String[]{""};
         workoutData = new Object[][]{
@@ -209,7 +205,7 @@ public class HistoryTab extends JPanel implements ActionListener{
     	button.addActionListener(this);
     	button.setIcon(icon);
     	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 270, 125);
+    	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
     	

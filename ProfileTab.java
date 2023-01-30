@@ -1,6 +1,7 @@
 package gritnessApp;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
 
 //Jason
 public class ProfileTab extends JPanel implements ActionListener  {
-    Client Client;
+    Client client;
     JFrame window;
     User user;
     JButton profile, workout, food, social, history;
@@ -20,17 +21,10 @@ public class ProfileTab extends JPanel implements ActionListener  {
     int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
     
-    
-    ProfileTab(){   
+    ProfileTab(Client client) throws IOException { 
+    	this.client = client;
+
     	window = new JFrame();
-    	
-    	user = new User("a", "asdf", "asdf");
-    	
-    	barGraphData = getGraphData(user.getWorkoutNumberHistory());
-    	lineGraphData = getGraphData(user.getCalorieHistory());
-        
-    	nameButton = newProfileButton("Name: " + user.getDisplayName(), 80,35,250);
-    	
     	
         ageButton = newProfileButton("Age:", 75,165,145);
         weightButton = newProfileButton("Weight:", 320,165,185);
@@ -38,13 +32,12 @@ public class ProfileTab extends JPanel implements ActionListener  {
         BMIButton = newProfileButton("BMI:", 75,425,145);
         BMRButton = newProfileButton("BMR: ", 355, 425, 145);
         
-        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
-        profile.setBackground(Const.NAV_BAR_COLOUR.brighter());
-        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
-        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
-        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
-        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
-
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        profile.setBackground(Const.BUTTON_COLOUR2.brighter());
         
         heightField  = new JTextField();
         weightField  = new JTextField();
@@ -66,11 +59,51 @@ public class ProfileTab extends JPanel implements ActionListener  {
                
         this.setVisible(true);
         this.setLayout(null);
+        importProfileData();
+        
+        client.sendTest();
+
+        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
+        lineGraph.repaint();
     }	 
+    
+    public void importProfileData() throws IOException {
+    	barGraphData = getGraphData(client.getProfileWorkoutNumHistory());
+    	lineGraphData = getGraphData(client.getProfileCalHistory());
+    	System.out.println("linegraphdata: " + Arrays.toString(lineGraphData));
+    	String info = client.getProfileInfo();
+    	
+    	String[] split = info.split("\\$+");
+    	System.out.println(Arrays.toString(split));
+    	// displayname, age, weight, height
+    	nameButton = newProfileButton("Name: " + split[0], 80,35,250);
+    	nameButton.setSize(nameButton.getPreferredSize());
+    	
+		ageButton.setText("Age: " + Integer.parseInt(split[1]));
+		ageField.setText(split[1]);
+		ageButton.setSize(ageButton.getPreferredSize());
+		
+		weightButton.setText("Weight: " + Double.parseDouble(split[2]));
+		weightField.setText(split[2]);
+		weightButton.setSize(weightButton.getPreferredSize());
+		
+		heightButton.setText("Height: " + Integer.parseInt(split[3]));
+		heightField.setText(split[3]);
+		heightButton.setSize(heightButton.getPreferredSize());
+		
+		addBMRAndBMICheck();
+    }
+    
     public int[] getGraphData(String data) {
     	//add a '&&' between the day and the number, it makes it easier to process
     	//like SATURDAY$$1500
+    	if (data.isBlank()) {
+    		int[] dataArr = {0, 0, 0, 0, 0, 0, 0};
+    		return dataArr;
+    	}
     	String[] dataArr = data.split("\\$+");
+    	System.out.println("data arr " + Arrays.toString(dataArr));
+    	System.out.println(dataArr[0]);
     	int[] graphData = new int[7];
     	for(int i = 0; i < dataArr.length; i += 2) {
     		String dayOfWeek = dataArr[i];
@@ -109,10 +142,10 @@ public class ProfileTab extends JPanel implements ActionListener  {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         
-        barGraph = new BarGraph(barGraphData, "Day", "Calories", "Workouts", 850, 275, 5);
+        barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "Workouts", 850, 275, 5);
         barGraph.draw(g);
         
-        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
+
         lineGraph.draw(g);
     }
     @Override
@@ -130,7 +163,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         }
 
         else if (e.getSource() == food) {
-            Window.layout.show(Window.container, "food");
+            Window.layout.show(Window.container, "nutrition");
         }
 
         else if (e.getSource() == social) {
@@ -141,6 +174,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         	if(name != null) {
         		nameButton.setText("Name: " + name);
         		nameButton.setSize(nameButton.getPreferredSize());
+        		client.sendName(name);
         	}
         }
         else if(e.getSource() == ageButton) {
@@ -150,6 +184,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         		ageButton.setText("Age: " + age);
         		ageField.setText(age);
         		ageButton.setSize(ageButton.getPreferredSize());
+        		client.sendAge(Integer.parseInt(age));
         	}
         	addBMRAndBMICheck();
         	
@@ -160,6 +195,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         		heightButton.setText("Height: " + height +  " cm");	
         		heightField.setText(height);
         		heightButton.setSize(heightButton.getPreferredSize());
+        		client.sendHeight(Integer.parseInt(height));
         	}
         	addBMRAndBMICheck();
         }
@@ -169,6 +205,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         		weightButton.setText("Weight: " + weight + " kg");
         		weightField.setText(weight);
         		weightButton.setSize(weightButton.getPreferredSize());
+        		client.sendWeight(Integer.parseInt(weight));
         	}
         	addBMRAndBMICheck();
         }
@@ -217,7 +254,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setIcon(icon);
     	
     	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 270, 125);
+    	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
     	this.add(button);
