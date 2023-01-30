@@ -30,6 +30,7 @@ public class Const {
     public static final Font BUTTON_FONT2 = new Font("Bahnschrift", Font.PLAIN, 25);
     public static final Font TEXT_FONT = new Font("Bahnschrift", Font.PLAIN, 25);
     public static final Font TEXT_FONT2 = new Font("Bahnschrift", Font.PLAIN, 30);
+    public static final Font TEXT_FONT3 = new Font("Bahnschrift", Font.PLAIN, 16);
     public static final Font SUBTITLE_FONT = new Font("Bahnschrift", Font.PLAIN, 30);
     public static final Font TITLE_FONT = new Font("Calibri", Font.BOLD, 45);
     public static final Font COVER_FONT = new Font("Bahnschrift", Font.BOLD, 55);
