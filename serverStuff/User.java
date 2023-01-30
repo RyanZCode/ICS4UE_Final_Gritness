@@ -25,6 +25,10 @@ public class User {
 		this.history = new ArrayList<Day>();
 		this.friends = new ArrayList<String>();
 	}
+	
+	public void addDay(Day day) {
+		history.add(day);
+	}
     
     public String getFriendsString() {
     	String friendsString = "";

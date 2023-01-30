@@ -17,7 +17,7 @@ public class LineGraph extends Graph{
         for (int i = 0; i < data.length - 1; i++) {
         	g.setColor(Color.red);
         	if(data[i + 1] != 0) {
-        		g.drawLine(x + i*(AXIS_LENGTH / NUMBER_DAYS), y - data[i] / 10, x + (i+1)*(AXIS_LENGTH / NUMBER_DAYS), y - data[i+1] / 10);
+        		g.drawLine(x + i*(AXIS_LENGTH / NUMBER_DAYS), y - data[i] / 12, x + (i+1)*(AXIS_LENGTH / NUMBER_DAYS), y - data[i+1] / 12);
         	}
             
         }

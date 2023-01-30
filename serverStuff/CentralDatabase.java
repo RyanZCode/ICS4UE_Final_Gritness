@@ -3,6 +3,7 @@ package gritnessApp;
 //imports for network communication
 import java.io.*;
 import java.net.*;
+import java.time.Period;
 import java.util.*;
 
 /**
@@ -75,7 +76,7 @@ class CentralDatabase {
 					}
 					if (!dataQ.isEmpty()) {
 						data = dataQ.poll();
-						String[] inputData = data.split("\\$\\$");
+						String[] inputData = data.split("\\$+");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
 						System.out.println("type: " + inputType);
@@ -123,6 +124,7 @@ class CentralDatabase {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getCalorieHistory());
+							System.out.println(user.getCalorieHistory());
 							output.flush();
 							break;
 						}
@@ -182,6 +184,28 @@ class CentralDatabase {
 							User user = loginInfo.get(username);
 							user.setDisplayName(inputData[2]);
 							System.out.println("name is " + user.getDisplayName());
+							break;
+						}
+						case "test": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							Day day = new Day();
+							day.addWorkout("testing");
+							day.setTotalCalories(2000);
+							user.addDay(day);
+							Day day2 = new Day();
+							day2.addWorkout("testing");
+							day2.setTotalCalories(2000);
+							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
+							user.addDay(day2);
+							Day day3 = new Day();
+							day3.addWorkout("testing");
+							day3.setTotalCalories(1000);
+							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
+							user.addDay(day3);
+							output.println("testing");
+							output.flush();
+							System.out.println("tested");
 							break;
 						}
 						default:

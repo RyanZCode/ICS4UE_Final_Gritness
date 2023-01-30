@@ -225,6 +225,20 @@ public class Client implements Runnable {
 		}
 		return (serverMessage);
 	}
+	
+	public String sendTest() throws IOException {
+		output.println("test" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
 
 	public void stop() throws Exception {
 		input.close();

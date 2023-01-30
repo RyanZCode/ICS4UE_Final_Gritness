@@ -20,7 +20,7 @@ public class Day {
 	int totalExerciseMinutes;
 	
 	Day() {
-		LocalDate date = LocalDate.now();
+		date = LocalDate.now();
 		workouts = new ArrayList<Workout>();
 		meals = new ArrayList<Meal>();
 	}
