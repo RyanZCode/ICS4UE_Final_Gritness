@@ -10,19 +10,10 @@ public class LineGraph extends Graph{
     public void draw(Graphics g) {
 
         // Draw x and y axis
-        // x= 50, y = 250
         
     	
-    	// Draw data points
-        for (int i = 0; i < data.length - 1; i++) {
-        	g.setColor(Color.red);
-        	if(data[i + 1] != 0) {
-        		g.drawLine(x + i*(AXIS_LENGTH / NUMBER_DAYS), y - data[i] / 10, x + (i+1)*(AXIS_LENGTH / NUMBER_DAYS), y - data[i+1] / 10);
-        	}
-            
-        }
-        
-        
+    	
+
         //X-Axis line
         g.setColor(Color.black);
         g.drawLine(x, y, x + AXIS_LENGTH, y);
@@ -51,8 +42,16 @@ public class LineGraph extends Graph{
         		g.drawLine(x - 5, y - (int) (i * AXIS_LENGTH / MAX_VALUE), x, y - (int) (i * AXIS_LENGTH / MAX_VALUE));
         	}
         }
-        
+     // Draw data points
+        for (int i = 0; i < data.length - 1; i++) {
+        	g.setColor(Color.red);
+        	double horizontalSpacing = ((double)AXIS_LENGTH / NUMBER_DAYS);
+    		double verticalSpacing = ((double)MAX_VALUE) / AXIS_LENGTH;
+    		g.drawLine((int)(x + i * horizontalSpacing), (int)(y - data[i] / verticalSpacing), (int)(x + (i + 1) * horizontalSpacing), (int)(y - data[i + 1] / verticalSpacing));
+            
+        }
         for(int i = 0; i < 7; i++) {
+        	g.setColor(Color.black);
         	g.drawString(DAYS_OF_WEEK[i], x + i * AXIS_LENGTH / 7, y + 15);
         }
     }
