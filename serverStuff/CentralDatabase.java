@@ -82,16 +82,13 @@ class CentralDatabase {
 						System.out.println("type: " + inputType);
 						switch (inputType) {
 						case "signup": {
-							//String displayName = inputData[1];
-							String displayName = "Tester";
-							// need to make displayname field
 							String username = inputData[1];
 							String password = inputData[2];
 							if (loginInfo.containsKey(username)) {
-								output.println("username taken");
+								output.println("Username Taken");
 								output.flush();
 							} else {
-								createNewUser(username, displayName, password);
+								createNewUser(username, "", password);
 								output.println("success");
 								output.flush();
 							}
@@ -102,13 +99,13 @@ class CentralDatabase {
 							String password = inputData[2];
 							User user = loginInfo.get(username);
 							if (user == null) {
-								output.println("username not found");
+								output.println("Username Not Found");
 								output.flush();
 							} else if (loginInfo.get(username).getPassword().equals(password)) {
 								output.println("success");
 								output.flush();
 							} else {
-								output.println("wrong password");
+								output.println("Wrong Password");
 								output.flush();
 							}
 							break;
@@ -203,13 +200,12 @@ class CentralDatabase {
 							day3.setTotalCalories(1000);
 							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
 							user.addDay(day3);
-							output.println("testing");
+							output.println("Testing");
 							output.flush();
-							System.out.println("tested");
 							break;
 						}
 						default:
-							output.println("null input");
+							output.println("Null Input");
 							output.flush();
 						}
 					}

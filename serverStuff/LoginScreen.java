@@ -140,12 +140,8 @@ public class LoginScreen extends JPanel implements ActionListener{
                 Window.container.add(social, "social");
             	
             	Window.layout.show(Window.container, "profile");
-            } else if (serverMessage.equals("wrong password")) {
-            	System.out.println("wrong password");
-            } else if (serverMessage.equals("username not found")) {
-            	System.out.println("username not found");
             } else {
-            	System.out.println(serverMessage);
+            	JOptionPane.showMessageDialog(new JFrame(), serverMessage);
             }
         }
         else if (e.getSource() == showPassword) {

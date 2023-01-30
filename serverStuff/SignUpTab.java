@@ -119,7 +119,7 @@ public class SignUpTab extends JPanel implements ActionListener{
             	client.setUsername(usernameField.getText());                
             	Window.layout.show(Window.container, "information");
             } else {
-            	System.out.println("server message: " + serverMessage);
+            	JOptionPane.showMessageDialog(new JFrame(), serverMessage);
             }
         }
         else if (e.getSource() == showPassword) {
