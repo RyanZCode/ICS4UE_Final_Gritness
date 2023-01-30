@@ -116,42 +116,73 @@ class CentralDatabase {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getDisplayName() + "$$" + user.getAge()  + "$$" +  user.getWeight()  + "$$" +  user.getHeight());
-							output.println(user.getCalorieHistory());
-							output.println(user.getWorkoutNumberHistory());
+							output.flush();
+							break;
 						}
 						case "profileCalHistory": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getCalorieHistory());
+							output.flush();
+							break;
 						}
 						case "profileWorkoutNum": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getWorkoutNumberHistory());
+							output.flush();
+							break;
 						}
 						case "historyTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
+							break;
 							
 						}
 						case "workoutTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
+							break;
 						}
 						case "foodTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
+							break;
 						}
 						case "socialTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getFriendsString());
+							output.flush();
+							break;
 						}
 						case "sendAge": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setAge(Integer.parseInt(inputData[2]));
 							System.out.println("age is " + user.getAge());
+							break;
+						}
+						case "sendWeight": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							user.setWeight(Double.parseDouble(inputData[2]));
+							System.out.println("weight is " + user.getWeight());
+							break;
+						}
+						case "sendHeight": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							user.setHeight(Integer.parseInt(inputData[2]));
+							System.out.println("height is " + user.getHeight());
+							break;
+						}
+						case "sendName": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							user.setDisplayName(inputData[2]);
+							System.out.println("name is " + user.getDisplayName());
+							break;
 						}
 						default:
 							output.println("null input");

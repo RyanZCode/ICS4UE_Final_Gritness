@@ -103,6 +103,8 @@ public class SignUpTab extends JPanel implements ActionListener{
         	setEnteredUsername(usernameField.getText());
         	setEnteredPassword(pwd);
         	this.loggedIn = true;
+        	//System.out.println(usernameField.getText());
+        	//System.out.println(new String(passwordField.getPassword()));
         	
         	// Send sign up data to server, receive message back
         	String serverMessage = null;
@@ -114,7 +116,7 @@ public class SignUpTab extends JPanel implements ActionListener{
 			}
 
             if (serverMessage.equals("success")) {
-            	client.setUsername(usernameField.getText());
+            	client.setUsername(usernameField.getText());                
             	Window.layout.show(Window.container, "information");
             } else {
             	System.out.println("server message: " + serverMessage);

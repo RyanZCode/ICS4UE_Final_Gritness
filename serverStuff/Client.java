@@ -77,6 +77,27 @@ public class Client implements Runnable {
 		output.flush();
 	}
 	
+	// Sends user weight to server
+	public void sendWeight(int weight) {
+		// Send message to server
+		output.println("sendWeight" + "$$" + username + "$$" + weight);
+		output.flush();
+	}
+	
+	// Sends user height to server
+	public void sendHeight(int height) {
+		// Send message to server
+		output.println("sendHeight" + "$$" + username + "$$" + height);
+		output.flush();
+	}
+	
+	// Sends user display name to server
+		public void sendName(String name) {
+			// Send message to server
+			output.println("sendName" + "$$" + username + "$$" + name);
+			output.flush();
+		}
+	
 	// Get profile data from server
 	public String getProfileInfo() throws IOException {
 		// Send message to server
@@ -113,6 +134,22 @@ public class Client implements Runnable {
 	public String getProfileWorkoutNumHistory() throws IOException {
 		// Send message to server
 		output.println("profileWorkoutNum" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Get display name from server
+	public String getDisplayName() throws IOException {
+		// Send message to server
+		output.println("getDisplayName" + "$$" + username);
 		output.flush();
 		String serverMessage = null;
 		while (true) {

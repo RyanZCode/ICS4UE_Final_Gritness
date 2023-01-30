@@ -118,6 +118,27 @@ public class LoginScreen extends JPanel implements ActionListener{
 
             if (serverMessage.equals("success")) {
             	client.setUsername(usernameField.getText());
+            	
+            	ProfileTab profile;
+            	try {
+					profile = new ProfileTab(client);
+					Window.container.add(profile, "profile");
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+                HistoryTab history = new HistoryTab();
+                WorkoutTab workout = new WorkoutTab();
+                NutritionTab nutrition = new NutritionTab();
+                SocialTab social = new SocialTab();
+                
+                Window.container.add(history, "history");
+                Window.container.add(workout, "workout");
+                Window.container.add(nutrition, "nutrition");
+                Window.container.add(social, "social");
+            	
             	Window.layout.show(Window.container, "profile");
             } else if (serverMessage.equals("wrong password")) {
             	System.out.println("wrong password");

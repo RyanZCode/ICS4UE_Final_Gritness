@@ -23,6 +23,7 @@ public class User {
 		this.displayName = displayName;
 		this.password = password;
 		this.history = new ArrayList<Day>();
+		this.friends = new ArrayList<String>();
 	}
     
     public String getFriendsString() {
@@ -39,6 +40,7 @@ public class User {
 			for (int i = history.size() - 1; i >= 0; i--) {
 				Day date = history.get(i);
 				calHistory += String.valueOf(date.getDate().getDayOfWeek());
+				calHistory += "$$";
 				calHistory += date.getTotalCalories();
 				calHistory += "$$";
 			}
@@ -46,6 +48,7 @@ public class User {
 			for (int i = history.size() - 1; i > history.size() - 8; i--) {
 				Day date = history.get(i);
 				calHistory += String.valueOf(date.getDate().getDayOfWeek());
+				calHistory += "$$";
 				calHistory += date.getTotalCalories();
 				calHistory += "$$";
 			}
@@ -60,6 +63,7 @@ public class User {
 			for (int i = history.size() - 1; i >= 0; i--) {
 				Day date = history.get(i);
 				workoutHistory += String.valueOf(date.getDate().getDayOfWeek());
+				workoutHistory += "$$";
 				workoutHistory += date.getNumberWorkouts();
 				workoutHistory += "$$";
 			}
@@ -67,6 +71,7 @@ public class User {
 			for (int i = history.size() - 1; i > history.size() - 8; i--) {
 				Day date = history.get(i);
 				workoutHistory += String.valueOf(date.getDate().getDayOfWeek());
+				workoutHistory += "$$";
 				workoutHistory += date.getNumberWorkouts();
 				workoutHistory += "$$";
 			}
