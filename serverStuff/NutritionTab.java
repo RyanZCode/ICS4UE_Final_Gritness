@@ -3,6 +3,7 @@ package gritnessApp;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,13 +24,15 @@ public class NutritionTab extends JPanel implements ActionListener{
     String[] columnNames = {"Meal","Calories", "Protein", "Carbs", "Sugar", "Fiber", "Fats", "Sodium"};
     Object[] row = new Object[8];
     int numCalories, numProtein, numCarbs, numSugar, numFiber, numFats, numSodium, exerciseCalories, caloriesRemaining;
-    int tempCalorieGoal = 2000;
-    NutritionTab(){
-
+    Client client;
+    int calorieGoal;
+    
+    NutritionTab(Client client) throws IOException {
+    	this.client = client;
         DefaultTableModel model = new DefaultTableModel();
         table = new JTable(model);
         model.setColumnIdentifiers(columnNames);
-
+        calorieGoal = Integer.parseInt(client.getCalorieGoal());
         scroll = new JScrollPane(table);
         scroll.setBounds(100, 270, 800, 300);
         this.add(scroll);  
@@ -71,7 +74,7 @@ public class NutritionTab extends JPanel implements ActionListener{
         caloriesText.setBounds(160, 170, 800, 50);
         this.add(caloriesText);
         
-        calorieGoalText = new JLabel(tempCalorieGoal + "");
+        calorieGoalText = new JLabel(calorieGoal + "");
         calorieGoalText.setFont(Const.TEXT_FONT);
         calorieGoalText.setBounds(135, 120, 100, 50);
         calorieGoalText.setHorizontalAlignment(JLabel.CENTER);
@@ -89,7 +92,7 @@ public class NutritionTab extends JPanel implements ActionListener{
         caloriesLost.setHorizontalAlignment(JLabel.CENTER);
         this.add(caloriesLost);
         
-        caloriesRemaining = tempCalorieGoal - numCalories + exerciseCalories;
+        caloriesRemaining = calorieGoal - numCalories + exerciseCalories;
         caloriesNumbers = new JLabel(caloriesRemaining + "");
         caloriesNumbers.setFont(Const.TEXT_FONT);
         caloriesNumbers.setBounds(735, 120, 800, 50);
@@ -169,7 +172,7 @@ public class NutritionTab extends JPanel implements ActionListener{
                     numFats += Integer.parseInt(fatsField.getText());
                     numSodium += Integer.parseInt(sodiumField.getText());
                     caloriesEaten.setText(numCalories + "");
-                    caloriesRemaining = tempCalorieGoal - numCalories + exerciseCalories;
+                    caloriesRemaining = calorieGoal - numCalories + exerciseCalories;
                     caloriesNumbers.setText(caloriesRemaining + "");
                     proteinSum.setText("Protein: " + numProtein + "g");
                     carbsSum.setText("Carbs: " + numCarbs + "g");
