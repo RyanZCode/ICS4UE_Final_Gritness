@@ -1,27 +1,45 @@
 package gritnessApp;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+/**
+ * [SignupTab.java]
+ * Where users can make their new account
+ * @author Nathan Kong
+ * @author Justin Zhou
+ * @author Ryan Zhou
+ * @version 1.0 Jan 24, 2023
+ */
 public class SignUpTab extends JPanel implements ActionListener{
-    private JFrame window;
     ProfileTab main;
     private JLabel title, text, username, password, account, background;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JCheckBox showPassword;
     private JButton signup;
-    private GraphicsPanel canvas;  
-    private JTextArea textArea = new JTextArea();
     Client client;
     
+    /**
+     * SignUpTab
+     * constructs the sign up tab
+     * @param client User client
+     */
     SignUpTab(Client client){
     	this.client = client;
-        canvas = new GraphicsPanel();
+    	
+    	//adds buttons
         background = new JLabel(Const.COVER_PHOTO);
         background.setBounds(0,0,1280,720);
         
@@ -71,24 +89,19 @@ public class SignUpTab extends JPanel implements ActionListener{
         this.setLayout(null);
         this.setVisible(true);
     }
-
-    public class GraphicsPanel extends JPanel{
-        public GraphicsPanel() {
-            setFocusable(true);
-            requestFocusInWindow();
-        }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-        }
-    }
     
     @SuppressWarnings("deprecation")
 	@Override
+    /**
+     * actionPerformed
+     * Tracks mouse clicks
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == signup) {
         	String username = usernameField.getText();
         	String password = passwordField.getText();
         	
+        	//input restrictions
         	if (username.contains("$") ||  password.contains("$")) {
 				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
         	} else {
@@ -111,14 +124,6 @@ public class SignUpTab extends JPanel implements ActionListener{
 	        		JOptionPane.showMessageDialog(new JFrame(), "Please fill in all fields");
 	        	}
         	}
-        }
-        else if (e.getSource() == showPassword) {
-            if(showPassword.isSelected()) {
-                passwordField.setEchoChar((char) 0);
-            }
-            else {
-                passwordField.setEchoChar('*');
-            }
         }
     }
 }
