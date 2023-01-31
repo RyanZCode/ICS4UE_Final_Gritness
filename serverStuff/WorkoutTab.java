@@ -1,77 +1,107 @@
 package gritnessApp;
 
 import java.awt.Color;
-import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Scrollbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class WorkoutTab extends JPanel implements ActionListener{
-    JLabel myWorkout, sampleWorkouts;
-    JButton profile, workout, createWorkout, beginWorkout, food, social, history;
+    JLabel myWorkout, timeLabel, workoutTitle;
+    JButton profile, workout, beginWorkout, food, social, history, endWorkout, resetTimer;
+    JTextField workoutName;
+    JTable workoutTable;
+    int elapsedTime = 0;
+    int seconds = 0;
+    int minutes = 0;
+    int hours = 0;
+    boolean started = false;
+    String[] workoutColumn;
+    Object[][] workoutData;
+    String seconds_string = String.format("%02d", seconds);
+    String minutes_string = String.format("%02d", minutes);
+    String hours_string = String.format("%02d", hours);
+    DemoMouseListener mouseListener;
+    final int NUMBER_ROWS_DISPLAYED = 5;
+    final int ROW_HEIGHT = 50;
+    final int TABLE_WIDTH = 600;
+    final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
+    
     WorkoutTab(){
         
+    	workoutTitle = newWordPanel ("WORKOUT NAME:", 100, 50, 400, 50);
+    	timeLabel = newWordPanel(hours_string+":"+minutes_string+":"+seconds_string, 600, 20, 700, 100);
+    	timeLabel.setFont(Const.TITLE_FONT);
+    	workoutName = newWorkoutField( 100, 100);	
     	
-    	//all we have to do here is if those buttons r clicked they bring u to the card and once we get some actual data
-        //it displays it where i left it blank
-    	myWorkout = new JLabel("My Workouts");
-        myWorkout.setFont(Const.TITLE_FONT);
-        myWorkout.setBounds(250,20,700,100);
+        beginWorkout = newWorkoutButton ("Begin Workout" , 100, 250, 350, 75);
+        endWorkout = newWorkoutButton ("End Workout" , 100, 350, 350, 75);
+        resetTimer = newWorkoutButton ("Reset Timer" , 950, 25, 300, 70);
         
-        sampleWorkouts = new JLabel("Sample Workouts");
-        sampleWorkouts.setFont(Const.TITLE_FONT);
-        sampleWorkouts.setBounds(800,20,350,100);
-        
-        beginWorkout = new JButton ("Begin Workout");
-        beginWorkout.addActionListener(this);
-        beginWorkout.setBounds(50, 125, 300, 85);
-        beginWorkout.setFont(Const.BUTTON_FONT);
-        beginWorkout.setBackground(Const.BUTTON_COLOUR);
-        beginWorkout.setForeground(Color.white);
-        beginWorkout.setFocusable(false);
-        
-        createWorkout = new JButton ("Create Workout Plan");
-        createWorkout.addActionListener(this);
-        createWorkout.setBounds(350, 125, 330, 85);
-        createWorkout.setFont(Const.BUTTON_FONT);
-        createWorkout.setBackground(Const.BUTTON_COLOUR2);
-        createWorkout.setForeground(Color.white);
-        createWorkout.setFocusable(false);
+        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
+        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
+        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
+        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
+        workout.setBackground(Const.NAV_BAR_COLOUR.brighter());
 
-        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
-        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
-        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
-        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
-        workout.setBackground(Const.BUTTON_COLOUR2.brighter());
+        workoutColumn = new String[]{"ACTIVITY","SETS","REPS","WEIGHT"};
+        workoutData = new Object[][]{
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        };
 
+        workoutTable = newTable(workoutColumn, workoutData);
+        JScrollPane scrollPane = new JScrollPane(workoutTable);
+        scrollPane.setBounds(600,225,TABLE_WIDTH,TABLE_HEIGHT);
+        workoutTable.addMouseListener(mouseListener);
         
-        this.add(profile);
-        this.add(history);
-        this.add(workout);
-        this.add(food);
-        this.add(social);
-        this.add(beginWorkout);
-        this.add(myWorkout);
-        this.add(createWorkout);
-        this.add(sampleWorkouts);
+        this.add(scrollPane);
         this.setLayout(null);
-          
-        Scrollbar scroll = new Scrollbar();    
-        scroll.setBounds (650, 220, 20, 300);  
-        this.add(scroll);    
-        
-        Scrollbar scroll2 = new Scrollbar();    
-        scroll2.setBounds (1245, 0, 20, 550);  
-        this.add(scroll2);  
-
     }
+    
+    public JLabel newWordPanel(String name, int x, int y, int bx, int by) {
+		JLabel text = new JLabel(name);
+		text.setBounds(x, y, bx, by);
+		text.setFont(Const.TEXT_FONT2);
+		text.setForeground(Color.BLACK);
+		this.add(text);
+		return text;
+	}
+    public JTextField newWorkoutField(int x, int y){
+		JTextField field = new JTextField();
+		field.setBounds(x, y, 400, 50);
+		field.addActionListener(this);
+		field.setFont(Const.FIELD_FONT2);
+		this.add(field);
+		return field;
+	}
     
     public JButton newNavBarButton(String name, int x, ImageIcon icon) {
         JButton button = new JButton(name);
@@ -82,13 +112,66 @@ public class WorkoutTab extends JPanel implements ActionListener{
         button.addActionListener(this);
         button.setIcon(icon);
         button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 256, 125);
+        button.setBounds(x, 570, 270, 125);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
         this.add(button);
         return button;
     }
-   
+    
+    public JButton newWorkoutButton(String name, int x, int y, int bx, int by) {
+        JButton button = new JButton(name);
+        button.setBackground(Const.NAV_BAR_COLOUR);
+        button.setForeground(Color.white);
+        button.setFocusable(false);
+        button.setBorderPainted(false);
+        button.addActionListener(this);
+        button.setFont(Const.BUTTON_FONT);
+        button.setBounds(x, y, bx, by);
+        button.setHorizontalTextPosition(JButton.CENTER);
+        button.setVerticalTextPosition(JButton.BOTTOM);
+        this.add(button);
+        return button;
+    }
+    
+    public JTable newTable(String[] columns, Object[][] data) {
+    	JTable table = new JTable(data, columns);
+    	
+    	table.setRowHeight(ROW_HEIGHT);
+    	table.setFont(Const.SMALLER_FONT);
+    	table.setShowHorizontalLines(false);
+    	table.setShowVerticalLines(false);
+    	table.setBounds(500,225,TABLE_WIDTH,330);
+    	table.setBorder((new LineBorder(Const.NAV_BAR_COLOUR, 1)));
+    	table.setBackground(Const.BACKGROUND_COLOUR);
+    	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+    	for(int i = 0; i < columns.length; i++) {
+    		table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    	}
+    	table.getTableHeader().setFont(Const.TEXT_FONT);
+    	
+    	this.add(table);
+
+    	return table;
+    }
+    public class DemoMouseListener implements MouseListener{
+        public void mouseClicked(MouseEvent e){
+            int row = workoutTable.rowAtPoint(e.getPoint());
+            int col = workoutTable.columnAtPoint(e.getPoint());
+            if (row >= 0 && col >= 0) {
+                JPopupMenu popup = new JPopupMenu();
+                workoutTable.setComponentPopupMenu(popup);
+
+                popup.show(workoutTable, e.getX(), e.getY());
+            }
+        }
+        public void mousePressed(MouseEvent e) {}
+    	public void mouseReleased(MouseEvent e) {}
+    	public void mouseEntered(MouseEvent e) {}
+    	public void mouseExited(MouseEvent e) {}
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
@@ -110,6 +193,37 @@ public class WorkoutTab extends JPanel implements ActionListener{
         else if (e.getSource() == social) {
             Window.layout.show(Window.container, "social");
         }
+        else if (e.getSource() == beginWorkout) {
+        	timer.start();
+        }
+        else if (e.getSource() == endWorkout) {
+        	timer.stop();
+        }
+        else if (e.getSource() == resetTimer) {
+        	reset();
+        }
+
+    }
+    
+    Timer timer = new Timer(1000, new ActionListener() {
+    	public void actionPerformed(ActionEvent e) {
+    		elapsedTime=elapsedTime+1000;
+			hours = (elapsedTime/3600000);
+			minutes = (elapsedTime/60000) % 60;
+			seconds = (elapsedTime/1000) % 60;
+			seconds_string = String.format("%02d", seconds);
+			minutes_string = String.format("%02d", minutes);
+			hours_string = String.format("%02d", hours);
+			timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+    	}
+    });
+    
+    void reset() {
+    	elapsedTime = 0;
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
+    	
     }
     public class GraphicsPanel extends JPanel{
         public GraphicsPanel() {
@@ -122,5 +236,4 @@ public class WorkoutTab extends JPanel implements ActionListener{
           
         }
     }
-
 }
