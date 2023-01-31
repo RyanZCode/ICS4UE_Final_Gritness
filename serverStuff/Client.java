@@ -299,6 +299,12 @@ public class Client implements Runnable {
 		}
 		return (serverMessage);
 	}
+	
+	// Tells server to close I/O
+	public void sendStop() {
+		output.println("stop");
+		output.flush();
+	}
 
 	public void stop() throws Exception {
 		input.close();

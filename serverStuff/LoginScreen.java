@@ -159,4 +159,9 @@ public class LoginScreen extends JPanel implements ActionListener{
             Window.layout.show(Window.container, "signup");
         }
     }
+    
+//    public void windowClosing(WindowEvent evt) {
+//	   Frame frame = (Frame) evt.getSource();
+//	   System.out.println("Closing = "+frame.getTitle());
+//    }
 }

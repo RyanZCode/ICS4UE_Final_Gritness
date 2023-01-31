@@ -2,6 +2,9 @@ package gritnessApp;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JPanel;
 
@@ -30,6 +33,17 @@ public class Tab {
 
     public void run() {        
         Window window = new Window();
+        WindowListener listener = new WindowAdapter() {
+            public void windowClosing(WindowEvent evt) {
+               try {
+            	   client.sendStop();
+            	   client.stop();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+            }
+        };
+        window.addWindowListener(listener);
         Window.container.add(login, "login");
         Window.container.add(signup, "signup");
         Window.container.add(information, "information");

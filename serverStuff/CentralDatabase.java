@@ -242,6 +242,11 @@ class CentralDatabase {
 							output.flush();
 							break;
 						}
+						case "stop":{
+							input.close();
+			                output.close();
+							break;
+						}
 						default:
 							output.println("Null Input");
 							output.flush();
@@ -249,7 +254,7 @@ class CentralDatabase {
 					}
 
 				} catch (IOException e) {
-					e.printStackTrace();
+					break;
 				}
 			}
 
