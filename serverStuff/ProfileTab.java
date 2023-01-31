@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 /**
  * [ProfileTab.java]
  * The profile tab of the application
@@ -34,6 +33,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     Object[] BMRMessage, BMIMessage;
     int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
+    boolean focused;
 
     /**
      * ProfileTab
@@ -44,9 +44,11 @@ public class ProfileTab extends JPanel implements ActionListener  {
     ProfileTab(Client client) throws IOException { 
         this.client = client;
         
+        focused = false;
         window = new JFrame();
         
         //adding buttons
+        nameButton = newProfileButton("", 50 , 25, 250);
         ageButton = newProfileButton("Age:", 50, 110 ,145);
         weightButton = newProfileButton("Weight (KG):", 50, 195 ,185);
         heightButton = newProfileButton("Height (CM):", 50, 280, 185);
@@ -81,7 +83,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
         this.setVisible(true);
         this.setLayout(null);
         importProfileData();
-        
     }  
     
     /**
@@ -92,11 +93,10 @@ public class ProfileTab extends JPanel implements ActionListener  {
     public void importProfileData() throws IOException {
         barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
         lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
-        String info = client.getProfileInfo();
         
-        String[] split = info.split("\\$+");
+        String[] split = client.getProfileInfo().split("\\$+");
         
-        nameButton = newProfileButton("" + split[0], 50 , 25, 250);
+        nameButton.setText("Name: " + split[0]);
         nameButton.setIcon(Const.PROFILE_PIC);
         nameButton.setSize(nameButton.getPreferredSize());
         
@@ -169,6 +169,15 @@ public class ProfileTab extends JPanel implements ActionListener  {
         // Anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
+        if (!focused) {
+        	try {
+				importProfileData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        	focused = true;
+        }
+        
         barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "WORKOUTS", 600, 400, 5);
         barGraph.draw(g);
         
@@ -183,23 +192,32 @@ public class ProfileTab extends JPanel implements ActionListener  {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
+        	try {
+				importProfileData();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
             Window.layout.show(Window.container, "profile");
         }
         
         else if(e.getSource() == history) {
             Window.layout.show(Window.container, "history");
+            focused = false;
         }
         
         else if (e.getSource() == workout) {
             Window.layout.show(Window.container, "workout");
+            focused = false;
         }
         
         else if (e.getSource() == food) {
             Window.layout.show(Window.container, "nutrition");
+            focused = false;
         }
         
         else if (e.getSource() == social) {
             Window.layout.show(Window.container, "social");
+            focused = false;
         }
         else if(e.getSource() == nameButton) {
             String name = JOptionPane.showInputDialog(window, "Enter name: ", null);
