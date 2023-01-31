@@ -21,7 +21,7 @@ public class HistoryTab extends JPanel implements ActionListener{
     SimpleDateFormat dateFormat = new SimpleDateFormat("EE MMMM dd yyyy");
     String selectedDate;
     String[] workoutColumn, nutritionColumn;
-    Object[][] workoutData, nutritionData;
+    String[][] workoutData, nutritionData;
     DemoMouseListener mouseListener;
     final int NUMBER_ROWS_DISPLAYED = 5;
     final int ROW_HEIGHT = 66;
@@ -61,7 +61,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         history.setBackground(Const.BUTTON_COLOUR2.brighter());       
         
         workoutColumn = new String[]{""};
-        workoutData = new Object[][]{
+        workoutData = new String[][]{
         	{"Lat Pulldown"},
             {"1. 135 x 10lbs"},
             {"Text 10"},
@@ -76,7 +76,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         };
         
         nutritionColumn = new String[] {"", "Total","Goal"};
-        nutritionData = new Object[][] {
+        nutritionData = new String[][] {
         	{"","Total","Goal"},
         	{"Protein","",""},
         	{"Carbs","",""},
@@ -112,7 +112,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         
     }
-    public JTable newTable(String[] columns, Object[][] data, int x) {
+    public JTable newTable(String[] columns, String[][] data, int x) {
     	JTable table = new JTable(data, columns);
     	
     	table.setRowHeight(ROW_HEIGHT);

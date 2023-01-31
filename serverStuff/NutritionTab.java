@@ -23,7 +23,7 @@ public class NutritionTab extends JPanel implements ActionListener{
     JTable table;
     JScrollPane scroll;
     String[] columnNames = {"Meal","Calories", "Protein", "Carbs", "Sugar", "Fiber", "Fats", "Sodium"};
-    Object[] row = new Object[8];
+    String[] row = new String[8];
     int numCalories, numProtein, numCarbs, numSugar, numFiber, numFats, numSodium, exerciseCalories, caloriesRemaining;
     Client client;
     int calorieGoal;

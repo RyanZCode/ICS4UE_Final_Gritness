@@ -33,7 +33,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     String age, height, name;
     JTextField heightField, weightField, ageField;
     BarGraph barGraph;
-    Object[] BMRMessage, BMIMessage;
+    String[] BMRMessage, BMIMessage;
     int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
     boolean focused;
@@ -74,14 +74,14 @@ public class ProfileTab extends JPanel implements ActionListener  {
         this.add(ageField);
         
         //adding blanks to fill in
-        BMRMessage = new Object[]{
-            "Height(cm): ", heightField,
-                "Weight(kg): ", weightField,
-                "Age: ", ageField
+        BMRMessage = new String[]{
+            "Height(cm): " + heightField,
+                "Weight(kg): " + weightField,
+                "Age: " + ageField
         };
-        BMIMessage = new Object[] {
-            "Weight(kg): ", weightField,
-                "Height(cm): ", heightField,
+        BMIMessage = new String[] {
+            "Weight(kg): " + weightField,
+                "Height(cm): " +  heightField,
         };
         
         this.setVisible(true);

@@ -33,7 +33,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     int hours = 0;
     boolean started = false;
     String[] workoutColumn;
-    Object[][] workoutData;
+    String[][] workoutData;
     String seconds_string = String.format("%02d", seconds);
     String minutes_string = String.format("%02d", minutes);
     String hours_string = String.format("%02d", hours);
@@ -43,7 +43,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     final int TABLE_WIDTH = 600;
     final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
     Client client;
-    Object[][] clearWorkoutData = new Object[][]{
+    String[][] clearWorkoutData = new String[][]{
     	{"","","",""},
     	{"","","",""},
     	{"","","",""},
@@ -81,7 +81,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
         workout.setBackground(Const.BUTTON_COLOUR2.brighter());
 
         workoutColumn = new String[]{"ACTIVITY","SETS","REPS","WEIGHT"};
-        workoutData = new Object[][]{
+        workoutData = new String[][]{
         	{"","","",""},
         	{"","","",""},
         	{"","","",""},
@@ -157,7 +157,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
         return button;
     }
     
-    public JTable newTable(String[] columns, Object[][] data) {
+    public JTable newTable(String[] columns, String[][] data) {
     	JTable table = new JTable(data, columns);
     	
     	table.setRowHeight(ROW_HEIGHT);
@@ -250,35 +250,12 @@ public class WorkoutTab extends JPanel implements ActionListener{
         }
     }
     
-    public void clearWorkout() {
-//    	DefaultTableModel model = new DefaultTableModel();
-//    	workoutTable.setModel(model);
-    	
-    	workoutTable.removeAll();
-    	
-    	workoutColumn = new String[]{"ACTIVITY","SETS","REPS","WEIGHT"};
-        workoutData = new Object[][]{
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        	{"","","",""},
-        };
-
-        workoutTable = newTable(workoutColumn, workoutData);
-        JScrollPane scrollPane = new JScrollPane(workoutTable);
-        scrollPane.setBounds(600,225,TABLE_WIDTH,TABLE_HEIGHT);
-        workoutTable.addMouseListener(mouseListener);
+    public void clearWorkout() {            	
+        for(int i = 0; i < workoutData.length; i++) {
+        	for(int j = 0; j < workoutColumn.length; j++) {
+        		workoutTable.setValueAt("", i, j);
+        	}
+        }
     }
     
     Timer timer = new Timer(1000, new ActionListener() {

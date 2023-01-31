@@ -34,7 +34,7 @@ public class SocialTab extends JPanel implements ActionListener{
     final int ROW_HEIGHT = (Const.MAIN_WIDTH  - NAV_BUTTON_HEIGHT) / NUM_FRIENDS_DISPLAYED;
     DemoMouseListener mouseListener;
     String[] friendsColumn;
-    Object[][] friendsData;
+    String[][] friendsData;
     ProfileTab profileTab;
     JTable friendList;
     BarGraph numberWorkoutsGraph;
@@ -165,7 +165,7 @@ public class SocialTab extends JPanel implements ActionListener{
         this.add(button);
         return button;
     }
-    public JTable newTable(String[] columns, Object[][] data, int x) {
+    public JTable newTable(String[] columns, String[][] data, int x) {
     	JTable table = new JTable(data, columns);
     	table.setRowHeight(ROW_HEIGHT);
     	table.setFont(new Font("Calibri", Font.PLAIN, 30));
@@ -243,7 +243,7 @@ public class SocialTab extends JPanel implements ActionListener{
     
     public void updateInfo(String[] split, String friendUsername) throws IOException {   	
     	friendsNum = split.length;
-        friendsData = new Object[friendsNum][1];
+        friendsData = new String[friendsNum][1];
         
         for (int i = 0; i < friendsNum; i++) {
         	friendsData[i][0] = split[i];
@@ -285,9 +285,9 @@ public class SocialTab extends JPanel implements ActionListener{
     
     public void addFriendToList(String username) {
     	DefaultTableModel model = new DefaultTableModel(friendsData, friendsColumn);
-    	model.addRow(new Object[]{username});
-    	Object[][] updatedData = new Object[friendsData.length + 1][1];
-    	updatedData[friendsData.length] = new Object[] {username};
+    	model.addRow(new String[]{username});
+    	String[][] updatedData = new String[friendsData.length + 1][1];
+    	updatedData[friendsData.length] = new String[] {username};
     	friendsData = updatedData;
     	friendList.setModel(model);
     	friendList.revalidate();
