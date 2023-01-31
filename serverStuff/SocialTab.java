@@ -142,7 +142,7 @@ public class SocialTab extends JPanel implements ActionListener{
     	button.setBackground(Const.BACKGROUND_COLOUR);
     	button.setForeground(Color.black);
     	button.setFocusable(false);
-    	button.setFont(Const.PROFILE_BUTTON_FONT);
+    	button.setFont(Const.BUTTON_FONT);
     	button.setText(name);
     	button.setBounds(x,y,width,70);
         
@@ -210,6 +210,8 @@ public class SocialTab extends JPanel implements ActionListener{
         	if (friendsName != null) {
         		if (friendsName.contains("$")) {
     				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+        		} else if (friendsName.equals(client.getUsername())) { 
+    				JOptionPane.showMessageDialog(this, "Cannot add yourself as a friend");
         		} else if (!friendsName.isBlank()) {
         			String serverMessage = null;
         			try {
@@ -275,10 +277,10 @@ public class SocialTab extends JPanel implements ActionListener{
         caloriesData = getGraphData(client.getProfileCalHistory(friendUsername));
         
         age = newLabel("Age: " + split[1], 50,205, 145);
-        weight = newLabel("Weight:" + split[2], 295,205,225);
-        height = newLabel("Height:" + split[3], 50,335, 225);
-        BMI = newLabel("BMI:" + split[4], 50,465,145);
-        BMR = newLabel("BMR: " + split[5], 290, 465, 175);
+        weight = newLabel("Weight: " + Math.floor(Double.parseDouble(split[2])) + "kg", 235,205,250);
+        height = newLabel("Height: " + Math.floor(Double.parseDouble(split[3])) + "cm", 50,335, 280);
+        BMI = newLabel("BMI: " + Math.floor(Double.parseDouble(split[4])), 50,465,200);
+        BMR = newLabel("BMR: " + Math.floor(Double.parseDouble(split[5])), 290, 465, 200);
     }
     
     public void addFriendToList(String username) {
