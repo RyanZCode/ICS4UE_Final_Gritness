@@ -75,7 +75,6 @@ class CentralDatabase {
 						dataQ.add(data);
 					}
 					if (!dataQ.isEmpty()) {
-						
 						data = dataQ.poll();
 						String[] inputData = data.split("\\$+");
 						System.out.println(Arrays.toString(inputData));
@@ -85,11 +84,8 @@ class CentralDatabase {
 							input.close();
 			                output.close();
 							break;
-						}
-						
-						String username = inputData[1];
-						switch (inputType) {
-						case "signup": {
+						} else if (inputData[0].equals("signup")) {
+							String username = inputData[1];
 							String password = inputData[2];
 							if (loginInfo.containsKey(username)) {
 								output.println("Username Taken");
@@ -99,9 +95,8 @@ class CentralDatabase {
 								output.println("success");
 								output.flush();
 							}
-							break;
-						}
-						case "login": {
+						} else if (inputData[0].equals("login")) {
+							String username = inputData[1];
 							String password = inputData[2];
 							User user = loginInfo.get(username);
 							if (user == null) {
@@ -114,166 +109,161 @@ class CentralDatabase {
 								output.println("Wrong Password");
 								output.flush();
 							}
-							break;
-						}
-						case "getProfileInfo": {
+						} else {						
+							String username = inputData[1];
 							User user = loginInfo.get(username);
-							output.println(user.getDisplayName() + "$$" + user.getAge()  + "$$" +  user.getWeight()  + "$$" +  user.getHeight());
-							output.flush();
-							break;
-						}
-						case "getProfileCalHistory": {
-							User user = loginInfo.get(username);
-							output.println(user.getCalorieHistory());
-							System.out.println(user.getCalorieHistory());
-							output.flush();
-							break;
-						}
-						case "getProfileWorkoutNumHistory": {
-							User user = loginInfo.get(username);
-							output.println(user.getWorkoutNumberHistory());
-							output.flush();
-							break;
-						}
-						case "getNutritionTab": {
-							User user = loginInfo.get(username);
-							output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
-							output.flush();
-							break;
-						}
-						case "socialTab": {
-							User user = loginInfo.get(username);
-							output.println(user.getFriendsString());
-							output.flush();
-							break;
-						}
-						case "sendAge": {
-							User user = loginInfo.get(username);
-							user.setAge(Integer.parseInt(inputData[2]));
-							break;
-						}
-						case "sendWeight": {
-							User user = loginInfo.get(username);
-							user.setWeight(Double.parseDouble(inputData[2]));
-							break;
-						}
-						case "sendHeight": {
-							User user = loginInfo.get(username);
-							user.setHeight(Integer.parseInt(inputData[2]));
-							break;
-						}
-						case "sendName": {
-							User user = loginInfo.get(username);
-							user.setDisplayName(inputData[2]);
-							break;
-						} 
-						case "sendCalorieGoal": {
-							User user = loginInfo.get(username);
-							user.setCalorieGoal(Integer.parseInt(inputData[2]));
-							break;
-						}
-						case "getDisplayName":{
-							User user = loginInfo.get(username);
-							output.println(user.getDisplayName());
-							output.flush();
-							break;
-						}
-						case "getFriendUsernames" :{
-							User user = loginInfo.get(username);
-							output.println(user.getFriendsString());
-							output.flush();
-							break;
-						}
-						case "getFriendData":{
-							User user = loginInfo.get(username);
-							output.println(user.getDisplayName() + "$$" + user.getAge() + "$$" + user.getWeight() + "$$" + user.getHeight() + "$$" + user.getBMI() + "$$" + user.getBMR());
-							output.flush();
-							break;
-						}
-						case "sendFriendRequest":{
-							User user = loginInfo.get(username);
-							User friend = null;
-							friend = loginInfo.get(inputData[2]);
-							if (friend == null) {
-								output.println("Username not found");
-								output.flush();
-							} else if (user.getFriendsString().contains(inputData[2])) {
-								output.println("Friend already added");
-								output.flush();
-							} else {
-								user.addFriend(inputData[2]);
-								output.println("success");
-								output.flush();
-							}
-							break;
-						}
-						case "getCalorieGoal": {
-							User user = loginInfo.get(username);
-							output.println(user.getCalorieGoal());
-							output.flush();
-							break;
-						}
-						case "sendMealInfo": {
-							User user = loginInfo.get(username);
-							user.addCalories(Integer.parseInt(inputData[2]));
-							user.addProtein(Integer.parseInt(inputData[3]));
-							user.addCarbs(Integer.parseInt(inputData[4]));
-							user.addSugar(Integer.parseInt(inputData[5]));
-							user.addFiber(Integer.parseInt(inputData[6]));
-							user.addFats(Integer.parseInt(inputData[7]));
-							user.addSodium(Integer.parseInt(inputData[8]));
-							output.println("Meal added successfully");
-							output.flush();
-							break;
-						}
-						case "sendWorkoutData": {
-							User user = loginInfo.get(username);
-							output.println("Workout complete!");
-							output.flush();
-							break;
-						}
-						case "sendDayCheck": {
-							User user = loginInfo.get(username);
+							
 							if (user.getHistory().size() != 0) {
-								if (!user.getHistory().get(user.getHistory().size() - 1).getDate().isEqual(LocalDate.now())) {
+								if (!user.getToday().getDate().isEqual(LocalDate.now())) {
 									user.addDay(new Day());
-//									output.println("New day");
-//									output.flush();
-								} else {
-//									output.println("Same day");
-//									output.flush();
 								}
 							} else {
 								user.addDay(new Day());
-//								output.println("New day");
-//								output.flush();
 							}
-							break;
-						}
-						case "test": {
-//							String username = inputData[1];
-//							User user = loginInfo.get(username);
-//							Day day = new Day();
-//							day.addWorkout("testing");
-//							day.setTotalCalories(2000);
-//							user.addDay(day);
-//							Day day2 = new Day();
-//							day2.addWorkout("testing");
-//							day2.setTotalCalories(2000);
-//							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
-//							user.addDay(day2);
-//							Day day3 = new Day();
-//							day3.addWorkout("testing");
-//							day3.setTotalCalories(1000);
-//							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
-//							user.addDay(day3);
-							output.println("Testing");
-							output.flush();
-							break;
-						}
-						default:
-							output.println("Null Input");
-							output.flush();
+							
+							switch (inputType) {
+							case "getProfileInfo": {
+								output.println(user.getDisplayName() + "$$" + user.getAge()  + "$$" +  user.getWeight()  + "$$" +  user.getHeight());
+								output.flush();
+								break;
+							}
+							case "getProfileCalHistory": {
+								output.println(user.getCalorieHistory());
+								System.out.println(user.getCalorieHistory());
+								output.flush();
+								break;
+							}
+							case "getProfileWorkoutNumHistory": {
+								output.println(user.getWorkoutNumberHistory());
+								output.flush();
+								break;
+							}
+							case "getNutritionTab": {
+								output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
+								output.flush();
+								break;
+							}
+							case "socialTab": {
+								output.println(user.getFriendsString());
+								output.flush();
+								break;
+							}
+							case "sendAge": {
+								user.setAge(Integer.parseInt(inputData[2]));
+								break;
+							}
+							case "sendWeight": {
+								user.setWeight(Double.parseDouble(inputData[2]));
+								break;
+							}
+							case "sendHeight": {
+								user.setHeight(Integer.parseInt(inputData[2]));
+								break;
+							}
+							case "sendName": {
+								user.setDisplayName(inputData[2]);
+								break;
+							} 
+							case "sendCalorieGoal": {
+								user.setCalorieGoal(Integer.parseInt(inputData[2]));
+								break;
+							}
+							case "getDisplayName":{
+								output.println(user.getDisplayName());
+								output.flush();
+								break;
+							}
+							case "getFriendUsernames" :{
+								output.println(user.getFriendsString());
+								output.flush();
+								break;
+							}
+							case "getFriendData":{
+								output.println(user.getDisplayName() + "$$" + user.getAge() + "$$" + user.getWeight() + "$$" + user.getHeight() + "$$" + user.getBMI() + "$$" + user.getBMR());
+								output.flush();
+								break;
+							}
+							case "sendFriendRequest":{
+								User friend = null;
+								friend = loginInfo.get(inputData[2]);
+								if (friend == null) {
+									output.println("Username not found");
+									output.flush();
+								} else if (user.getFriendsString().contains(inputData[2])) {
+									output.println("Friend already added");
+									output.flush();
+								} else {
+									user.addFriend(inputData[2]);
+									output.println("success");
+									output.flush();
+								}
+								break;
+							}
+							case "getCalorieGoal": {
+								output.println(user.getCalorieGoal());
+								output.flush();
+								break;
+							}
+							case "sendMealInfo": {
+								user.addCalories(Integer.parseInt(inputData[2]));
+								user.addProtein(Integer.parseInt(inputData[3]));
+								user.addCarbs(Integer.parseInt(inputData[4]));
+								user.addSugar(Integer.parseInt(inputData[5]));
+								user.addFiber(Integer.parseInt(inputData[6]));
+								user.addFats(Integer.parseInt(inputData[7]));
+								user.addSodium(Integer.parseInt(inputData[8]));
+								output.println("Meal added successfully");
+								output.flush();
+								break;
+							}
+							case "sendWorkoutData": {
+								user.getToday().addWorkout(inputData[2], Integer.parseInt(inputData[3]));
+								output.println("Workout complete!");
+								output.flush();
+								break;
+							}
+							case "sendDayCheck": {
+								if (user.getHistory().size() != 0) {
+									if (!user.getToday().getDate().isEqual(LocalDate.now())) {
+										user.addDay(new Day());
+	//									output.println("New day");
+	//									output.flush();
+									} else {
+	//									output.println("Same day");
+	//									output.flush();
+									}
+								} else {
+									user.addDay(new Day());
+	//								output.println("New day");
+	//								output.flush();
+								}
+								break;
+							}
+							case "test": {
+	//							String username = inputData[1];
+	//							User user = loginInfo.get(username);
+	//							Day day = new Day();
+	//							day.addWorkout("testing");
+	//							day.setTotalCalories(2000);
+	//							user.addDay(day);
+	//							Day day2 = new Day();
+	//							day2.addWorkout("testing");
+	//							day2.setTotalCalories(2000);
+	//							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
+	//							user.addDay(day2);
+	//							Day day3 = new Day();
+	//							day3.addWorkout("testing");
+	//							day3.setTotalCalories(1000);
+	//							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
+	//							user.addDay(day3);
+								output.println("Testing");
+								output.flush();
+								break;
+							}
+							default:
+								output.println("Null Input");
+								output.flush();
+							}
 						}
 					}
 

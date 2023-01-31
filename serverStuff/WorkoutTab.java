@@ -61,7 +61,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     	{"","","",""},
     };
     
-    WorkoutTab(Client client){
+    WorkoutTab(Client client) {
         this.client = client;
     	
     	workoutTitle = newWordPanel ("WORKOUT NAME:", 100, 50, 400, 50);
@@ -232,8 +232,6 @@ public class WorkoutTab extends JPanel implements ActionListener{
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-	        	
-	        	//send the server data
 	        	
 	        	resetTimer();
 	        	clearWorkout();
