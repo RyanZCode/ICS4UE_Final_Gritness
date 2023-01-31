@@ -138,7 +138,7 @@ public class LoginScreen extends JPanel implements ActionListener{
 							e2.printStackTrace();
 						}
 						
-						WorkoutTab workout = new WorkoutTab();
+						WorkoutTab workout = new WorkoutTab(client);
 		                Window.container.add(workout, "workout");
 		                
 						try {

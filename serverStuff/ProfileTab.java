@@ -61,7 +61,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         this.setLayout(null);
         importProfileData();
         
-        client.sendTest();
+//        client.sendTest();
     }	 
     
     public void importProfileData() throws IOException {
@@ -256,8 +256,8 @@ public class ProfileTab extends JPanel implements ActionListener  {
         
     	this.add(button);
     	return button;
-	    
     }
+    
     public JButton newNavBarButton(String name, int x, ImageIcon icon) {
     	JButton button = new JButton(name);
     	button.setBackground(Const.NAV_BAR_COLOUR);

@@ -6,10 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -39,24 +41,26 @@ public class WorkoutTab extends JPanel implements ActionListener{
     final int ROW_HEIGHT = 50;
     final int TABLE_WIDTH = 600;
     final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
+    Client client;
     
-    WorkoutTab(){
-        
+    WorkoutTab(Client client){
+        this.client = client;
+    	
     	workoutTitle = newWordPanel ("WORKOUT NAME:", 100, 50, 400, 50);
     	timeLabel = newWordPanel(hours_string+":"+minutes_string+":"+seconds_string, 600, 20, 700, 100);
     	timeLabel.setFont(Const.TITLE_FONT);
-    	workoutName = newWorkoutField( 100, 100);	
+    	workoutName = newWorkoutField(100, 100);	
     	
         beginWorkout = newWorkoutButton ("Begin Workout" , 100, 250, 350, 75);
         endWorkout = newWorkoutButton ("End Workout" , 100, 350, 350, 75);
         resetTimer = newWorkoutButton ("Reset Timer" , 950, 25, 300, 70);
         
-        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
-        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
-        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
-        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
-        workout.setBackground(Const.NAV_BAR_COLOUR.brighter());
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        workout.setBackground(Const.BUTTON_COLOUR2.brighter());
 
         workoutColumn = new String[]{"ACTIVITY","SETS","REPS","WEIGHT"};
         workoutData = new Object[][]{
@@ -104,19 +108,20 @@ public class WorkoutTab extends JPanel implements ActionListener{
 	}
     
     public JButton newNavBarButton(String name, int x, ImageIcon icon) {
-        JButton button = new JButton(name);
-        button.setBackground(Const.NAV_BAR_COLOUR);
-        button.setForeground(Color.white);
-        button.setFocusable(false);
-        button.setBorderPainted(false);
-        button.addActionListener(this);
-        button.setIcon(icon);
-        button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 270, 125);
-        button.setHorizontalTextPosition(JButton.CENTER);
-        button.setVerticalTextPosition(JButton.BOTTOM);
-        this.add(button);
-        return button;
+    	JButton button = new JButton(name);
+    	button.setBackground(Const.NAV_BAR_COLOUR);
+    	button.setForeground(Color.white);
+    	button.setFocusable(false);
+    	button.setBorderPainted(false);
+    	button.addActionListener(this);
+    	button.setIcon(icon);
+    	
+    	button.setFont(Const.BUTTON_FONT);
+    	button.setBounds(x, 570, 256, 125);
+    	button.setHorizontalTextPosition(JButton.CENTER);
+    	button.setVerticalTextPosition(JButton.BOTTOM);
+    	this.add(button);
+    	return button;
     }
     
     public JButton newWorkoutButton(String name, int x, int y, int bx, int by) {
@@ -197,7 +202,13 @@ public class WorkoutTab extends JPanel implements ActionListener{
         	timer.start();
         }
         else if (e.getSource() == endWorkout) {
-        	timer.stop();
+        	try {
+				JOptionPane.showMessageDialog(this, client.sendWorkoutData(workoutName.getText(), elapsedTime));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+        	
+        	reset();
         }
         else if (e.getSource() == resetTimer) {
         	reset();
@@ -223,7 +234,10 @@ public class WorkoutTab extends JPanel implements ActionListener{
         seconds = 0;
         minutes = 0;
         hours = 0;
-    	
+        seconds_string = String.format("%02d", seconds);
+		minutes_string = String.format("%02d", minutes);
+		hours_string = String.format("%02d", hours);
+        timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
     }
     public class GraphicsPanel extends JPanel{
         public GraphicsPanel() {
