@@ -131,12 +131,6 @@ public class LoginScreen extends JPanel implements ActionListener{
 						NutritionTab nutrition;
 						
 						try {
-							client.sendDayCheck();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						try {
 							profile = new ProfileTab(client);
 							Window.container.add(profile, "profile");
 						} catch (IOException e1) {

@@ -137,12 +137,6 @@ public class InformationTab extends JPanel implements ActionListener{
 			} else {
 				if (!nameText.isBlank() && !ageText.isBlank() && !heightText.isBlank() 
 						&& !weightText.isBlank() && !calorieText.isBlank()){
-	                
-					try {
-						client.sendDayCheck();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
 					
 					//converts input
 					client.sendName(nameText);
