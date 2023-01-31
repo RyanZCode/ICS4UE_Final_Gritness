@@ -20,10 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class WorkoutTab extends JPanel implements ActionListener{
     JLabel myWorkout, timeLabel, workoutTitle;
-    JButton profile, workout, beginWorkout, food, social, history, endWorkout, resetTimer;
+    JButton profile, workout, beginWorkout, food, social, history, endWorkout, cancelWorkout;
     JTextField workoutName;
     JTable workoutTable;
     int elapsedTime = 0;
@@ -42,6 +43,23 @@ public class WorkoutTab extends JPanel implements ActionListener{
     final int TABLE_WIDTH = 600;
     final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
     Client client;
+    Object[][] clearWorkoutData = new Object[][]{
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    	{"","","",""},
+    };
     
     WorkoutTab(Client client){
         this.client = client;
@@ -53,7 +71,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     	
         beginWorkout = newWorkoutButton ("Begin Workout" , 100, 250, 350, 75);
         endWorkout = newWorkoutButton ("End Workout" , 100, 350, 350, 75);
-        resetTimer = newWorkoutButton ("Reset Timer" , 950, 25, 300, 70);
+        cancelWorkout = newWorkoutButton ("Cancel Workout" , 950, 25, 300, 70);
         
         profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
         history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
@@ -202,18 +220,65 @@ public class WorkoutTab extends JPanel implements ActionListener{
         	timer.start();
         }
         else if (e.getSource() == endWorkout) {
-        	try {
-				JOptionPane.showMessageDialog(this, client.sendWorkoutData(workoutName.getText(), elapsedTime));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-        	
-        	reset();
+        	if (elapsedTime == 0) {
+                JOptionPane.showMessageDialog(this, "You must begin a workout first");
+        	} else if (workoutName.getText().contains("$")) {
+                JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+        	} else if (workoutName.getText().isBlank()) {
+        		JOptionPane.showMessageDialog(this, "You must name this workout before ending");
+        	} else if (JOptionPane.showConfirmDialog(this, "End Workout?", "Message", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+	        	try {
+					JOptionPane.showMessageDialog(this, client.sendWorkoutData(workoutName.getText(), elapsedTime));
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+	        	
+	        	//send the server data
+	        	
+	        	resetTimer();
+	        	clearWorkout();
+	        	workoutName.setText("");
+        	}
         }
-        else if (e.getSource() == resetTimer) {
-        	reset();
+        else if (e.getSource() == cancelWorkout) {
+        	if (elapsedTime == 0) {
+                JOptionPane.showMessageDialog(this, "You must begin a workout first");
+        	} else if (JOptionPane.showConfirmDialog(this, "Cancel Workout?", "Message", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        		resetTimer();
+            	clearWorkout();
+        	}
         }
+    }
+    
+    public void clearWorkout() {
+//    	DefaultTableModel model = new DefaultTableModel();
+//    	workoutTable.setModel(model);
+    	
+    	workoutTable.removeAll();
+    	
+    	workoutColumn = new String[]{"ACTIVITY","SETS","REPS","WEIGHT"};
+        workoutData = new Object[][]{
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        	{"","","",""},
+        };
 
+        workoutTable = newTable(workoutColumn, workoutData);
+        JScrollPane scrollPane = new JScrollPane(workoutTable);
+        scrollPane.setBounds(600,225,TABLE_WIDTH,TABLE_HEIGHT);
+        workoutTable.addMouseListener(mouseListener);
     }
     
     Timer timer = new Timer(1000, new ActionListener() {
@@ -229,7 +294,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     	}
     });
     
-    void reset() {
+    public void resetTimer() {
     	elapsedTime = 0;
         seconds = 0;
         minutes = 0;
@@ -238,6 +303,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
 		minutes_string = String.format("%02d", minutes);
 		hours_string = String.format("%02d", hours);
         timeLabel.setText(hours_string+":"+minutes_string+":"+seconds_string);
+        timer.stop();
     }
     public class GraphicsPanel extends JPanel{
         public GraphicsPanel() {
