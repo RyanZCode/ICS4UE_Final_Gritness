@@ -1,13 +1,25 @@
 package gritnessApp;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Arrays;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-import javax.swing.*;
 
-
-//Jason
+/**
+ * [ProfileTab.java]
+ * The profile tab of the application
+ * @author Jason Wu, Ryan Zhou, Justin Zhou
+ * @version 20, January 2023
+ */
 public class ProfileTab extends JPanel implements ActionListener  {
     Client client;
     JFrame window;
@@ -26,11 +38,12 @@ public class ProfileTab extends JPanel implements ActionListener  {
 
     	window = new JFrame();
     	
-        ageButton = newProfileButton("Age:", 75,165,145);
-        weightButton = newProfileButton("Weight:", 320,165,185);
-        heightButton = newProfileButton("Height:", 75,295, 185);
-        BMIButton = newProfileButton("BMI:", 75,425,145);
-        BMRButton = newProfileButton("BMR: ", 355, 425, 145);
+    	//adding buttons
+        ageButton = newProfileButton("Age:", 50, 110 ,145);
+        weightButton = newProfileButton("Weight (KG):", 50, 195 ,185);
+        heightButton = newProfileButton("Height (CM):", 50, 280, 185);
+        BMIButton = newProfileButton("BMI:", 50, 365 ,145);
+        BMRButton = newProfileButton("BMR: ", 50, 450 , 145);
         
         profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
         history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
@@ -60,20 +73,23 @@ public class ProfileTab extends JPanel implements ActionListener  {
         this.setVisible(true);
         this.setLayout(null);
         importProfileData();
-        
-//        client.sendTest();
+
     }	 
     
+    /**
+     * importProfileData
+     * Integrates profile data from information tab
+     * @throws IOException
+     */
     public void importProfileData() throws IOException {
     	barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
     	lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
-    	System.out.println("linegraphdata: " + Arrays.toString(lineGraphData));
     	String info = client.getProfileInfo();
     	
     	String[] split = info.split("\\$+");
-    	System.out.println(Arrays.toString(split));
     	
-    	nameButton = newProfileButton("Name: " + split[0], 80,35,250);
+    	nameButton = newProfileButton("" + split[0], 50 , 25, 250);
+        nameButton.setIcon(Const.PROFILE_PIC);
     	nameButton.setSize(nameButton.getPreferredSize());
     	
 		ageButton.setText("Age: " + Integer.parseInt(split[1]));
@@ -91,16 +107,18 @@ public class ProfileTab extends JPanel implements ActionListener  {
 		addBMRAndBMICheck();
     }
     
+    /**
+     * getGraphData
+     * Converts data into a graph
+     * @param data Graph data
+     * @return Graphed data
+     */
     public int[] getGraphData(String data) {
-    	//add a '&&' between the day and the number, it makes it easier to process
-    	//like SATURDAY$$1500
     	if (data.isBlank()) {
     		int[] dataArr = {0, 0, 0, 0, 0, 0, 0};
     		return dataArr;
     	}
     	String[] dataArr = data.split("\\$+");
-    	System.out.println("data arr " + Arrays.toString(dataArr));
-    	System.out.println(dataArr[0]);
     	int[] graphData = new int[7];
     	for(int i = 0; i < dataArr.length; i += 2) {
     		String dayOfWeek = dataArr[i];
@@ -109,22 +127,22 @@ public class ProfileTab extends JPanel implements ActionListener  {
     		case "SUNDAY":{
     			graphData[0] = calories;
     			break;
-    		}case "MONDAY":{
+    		} case "MONDAY":{
     			graphData[1] = calories;
     			break;
-    		}case "TUESDAY":{
+    		} case "TUESDAY":{
     			graphData[2] = calories;
     			break;
-    		}case "WEDNESDAY":{
+    		} case "WEDNESDAY":{
     			graphData[3] = calories;
     			break;
-    		}case "THURSDAY":{
+    		} case "THURSDAY":{
     			graphData[4] = calories;
     			break;
-    		}case "FRIDAY":{
+    		} case "FRIDAY":{
     			graphData[5] = calories;
     			break;
-    		}case "SATURDAY":{
+    		} case "SATURDAY":{
     			graphData[6] = calories;
     			break;
     		}
@@ -132,19 +150,28 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	}
     	return graphData;
     }
+    
+    /**
+     * paintComponent
+     * Draws the graphs and data
+     */
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
         // Anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         
-        barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "Workouts", 850, 275, 5);
+        barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "WORKOUTS", 600, 400, 5);
         barGraph.draw(g);
         
-        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
+        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "CALORIES", 950, 400, 2500);
         lineGraph.draw(g);
     }
+    
+    /**
+     * actionPerformed
+     * Records all button clicks
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == profile) {
@@ -224,6 +251,11 @@ public class ProfileTab extends JPanel implements ActionListener  {
         	}
         }
     }
+    
+    /**
+     * addBMRAndBMICheck
+     * Converts input into BMR AND BMI values
+     */
     public void addBMRAndBMICheck() {
     	if(!weightField.getText().equals("") && !heightField.getText().equals("")){
          	Double weight = Double.parseDouble(weightField.getText());
@@ -241,23 +273,40 @@ public class ProfileTab extends JPanel implements ActionListener  {
          	}
          }
     }
+    
+    /**
+     * newProfileButton
+     * Draws a profile tab button
+     * @param name Button text
+     * @param x X coordinate of button 
+     * @param y Y coordinate of button
+     * @param width Width of button
+     * @return Designed button
+     */
     public JButton newProfileButton(String name, int x, int y, int width) {
-    	JButton button = new JButton();    	
-    	
-    	button.setBackground(Const.BACKGROUND_COLOUR);
-    	button.setForeground(Color.black);
-    	button.setFocusable(false);
-    	button.setFont(Const.PROFILE_BUTTON_FONT);
-    	button.setText(name);
-    	button.setBounds(x,y,width,70);
-    	button.addActionListener(this);
+        JButton button = new JButton();     
+        
+        button.setForeground(Color.BLACK);
+        button.setFocusable(false);
+        button.setFont(Const.PROFILE_BUTTON_FONT);
+        button.setText(name);
+        button.setBounds(x,y,width,70);
+        button.addActionListener(this);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         
-    	this.add(button);
-    	return button;
+        this.add(button);
+        return button;
     }
     
+    /**
+     * newNavBarButton
+     * Draws the navigation bar
+     * @param name Navigation button text
+     * @param x X coordinate of button
+     * @param icon Image of button
+     * @return designed button
+     */
     public JButton newNavBarButton(String name, int x, ImageIcon icon) {
     	JButton button = new JButton(name);
     	button.setBackground(Const.NAV_BAR_COLOUR);
@@ -266,11 +315,11 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setBorderPainted(false);
     	button.addActionListener(this);
     	button.setIcon(icon);
-    	
     	button.setFont(Const.BUTTON_FONT);
     	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
+    	
     	this.add(button);
     	return button;
     }
