@@ -229,8 +229,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
     }
     /**
      * DemoMouseListener
-     * 
-     *
+     * Tracks mouse interaction with table
      */
     public class DemoMouseListener implements MouseListener{
         public void mouseClicked(MouseEvent e){
