@@ -141,7 +141,7 @@ public class InformationTab extends JPanel implements ActionListener{
 					client.sendCalorieGoal(Integer.parseInt(calorieText));
 					
 					ProfileTab profile;
-	                
+					SocialTab social;
 					try {
 						profile = new ProfileTab(client);
 						Window.container.add(profile, "profile");
@@ -152,12 +152,19 @@ public class InformationTab extends JPanel implements ActionListener{
 	                HistoryTab history = new HistoryTab();
 	                WorkoutTab workout = new WorkoutTab();
 	                NutritionTab nutrition = new NutritionTab();
-	                SocialTab social = new SocialTab();
-	                
 	                Window.container.add(history, "history");
 	                Window.container.add(workout, "workout");
 	                Window.container.add(nutrition, "nutrition");
-	                Window.container.add(social, "social");
+	                
+					try {
+						social = new SocialTab(client);
+						Window.container.add(social, "social");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+	                
+	                
+	                
 		            Window.layout.show(Window.container, "profile");
 				} else {
 		        	JOptionPane.showMessageDialog(this, "Please fill in all fields");

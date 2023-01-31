@@ -62,14 +62,11 @@ public class ProfileTab extends JPanel implements ActionListener  {
         importProfileData();
         
         client.sendTest();
-
-        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
-        lineGraph.repaint();
     }	 
     
     public void importProfileData() throws IOException {
-    	barGraphData = getGraphData(client.getProfileWorkoutNumHistory());
-    	lineGraphData = getGraphData(client.getProfileCalHistory());
+    	barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
+    	lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
     	System.out.println("linegraphdata: " + Arrays.toString(lineGraphData));
     	String info = client.getProfileInfo();
     	
@@ -145,7 +142,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "Workouts", 850, 275, 5);
         barGraph.draw(g);
         
-
+        lineGraph = new LineGraph(lineGraphData, "Day", "Calories", "Calories", 850, 550, 2500);
         lineGraph.draw(g);
     }
     @Override

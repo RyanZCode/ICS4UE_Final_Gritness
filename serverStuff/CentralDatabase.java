@@ -8,6 +8,7 @@ import java.util.*;
 
 /**
  * CentralDatabase is the server of the app
+ * NEED TO CLOSE THREADS, CPU LEAKAGE
  * 
  * @author Ryan Zhou
  * @version Jan 2023
@@ -177,10 +178,47 @@ class CentralDatabase {
 							User user = loginInfo.get(username);
 							user.setDisplayName(inputData[2]);
 							break;
-						} case "sendCalorieGoal": {
+						} 
+						case "sendCalorieGoal": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setCalorieGoal(Integer.parseInt(inputData[2]));
+							break;
+						}
+						case "getDisplayName":{
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getDisplayName());
+							output.flush();
+							break;
+						}
+						case "getFriendUsernames" :{
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getFriendsString());
+							output.flush();
+							break;
+						}
+						case "getFriendData":{
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getDisplayName() + "$$" + user.getAge() + "$$" + user.getWeight() + "$$" + user.getHeight() + "$$" + user.getBMI() + "$$" + user.getBMR());
+							output.flush();
+							break;
+						}
+						case "sendFriendRequest":{
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							User friend = null;
+							friend = loginInfo.get(inputData[2]);
+							if (friend == null) {
+								output.println("Username not found");
+								output.flush();
+							} else {
+								user.addFriend(inputData[2]);
+								output.println("success");
+								output.flush();
+							}
 							break;
 						}
 						case "test": {

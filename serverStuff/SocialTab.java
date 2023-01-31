@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,6 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 public class SocialTab extends JPanel implements ActionListener{
     JLabel name,age, weight, height, BMR, BMI;
@@ -37,11 +40,20 @@ public class SocialTab extends JPanel implements ActionListener{
     BarGraph numberWorkoutsGraph;
     LineGraph caloriesGraph;
     int[] numberWorkoutsData, caloriesData;
-    SocialTab(){
-    	
-    	
-    	//ngl im not sure what i can design here without interfering with the actual data itself
-    	
+    Client client;
+    int friendsNum;
+    JScrollPane scrollPane;
+    
+    SocialTab(Client client) throws IOException {
+    	this.client = client;
+    	String usernames = client.getFriendUsernames();
+    	String[] split = usernames.split("\\$+");
+    	if (!usernames.isBlank()) {
+    		updateInfo(split, split[0]);
+    	} else {
+    		friendsNum = 0;
+    	}
+    	    	
     	addFriend = new JButton ("Add New Friend");
     	addFriend.addActionListener(this);
     	addFriend.setBounds(50, 50, 350, 65);
@@ -50,22 +62,6 @@ public class SocialTab extends JPanel implements ActionListener{
     	addFriend.setForeground(Color.white);
         addFriend.setFocusable(false);
         
-        name = new JLabel("'s Profile");
-        name.setFont(Const.PROFILE_BUTTON_FONT);
-        name.setBounds(50,115,700,100);
-        
-        //profileTab = new ProfileTab();
-        
-        numberWorkoutsData = new int[]{1,3,2,4,2,1,5};
-        caloriesData = new int[] {0,0,0,0,0,0,0};
-        
-        age = newLabel("Age:", 50,205, 145);
-        weight = newLabel("Weight:", 295,205,225);
-        height = newLabel("Height:", 50,335, 225);
-        BMI = newLabel("BMI:", 50,465,145);
-        BMR = newLabel("BMR: ", 290, 465, 175);
-       
-        
         profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
         history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
         workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
@@ -73,29 +69,8 @@ public class SocialTab extends JPanel implements ActionListener{
         social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
         social.setBackground(Const.BUTTON_COLOUR2.brighter());
         
-        mouseListener = new DemoMouseListener();
-        friendsColumn = new String[]{""};
-        friendsData = new Object[][] {
-        	{"Jason"},
-        	{"Ryan"},
-        	{"Nathan"},
-        	{"Justin"},
-        	{"Justin"},
-        	{"Justin"},
-        	{"Justin"},
-        	{"Justin"},
-        };
-        
-        friendList = newTable(friendsColumn, friendsData, Const.MAIN_LENGTH - TABLE_WIDTH);
-        JScrollPane scrollPane = new JScrollPane(friendList);
-        
-        scrollPane.setBounds(Const.MAIN_LENGTH - TABLE_WIDTH - 15,0,TABLE_WIDTH,Const.MAIN_WIDTH - 150);
-        friendList.addMouseListener(mouseListener);
-        
-        this.add(scrollPane, BorderLayout.CENTER);
-        
         this.add(addFriend);
-        this.add(name);
+        
         this.setVisible(true);
         this.setLayout(null);
     }
@@ -104,32 +79,39 @@ public class SocialTab extends JPanel implements ActionListener{
         Graphics2D g2d = (Graphics2D)g;
         // Anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
         
-        numberWorkoutsGraph = new BarGraph(numberWorkoutsData, "Day", "Calories", "Workouts", 600, 240, 5);
-        numberWorkoutsGraph.draw(g);
-        
-        caloriesGraph = new LineGraph(caloriesData, "Day", "Calories", "Calories", 600, 500, 2500);
-        caloriesGraph.draw(g);
+        if (friendsNum > 0) {
+	        numberWorkoutsGraph = new BarGraph(numberWorkoutsData, "Day", "Calories", "Workouts", 600, 240, 5);
+	        numberWorkoutsGraph.draw(g);
+	        
+	        caloriesGraph = new LineGraph(caloriesData, "Day", "Calories", "Calories", 600, 500, 2500);
+	        caloriesGraph.draw(g);
+        }
     }
-    public void updateFriendsProfileInformation(int age, int weight, int height, int BMI, int BMR, int[] calorieData, int[] numberWorkoutsData) {
-    	this.age.setText("Age:" + age);
+    public void updateFriendsProfileInformation(String friendUsername) throws IOException {
+    	String friendData = client.getFriendData(friendUsername);
+    	String[] split = friendData.split("\\$+");
+
+    	this.name.setText(split[0] + "'s Profile");
+    	this.name.setPreferredSize(getPreferredSize());
+    	
+    	this.age.setText("Age:" + split[1]);
     	this.age.setPreferredSize(this.age.getPreferredSize());
     	
-    	this.weight.setText("Weight: " + weight);
+    	this.weight.setText("Weight: " + split[2]);
     	this.weight.setPreferredSize(this.age.getPreferredSize());
     	
-    	this.height.setText("Height: " + height);
+    	this.height.setText("Height: " + split[3]);
     	this.height.setPreferredSize(this.age.getPreferredSize());
     	
-    	this.BMI.setText("BMI: " + BMI);
+    	this.BMI.setText("BMI: " + split[4]);
     	this.BMI.setPreferredSize(this.age.getPreferredSize());
     	
-    	this.BMR.setText("BMR: " + BMR);
+    	this.BMR.setText("BMR: " + split[5]);
     	this.BMR.setPreferredSize(this.age.getPreferredSize());
     	
-    	this.caloriesData = calorieData;
-    	this.numberWorkoutsData = numberWorkoutsData;
+        numberWorkoutsData = getGraphData(client.getProfileWorkoutNumHistory(friendUsername));
+        caloriesData = getGraphData(client.getProfileCalHistory(friendUsername));
     	
     	caloriesGraph = new LineGraph(caloriesData, "Day", "Calories", "Calories", 600, 500, 2500);
     	numberWorkoutsGraph = new BarGraph(this.numberWorkoutsData, "Day", "Calories", "Workouts", 600, 240, 5);
@@ -142,9 +124,11 @@ public class SocialTab extends JPanel implements ActionListener{
             int col = friendList.columnAtPoint(e.getPoint());
             if (row >= 0 && col >= 0) {
             	String selectedFriend = friendList.getValueAt(row, col) + "";
-            	name.setText(selectedFriend + "'s Profile");
-            	name.setPreferredSize(name.getPreferredSize());
-            	updateFriendsProfileInformation(13,145,145, 22, 22, new int[] {1500,2000,123,1231,2300,0,0}, new int[] {1,2,3,4,4,5,2});
+        		try {
+					updateFriendsProfileInformation(selectedFriend);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
             }
         }
         public void mousePressed(MouseEvent e) {}
@@ -183,7 +167,6 @@ public class SocialTab extends JPanel implements ActionListener{
     }
     public JTable newTable(String[] columns, Object[][] data, int x) {
     	JTable table = new JTable(data, columns);
-    	
     	table.setRowHeight(ROW_HEIGHT);
     	table.setFont(new Font("Calibri", Font.PLAIN, 30));
     	table.setShowHorizontalLines(true);
@@ -224,8 +207,130 @@ public class SocialTab extends JPanel implements ActionListener{
         else if(e.getSource() == addFriend) {
         	String friendsName = JOptionPane.showInputDialog(this,
                     "Enter Friend's Username: ", null);
-        	
+        	if (friendsName != null) {
+        		if (friendsName.contains("$")) {
+    				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+        		} else if (!friendsName.isBlank()) {
+        			String serverMessage = null;
+        			try {
+						serverMessage = client.sendFriendRequest(friendsName);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+        			
+        			if (serverMessage.equals("success")) {
+        				JOptionPane.showMessageDialog(this, "Friend added");
+        				if (friendsNum == 0) {
+        					try {
+								updateInfo(client.getFriendUsernames().split("\\$+"), friendsName);
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+        				} else {
+        					addFriendToList(friendsName);
+        				}
+        			} else {
+        				JOptionPane.showMessageDialog(this, serverMessage);
+        			}
+        		} else {
+	        		JOptionPane.showMessageDialog(this, "Username must contain characters");
+        		}
+        	}
         }
     }
-
+    
+    public void updateInfo(String[] split, String friendUsername) throws IOException {   	
+    	friendsNum = split.length;
+        friendsData = new Object[friendsNum][1];
+        
+        for (int i = 0; i < friendsNum; i++) {
+        	friendsData[i][0] = split[i];
+        }
+        
+        mouseListener = new DemoMouseListener();
+        friendsColumn = new String[]{""};
+        friendList = newTable(friendsColumn, friendsData, Const.MAIN_LENGTH - TABLE_WIDTH);
+        scrollPane = new JScrollPane(friendList);
+        
+        scrollPane.setBounds(Const.MAIN_LENGTH - TABLE_WIDTH - 15,0,TABLE_WIDTH,Const.MAIN_WIDTH - 150);
+        friendList.addMouseListener(mouseListener);
+        
+        this.add(scrollPane, BorderLayout.CENTER);
+        
+        loadFriendData(friendUsername);
+        this.add(name);
+    }
+    
+    public void loadFriendData(String friendUsername) throws IOException {
+    	String friendData = client.getFriendData(friendUsername);
+    	String[] split = friendData.split("\\$+");
+    	
+    	System.out.println("split is " + Arrays.toString(split));
+    	
+        name = new JLabel(split[0] + "'s Profile");
+        name.setFont(Const.PROFILE_BUTTON_FONT);
+        name.setBounds(50,115,700,100);
+        
+        numberWorkoutsData = getGraphData(client.getProfileWorkoutNumHistory(friendUsername));
+        caloriesData = getGraphData(client.getProfileCalHistory(friendUsername));
+        
+        age = newLabel("Age: " + split[1], 50,205, 145);
+        weight = newLabel("Weight:" + split[2], 295,205,225);
+        height = newLabel("Height:" + split[3], 50,335, 225);
+        BMI = newLabel("BMI:" + split[4], 50,465,145);
+        BMR = newLabel("BMR: " + split[5], 290, 465, 175);
+    }
+    
+    public void addFriendToList(String username) {
+    	DefaultTableModel model = new DefaultTableModel(friendsData, friendsColumn);
+    	model.addRow(new Object[]{username});
+    	Object[][] updatedData = new Object[friendsData.length + 1][1];
+    	updatedData[friendsData.length] = new Object[] {username};
+    	friendsData = updatedData;
+    	friendList.setModel(model);
+    	friendList.revalidate();
+    	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+    	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+    	friendList.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+    }
+    
+    public int[] getGraphData(String data) {
+    	if (data.isBlank()) {
+    		int[] dataArr = {0, 0, 0, 0, 0, 0, 0};
+    		return dataArr;
+    	}
+    	String[] dataArr = data.split("\\$+");
+    	System.out.println("data arr " + Arrays.toString(dataArr));
+    	System.out.println(dataArr[0]);
+    	int[] graphData = new int[7];
+    	for(int i = 0; i < dataArr.length; i += 2) {
+    		String dayOfWeek = dataArr[i];
+    		int calories = Integer.parseInt(dataArr[i + 1]);
+    		switch(dayOfWeek) {
+    		case "SUNDAY":{
+    			graphData[0] = calories;
+    			break;
+    		}case "MONDAY":{
+    			graphData[1] = calories;
+    			break;
+    		}case "TUESDAY":{
+    			graphData[2] = calories;
+    			break;
+    		}case "WEDNESDAY":{
+    			graphData[3] = calories;
+    			break;
+    		}case "THURSDAY":{
+    			graphData[4] = calories;
+    			break;
+    		}case "FRIDAY":{
+    			graphData[5] = calories;
+    			break;
+    		}case "SATURDAY":{
+    			graphData[6] = calories;
+    			break;
+    		}
+    		}
+    	}
+    	return graphData;
+    }
 }

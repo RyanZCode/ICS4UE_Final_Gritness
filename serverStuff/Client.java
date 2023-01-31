@@ -122,7 +122,7 @@ public class Client implements Runnable {
 	}
 	
 	// Get profile data from server
-	public String getProfileCalHistory() throws IOException {
+	public String getProfileCalHistory(String username) throws IOException {
 		// Send message to server
 		output.println("profileCalHistory" + "$$" + username);
 		output.flush();
@@ -137,8 +137,13 @@ public class Client implements Runnable {
 		return (serverMessage);
 	}
 	
+	// Get username
+	public String getUsername() {
+		return this.username;
+	}
+	
 	// Get profile data from server
-	public String getProfileWorkoutNumHistory() throws IOException {
+	public String getProfileWorkoutNumHistory(String username) throws IOException {
 		// Send message to server
 		output.println("profileWorkoutNum" + "$$" + username);
 		output.flush();
@@ -157,6 +162,54 @@ public class Client implements Runnable {
 	public String getDisplayName() throws IOException {
 		// Send message to server
 		output.println("getDisplayName" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Get friend's display name from server
+	public String getFriendData(String friendUsername) throws IOException {
+		// Send message to server
+		output.println("getFriendData" + "$$" + friendUsername);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Get friend usernames from server
+	public String getFriendUsernames() throws IOException {
+		// Send message to server
+		output.println("getFriendUsernames" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Send a friend request to server
+	public String sendFriendRequest(String friendUsername) throws IOException {
+		// Send message to server
+		output.println("sendFriendRequest" + "$$" + username + "$$" + friendUsername);
 		output.flush();
 		String serverMessage = null;
 		while (true) {

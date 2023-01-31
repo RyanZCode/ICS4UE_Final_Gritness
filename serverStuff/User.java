@@ -30,6 +30,10 @@ public class User {
 		history.add(day);
 	}
     
+	public void addFriend(String friend) {
+		friends.add(friend);
+	}
+	
     public String getFriendsString() {
     	String friendsString = "";
     	for (int i = 0; i < friends.size(); i++) {
@@ -176,5 +180,13 @@ public class User {
 
 	public String getPassword() {
 		return this.password;
+	}
+	
+	public double getBMI() {
+		return weight / (Math.pow(height / 100,2));
+	}
+	
+	public double getBMR() {
+		return 88.362 + (13.397 * weight) + (4.799 + height) - (5.677 * age);
 	}
 }

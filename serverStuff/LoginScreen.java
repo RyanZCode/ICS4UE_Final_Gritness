@@ -122,12 +122,20 @@ public class LoginScreen extends JPanel implements ActionListener{
 	                    HistoryTab history = new HistoryTab();
 	                    WorkoutTab workout = new WorkoutTab();
 	                    NutritionTab nutrition = new NutritionTab();
-	                    SocialTab social = new SocialTab();
+	                    
+	                    SocialTab social;
+						try {
+							social = new SocialTab(client);
+							Window.container.add(social, "social");
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 	                    
 	                    Window.container.add(history, "history");
 	                    Window.container.add(workout, "workout");
 	                    Window.container.add(nutrition, "nutrition");
-	                    Window.container.add(social, "social");
+	                    
 	                	
 	                	Window.layout.show(Window.container, "profile");
 	                } else {
