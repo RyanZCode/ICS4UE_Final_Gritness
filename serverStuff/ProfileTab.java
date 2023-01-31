@@ -17,8 +17,10 @@ import javax.swing.JTextField;
 /**
  * [ProfileTab.java]
  * The profile tab of the application
- * @author Jason Wu, Ryan Zhou, Justin Zhou
- * @version 20, January 2023
+ * @author Jason Wu
+ * @author Ryan Zhou
+ * @author Justin Zhou
+ * @version 21, January 2023
  */
 public class ProfileTab extends JPanel implements ActionListener  {
     Client client;
@@ -32,7 +34,13 @@ public class ProfileTab extends JPanel implements ActionListener  {
     Object[] BMRMessage, BMIMessage;
     int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
-    
+
+    /**
+     * ProfileTab
+     * Constructs the profile tab of the application
+     * @param client User client
+     * @throws IOException
+     */
     ProfileTab(Client client) throws IOException { 
         this.client = client;
         
