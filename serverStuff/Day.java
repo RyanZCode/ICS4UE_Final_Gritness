@@ -6,9 +6,6 @@ import java.util.*;
 // Ryan
 public class Day {
 	private LocalDate date;
-	ArrayList<Workout> workouts;
-	ArrayList<Meal> meals;
-	// update these things as things are added/removed
 	int totalCalories;
 	int totalProtein;
 	int totalCarbs;
@@ -16,13 +13,11 @@ public class Day {
 	int totalSugar;
 	int totalFats;
 	int totalSodium;
-	int totalCaloriesBurned;
+	ArrayList<String> workouts;
 	int totalExerciseMinutes;
 	
 	Day() {
 		date = LocalDate.now();
-		workouts = new ArrayList<Workout>();
-		meals = new ArrayList<Meal>();
 		totalCalories = 0;
 		totalProtein = 0;
 		totalCarbs = 0;
@@ -30,6 +25,15 @@ public class Day {
 		totalSugar = 0;
 		totalFats = 0;
 		totalSodium = 0;
+		workouts = new ArrayList<String>();
+	}
+	
+	public void addWorkout(String name, int time) {
+		workouts.add(name + "$$" + time);
+	}
+	
+	public ArrayList<String> getWorkouts() {
+		return this.workouts;
 	}
 	
 	public void addCalories(int calories) {
@@ -59,10 +63,6 @@ public class Day {
 	public void addSodium(int sodium) {
 		totalSodium += sodium;
 	}
-	
-	public void addWorkout(String name) {
-		workouts.add(new Workout(name));
-	}
 
 	public LocalDate getDate() {
 		return date;
@@ -71,23 +71,7 @@ public class Day {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-
-	public ArrayList<Workout> getWorkouts() {
-		return workouts;
-	}
-
-	public void setWorkouts(ArrayList<Workout> workouts) {
-		this.workouts = workouts;
-	}
-
-	public ArrayList<Meal> getMeals() {
-		return meals;
-	}
-
-	public void setMeals(ArrayList<Meal> meals) {
-		this.meals = meals;
-	}
-
+	
 	public int getTotalCalories() {
 		return totalCalories;
 	}
@@ -142,14 +126,6 @@ public class Day {
 
 	public void setTotalSodium(int totalSodium) {
 		this.totalSodium = totalSodium;
-	}
-
-	public int getTotalCaloriesBurned() {
-		return totalCaloriesBurned;
-	}
-
-	public void setTotalCaloriesBurned(int totalCaloriesBurned) {
-		this.totalCaloriesBurned = totalCaloriesBurned;
 	}
 
 	public int getTotalExerciseMinutes() {
