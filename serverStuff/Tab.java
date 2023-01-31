@@ -7,7 +7,13 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 import javax.swing.JPanel;
-
+/**
+ * [Tab.java]
+ * Instantiate new client and all tabs when application is run
+ * @author Nathan Kong
+ * @author Ryan Zhou
+ * @version 1.0 Jan 24, 2023
+ */
 public class Tab {
     private LoginScreen login;
     private SignUpTab signup;
@@ -20,7 +26,12 @@ public class Tab {
     public static JPanel tabs;
     public static CardLayout cardLayout;
     Client client;
-
+    
+    /**
+     * Tab
+     * Constructs all tabs and a new client 
+     * @throws Exception
+     */
     public Tab() throws Exception{
     	client = new Client();
     	client.start();
@@ -31,6 +42,10 @@ public class Tab {
         cardLayout = new CardLayout();
     }
 
+    /*
+     * run
+     * Creates new window, tabs, client
+     */
     public void run() {        
         Window window = new Window();
         WindowListener listener = new WindowAdapter() {
@@ -43,12 +58,17 @@ public class Tab {
 				}
             }
         };
+        //Add tabs, listener
         window.addWindowListener(listener);
         Window.container.add(login, "login");
         Window.container.add(signup, "signup");
         Window.container.add(information, "information");
         window.setVisible(true);
     }
+    /*
+     * paintProfile
+     * Repaints profile tab 
+     */
     public void paintProfile() {
     	profile.repaint();
     }
