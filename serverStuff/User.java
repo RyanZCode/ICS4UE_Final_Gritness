@@ -11,8 +11,6 @@ public class User {
 	String password;
 	double weight;
 	int calorieGoal;
-	ArrayList<Workout> userWorkoutTemplates;
-	ArrayList<Meal> userMealTemplates;
 	ArrayList<Day> history;
 	ArrayList<String> friends;
 	int age;
@@ -144,6 +142,10 @@ public class User {
 		return workoutHistory;
 	}
 	
+	public Day getToday() {
+		return history.get(history.size() - 1);
+	}
+	
 	public int getAge() {
 		return age;
 	}
@@ -158,14 +160,6 @@ public class User {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-	
-	public void addUserWorkoutTemplate(Workout workout) {
-		this.userWorkoutTemplates.add(workout);
-	}
-	
-	public void addUserMealTemplate(Meal meal) {
-		this.userMealTemplates.add(meal);
 	}
 	
 	public String getDisplayName() {
@@ -198,22 +192,6 @@ public class User {
 
 	public void setCalorieGoal(int calorieGoal) {
 		this.calorieGoal = calorieGoal;
-	}
-
-	public ArrayList<Workout> getUserWorkoutTemplates() {
-		return userWorkoutTemplates;
-	}
-
-	public void setUserWorkoutTemplates(ArrayList<Workout> userWorkoutTemplates) {
-		this.userWorkoutTemplates = userWorkoutTemplates;
-	}
-
-	public ArrayList<Meal> getUserMealTemplates() {
-		return userMealTemplates;
-	}
-
-	public void setUserMealTemplates(ArrayList<Meal> userMealTemplates) {
-		this.userMealTemplates = userMealTemplates;
 	}
 
 	public ArrayList<Day> getHistory() {
