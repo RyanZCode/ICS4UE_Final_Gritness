@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -36,6 +37,17 @@ public class NutritionTab extends JPanel implements ActionListener{
         scroll = new JScrollPane(table);
         scroll.setBounds(100, 270, 800, 300);
         this.add(scroll);  
+        
+        String[] split = client.getNutritionTab().split("\\$+");
+        numCalories = Integer.parseInt(split[0]);
+        numProtein = Integer.parseInt(split[1]);
+        numCarbs = Integer.parseInt(split[2]);
+        numSugar = Integer.parseInt(split[3]);
+        numFiber = Integer.parseInt(split[4]);
+        numFats = Integer.parseInt(split[5]);
+        numSodium = Integer.parseInt(split[6]);
+        
+        System.out.println("Nut tab " +Arrays.toString(split));
 
         addMeal = new JButton("Add meal");
         addMeal.setBounds(1010, 520, 129, 20);
@@ -151,26 +163,37 @@ public class NutritionTab extends JPanel implements ActionListener{
         addMeal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(mealNameField.getText().length() == 0 || caloriesField.getText().length() == 0 || proteinField.getText().length() == 0 || carbsField.getText().length() == 0 || sugarField.getText().length() == 0 || fiberField.getText().length() == 0 || fatsField.getText().length() == 0 || sodiumField.getText().length() == 0) {
+            	String mealName = mealNameField.getText();
+            	String calories = caloriesField.getText();
+            	String protein = proteinField.getText();
+            	String carbs = carbsField.getText();
+            	String sugar = sugarField.getText();
+            	String fiber = fiberField.getText();
+            	String fats = fatsField.getText();
+            	String sodium = sodiumField.getText();
+                if(mealName.isBlank() || calories.isBlank() || protein.isBlank() || carbs.isBlank() || sugar.isBlank() || fiber.isBlank() || fats.isBlank() || sodium.isBlank()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields");
-                }
-                else {
-                    row[0] = mealNameField.getText();
-                    row[1] = caloriesField.getText();
-                    row[2] = proteinField.getText();
-                    row[3] = carbsField.getText();
-                    row[4] = sugarField.getText();
-                    row[5] = fiberField.getText();
-                    row[6] = fatsField.getText();
-                    row[7] = sodiumField.getText();
+                } else if (mealName.contains("$")) {
+                    JOptionPane.showMessageDialog(null, "The use of the $ character is not permitted");
+                } else if (!isInt(calories) || !isInt(protein) || !isInt(carbs) || !isInt(sugar) || !isInt(fiber) || !isInt(fats) || !isInt(sodium)) {
+                    JOptionPane.showMessageDialog(null, "Only integer values are allowed for macro fields");
+                } else {
+                    row[0] = mealName;
+                    row[1] = calories;
+                    row[2] = protein;
+                    row[3] = carbs;
+                    row[4] = sugar;
+                    row[5] = fiber;
+                    row[6] = fats;
+                    row[7] = sodium;
                     model.addRow(row);
-                    numCalories += Integer.parseInt(caloriesField.getText());
-                    numProtein += Integer.parseInt(proteinField.getText());
-                    numCarbs += Integer.parseInt(carbsField.getText());
-                    numSugar += Integer.parseInt(sugarField.getText());
-                    numFiber += Integer.parseInt(fiberField.getText());
-                    numFats += Integer.parseInt(fatsField.getText());
-                    numSodium += Integer.parseInt(sodiumField.getText());
+                    numCalories += Integer.parseInt(calories);
+                    numProtein += Integer.parseInt(protein);
+                    numCarbs += Integer.parseInt(carbs);
+                    numSugar += Integer.parseInt(sugar);
+                    numFiber += Integer.parseInt(fiber);
+                    numFats += Integer.parseInt(fats);
+                    numSodium += Integer.parseInt(sodium);
                     caloriesEaten.setText(numCalories + "");
                     caloriesRemaining = calorieGoal - numCalories + exerciseCalories;
                     caloriesNumbers.setText(caloriesRemaining + "");
@@ -188,6 +211,12 @@ public class NutritionTab extends JPanel implements ActionListener{
                     fiberField.setText("");
                     fatsField.setText("");
                     sodiumField.setText("");
+                    
+                    try {
+						JOptionPane.showMessageDialog(null, client.sendMealInfo(calories, protein, carbs, sugar, fiber, fats, sodium));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
                 }
             }
         });   
@@ -246,5 +275,14 @@ public class NutritionTab extends JPanel implements ActionListener{
         }
 
     }
+    
+    public static boolean isInt(String str) { 
+		try {  
+			Integer.parseInt(str);  
+			return true;
+		} catch (NumberFormatException e) {  
+			return false;  
+		}  
+	}
 
 }

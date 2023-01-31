@@ -222,6 +222,22 @@ public class Client implements Runnable {
 		return (serverMessage);
 	}
 	
+	// Tell server to check for a new day
+	public void sendDayCheck() throws IOException {
+		// Send message to server
+		output.println("sendDayCheck" + "$$" + username);
+		output.flush();
+//		String serverMessage = null;
+//		while (true) {
+//			if (input.ready()) {
+//				// Get a response from the server
+//				serverMessage = input.readLine();
+//				break;
+//			}
+//		}
+//		return (serverMessage);
+	}
+	
 	// Get history data from server
 	public String getHistory() throws IOException {
 		// Send message to server
@@ -301,6 +317,38 @@ public class Client implements Runnable {
 		}
 		return (serverMessage);
 	}
+	
+    // Send meal info to server
+ 	public String sendMealInfo(String calories, String protein, String carbs, String sugar, String fiber, String fats, String sodium) throws IOException {
+ 		// Send message to server
+ 		output.println("sendMealInfo" + "$$" + username + "$$" + calories + "$$" + protein + "$$" + carbs + "$$" + sugar + "$$" + fiber + "$$" + fats + "$$" + sodium);
+ 		output.flush();
+ 		String serverMessage = null;
+ 		while (true) {
+ 			if (input.ready()) {
+ 				// Get a response from the server
+ 				serverMessage = input.readLine();
+ 				break;
+ 			}
+ 		}
+ 		return (serverMessage);
+ 	}
+ 	
+	// Get nutrtion tab info from server
+  	public String getNutritionTab() throws IOException {
+  		// Send message to server
+  		output.println("getNutritionTab" + "$$" + username);
+  		output.flush();
+  		String serverMessage = null;
+  		while (true) {
+  			if (input.ready()) {
+  				// Get a response from the server
+  				serverMessage = input.readLine();
+  				break;
+  			}
+  		}
+  		return (serverMessage);
+  	}
 	
 	public String sendTest() throws IOException {
 		output.println("test" + "$$" + username);

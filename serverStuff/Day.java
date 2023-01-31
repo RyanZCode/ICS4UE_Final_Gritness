@@ -14,7 +14,7 @@ public class Day {
 	int totalCarbs;
 	int totalFiber;
 	int totalSugar;
-	int totalFat;
+	int totalFats;
 	int totalSodium;
 	int totalCaloriesBurned;
 	int totalExerciseMinutes;
@@ -23,6 +23,41 @@ public class Day {
 		date = LocalDate.now();
 		workouts = new ArrayList<Workout>();
 		meals = new ArrayList<Meal>();
+		totalCalories = 0;
+		totalProtein = 0;
+		totalCarbs = 0;
+		totalFiber = 0;
+		totalSugar = 0;
+		totalFats = 0;
+		totalSodium = 0;
+	}
+	
+	public void addCalories(int calories) {
+		totalCalories += calories;
+	}
+	
+	public void addProtein(int protein) {
+		totalProtein += protein;
+	}
+	
+	public void addCarbs(int carbs) {
+		totalCarbs += carbs;
+	}
+	
+	public void addSugar(int sugar) {
+		totalSugar += sugar;
+	}
+	
+	public void addFiber(int fiber) {
+		totalFiber += fiber;
+	}
+	
+	public void addFats(int fats) {
+		totalFats += fats;
+	}
+	
+	public void addSodium(int sodium) {
+		totalSodium += sodium;
 	}
 	
 	public void addWorkout(String name) {
@@ -93,12 +128,12 @@ public class Day {
 		this.totalSugar = totalSugar;
 	}
 
-	public int getTotalFat() {
-		return totalFat;
+	public int getTotalFats() {
+		return totalFats;
 	}
 
-	public void setTotalFat(int totalFat) {
-		this.totalFat = totalFat;
+	public void setTotalFats(int totalFat) {
+		this.totalFats = totalFat;
 	}
 
 	public int getTotalSodium() {

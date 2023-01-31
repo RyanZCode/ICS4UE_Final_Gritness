@@ -25,6 +25,35 @@ public class User {
 		this.history = new ArrayList<Day>();
 		this.friends = new ArrayList<String>();
 	}
+	//output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
+
+	public int getCalories() {
+		return history.get(history.size() - 1).getTotalCalories();
+	}
+	
+	public int getProtein() {
+		return history.get(history.size() - 1).getTotalProtein();
+	}
+	
+	public int getCarbs() {
+		return history.get(history.size() - 1).getTotalCarbs();
+	}
+	
+	public int getSugar() {
+		return history.get(history.size() - 1).getTotalSugar();
+	}
+	
+	public int getFiber() {
+		return history.get(history.size() - 1).getTotalFiber();
+	}
+	
+	public int getFats() {
+		return history.get(history.size() - 1).getTotalFats();
+	}
+	
+	public int getSodium() {
+		return history.get(history.size() - 1).getTotalSodium();
+	}
 	
 	public void addDay(Day day) {
 		history.add(day);
@@ -32,6 +61,35 @@ public class User {
     
 	public void addFriend(String friend) {
 		friends.add(friend);
+	}
+	
+	public void addCalories(int calories) {
+		history.get(history.size() - 1).addCalories(calories);
+		System.out.println("new calories is " + history.get(history.size() - 1).getTotalCalories());
+	}
+	
+	public void addProtein(int protein) {
+		history.get(history.size() - 1).addProtein(protein);
+	}
+	
+	public void addCarbs(int carbs) {
+		history.get(history.size() - 1).addCarbs(carbs);
+	}
+	
+	public void addSugar(int sugar) {
+		history.get(history.size() - 1).addSugar(sugar);
+	}
+	
+	public void addFiber(int fiber) {
+		history.get(history.size() - 1).addFiber(fiber);
+	}
+	
+	public void addFats(int fats) {
+		history.get(history.size() - 1).addFats(fats);
+	}
+	
+	public void addSodium(int sodium) {
+		history.get(history.size() - 1).addSodium(sodium);
 	}
 	
     public String getFriendsString() {

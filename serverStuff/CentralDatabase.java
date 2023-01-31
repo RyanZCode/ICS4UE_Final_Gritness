@@ -3,6 +3,7 @@ package gritnessApp;
 //imports for network communication
 import java.io.*;
 import java.net.*;
+import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 
@@ -136,16 +137,17 @@ class CentralDatabase {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							break;
-							
 						}
 						case "workoutTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							break;
 						}
-						case "foodTab": {
+						case "getNutritionTab": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
+							output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
+							output.flush();
 							break;
 						}
 						case "socialTab": {
@@ -228,23 +230,55 @@ class CentralDatabase {
 							output.flush();
 							break;
 						}
-						case "test": {
+						case "sendMealInfo": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
-							Day day = new Day();
-							day.addWorkout("testing");
-							day.setTotalCalories(2000);
-							user.addDay(day);
-							Day day2 = new Day();
-							day2.addWorkout("testing");
-							day2.setTotalCalories(2000);
-							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
-							user.addDay(day2);
-							Day day3 = new Day();
-							day3.addWorkout("testing");
-							day3.setTotalCalories(1000);
-							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
-							user.addDay(day3);
+							user.addCalories(Integer.parseInt(inputData[2]));
+							user.addProtein(Integer.parseInt(inputData[3]));
+							user.addCarbs(Integer.parseInt(inputData[4]));
+							user.addSugar(Integer.parseInt(inputData[5]));
+							user.addFiber(Integer.parseInt(inputData[6]));
+							user.addFats(Integer.parseInt(inputData[7]));
+							user.addSodium(Integer.parseInt(inputData[8]));
+							output.println("Meal added successfully");
+							output.flush();
+						}
+						case "sendDayCheck": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							if (user.getHistory().size() != 0) {
+								if (!user.getHistory().get(user.getHistory().size() - 1).getDate().isEqual(LocalDate.now())) {
+									user.addDay(new Day());
+//									output.println("New day");
+//									output.flush();
+								} else {
+//									output.println("Same day");
+//									output.flush();
+								}
+							} else {
+								user.addDay(new Day());
+//								output.println("New day");
+//								output.flush();
+							}
+							break;
+						}
+						case "test": {
+//							String username = inputData[1];
+//							User user = loginInfo.get(username);
+//							Day day = new Day();
+//							day.addWorkout("testing");
+//							day.setTotalCalories(2000);
+//							user.addDay(day);
+//							Day day2 = new Day();
+//							day2.addWorkout("testing");
+//							day2.setTotalCalories(2000);
+//							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
+//							user.addDay(day2);
+//							Day day3 = new Day();
+//							day3.addWorkout("testing");
+//							day3.setTotalCalories(1000);
+//							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
+//							user.addDay(day3);
 							output.println("Testing");
 							output.flush();
 							break;

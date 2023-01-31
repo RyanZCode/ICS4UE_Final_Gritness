@@ -134,6 +134,12 @@ public class InformationTab extends JPanel implements ActionListener{
 				if (!nameText.isBlank() && !ageText.isBlank() && !heightText.isBlank() 
 						&& !weightText.isBlank() && !calorieText.isBlank()){
 	                
+					try {
+						client.sendDayCheck();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
 					client.sendName(nameText);
 					client.sendAge(Integer.parseInt(ageText));
 					client.sendHeight(Integer.parseInt(heightText));
@@ -170,9 +176,7 @@ public class InformationTab extends JPanel implements ActionListener{
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
-	                
-	                
-	                
+					
 		            Window.layout.show(Window.container, "profile");
 				} else {
 		        	JOptionPane.showMessageDialog(this, "Please fill in all fields");
