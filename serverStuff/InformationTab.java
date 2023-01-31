@@ -1,33 +1,35 @@
 package gritnessApp;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
-import gritnessApp.LoginScreen.GraphicsPanel;
-
+/**
+ * [InformationTab.java]
+ * This tab takes in all of the information
+ * @author Ryan Zhou
+ * @author Justin Zhou
+ * @version 1.0 Jan 24, 2023
+ */
 public class InformationTab extends JPanel implements ActionListener{
 	Client client;
-    private JLabel background, quote, quoteIcon, reminder;
+    private JLabel background, quote, quoteIcon;
     private JTextField ageField, nameField, heightField, weightField, calorieField;
     private JButton login;
     
+    /**
+     * InformationTab
+     * Constructs the information tab
+     * @param client User client
+     */
 	InformationTab(Client client){
+		//draws buttons
 		this.client = client;
 		quote = new JLabel("<html> \"When you hit failure, your workout has just begun.\"<br/>- Ronnie Coleman</html>");
 		quote.setForeground(Color.white);
@@ -71,6 +73,13 @@ public class InformationTab extends JPanel implements ActionListener{
         
     }
 	
+	/**
+	 * newInformationPanel
+	 * Constructs a label 
+	 * @param name Displayed text
+	 * @param y Y coordinate of text
+	 * @return designed label
+	 */
 	public JLabel newInformationPanel(String name, int y) {
 		JLabel label = new JLabel(name);
 		label.setBounds(50, y, Const.MAIN_LENGTH, 50);
@@ -80,6 +89,12 @@ public class InformationTab extends JPanel implements ActionListener{
 		return label;
 	}
 	
+	/**
+	 * newTextField
+	 * Constructs a blank to fill in 
+	 * @param y Y coordinate of box
+	 * @return designed text box
+	 */
 	public JTextField newTextField(int y){
 		JTextField field = new JTextField();
 		field.setBounds(50, y, 250, 25);
@@ -89,22 +104,10 @@ public class InformationTab extends JPanel implements ActionListener{
 		return field;
 	}
 
-    public class GraphicsPanel extends JPanel{
-        public GraphicsPanel() {
-            setFocusable(true);
-            requestFocusInWindow();
-        }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D)g;
-            // Anti-aliasing
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            super.paintComponent(g);
-        }
-        
-    }
-	
-
+	/**
+     * actionPerformed
+     * Records all button clicks
+     */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == login) {
@@ -120,6 +123,7 @@ public class InformationTab extends JPanel implements ActionListener{
 			weightText = weightField.getText();
 			calorieText = calorieField.getText();
 			
+			//input restrictions
 			if (nameText.contains("$")) {
 				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
 			} else if (!isInt(ageText)) {
@@ -140,6 +144,7 @@ public class InformationTab extends JPanel implements ActionListener{
 						e1.printStackTrace();
 					}
 					
+					//converts input
 					client.sendName(nameText);
 					client.sendAge(Integer.parseInt(ageText));
 					client.sendHeight(Integer.parseInt(heightText));
@@ -150,6 +155,7 @@ public class InformationTab extends JPanel implements ActionListener{
 					SocialTab social;
 					NutritionTab nutrition;
 					
+					//navigation bar
 					try {
 						profile = new ProfileTab(client);
 						Window.container.add(profile, "profile");
@@ -185,6 +191,12 @@ public class InformationTab extends JPanel implements ActionListener{
         }		
 	}
 	
+	/**
+     * isInt
+     * Check if it is an integer
+     * @param str String of value
+     * @return boolean whether or not it is an integer
+     */
 	public static boolean isInt(String str) { 
 		try {  
 			Integer.parseInt(str);  
@@ -194,6 +206,12 @@ public class InformationTab extends JPanel implements ActionListener{
 		}  
 	}
 	
+	/**
+     * isDouble
+     * Check if it is a double
+     * @param str String of value
+     * @return boolean whether or not it is a double
+     */
 	public static boolean isDouble(String str) { 
 		try {  
 			Double.parseDouble(str);  

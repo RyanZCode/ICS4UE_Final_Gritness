@@ -1,26 +1,51 @@
 package gritnessApp;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+/**
+ * [LoginScreen.java]
+ * The first screen the user sees, gives them the option to log
+ * into their account or create a new one
+ * @author Nathan Kong
+ * @author Justin Zhou
+ * @author Ryan Zhou
+ * @version 1.0 Jan 24, 2023
+ */
 public class LoginScreen extends JPanel implements ActionListener{
     private JLabel title, text, username, password, account, background;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JCheckBox showPassword;
     private JButton login, register;
-    private GraphicsPanel canvas;
     Client client;
 
+    /**
+     * LoginScreen
+     * Creates the login screen for 
+     * the user to login or register a new account
+     * @param client User client
+     */
     public LoginScreen(Client client){
     	this.client = client;
+    	
+    	//draw labels and buttons
         title = new JLabel("WELCOME TO GRITNESS.", SwingConstants.CENTER);
         title.setForeground(Color.white);
         title.setFont(Const.COVER_FONT);
         title.setBounds(0, 100, Const.MAIN_LENGTH, 75);
+        
         text = new JLabel("SIGN IN:", SwingConstants.CENTER);
         text.setBounds(0, 200, Const.MAIN_LENGTH, 50);
         text.setFont(new Font("Arial", Font.BOLD, 24));
@@ -74,27 +99,16 @@ public class LoginScreen extends JPanel implements ActionListener{
         this.setVisible(true);
     }
 
-    public class GraphicsPanel extends JPanel{
-        public GraphicsPanel() {
-            setFocusable(true);
-            requestFocusInWindow();
-        }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D)g;
-            
-            // Anti-aliasing
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            super.paintComponent(g);
-        }
-        
-    }
-
+    /**
+     * actionPerformed
+     * Records mouse clicks
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
         	String username = usernameField.getText();
-        	String password = passwordField.getText();
+        	@SuppressWarnings("deprecation")
+			String password = passwordField.getText();
             
         	if (username.contains("$") ||  password.contains("$")) {
 				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
@@ -108,6 +122,7 @@ public class LoginScreen extends JPanel implements ActionListener{
 	    				e1.printStackTrace();
 	    			}
 	
+	    			//successful login
 	                if (serverMessage.equals("success")) {
 	                	client.setUsername(username);
 	                	
@@ -156,14 +171,6 @@ public class LoginScreen extends JPanel implements ActionListener{
 	        		JOptionPane.showMessageDialog(new JFrame(), "Please fill in all fields");
 	            }
         	}
-        }
-        else if (e.getSource() == showPassword) {
-            if(showPassword.isSelected()) {
-                passwordField.setEchoChar((char) 0);
-            }
-            else {
-                passwordField.setEchoChar('*');
-            }
         }
         else if (e.getSource() == register) {
             // Change screens, load in new password and field boxes

@@ -1,4 +1,5 @@
 package gritnessApp;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -6,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,13 +15,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 /**
  * [ProfileTab.java]
  * The profile tab of the application
  * @author Jason Wu
  * @author Ryan Zhou
  * @author Justin Zhou
- * @version 21, January 2023
+ * @version 1.0 Jan 24, 2023
  */
 public class ProfileTab extends JPanel implements ActionListener  {
     Client client;
@@ -70,6 +73,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         this.add(weightField);
         this.add(ageField);
         
+        //adding blanks to fill in
         BMRMessage = new Object[]{
             "Height(cm): ", heightField,
                 "Weight(kg): ", weightField,
@@ -87,16 +91,16 @@ public class ProfileTab extends JPanel implements ActionListener  {
     
     /**
      * importProfileData
-     * Integrates profile data from information tab
+     * Integrates profile data from other tabs
      * @throws IOException
      */
     public void importProfileData() throws IOException {
+    	//integrates workout history and nutrition history
         barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
         lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
         
         String[] split = client.getProfileInfo().split("\\$+");
-        
-        nameButton.setText("Name: " + split[0]);
+        nameButton.setText("" + split[0]);
         nameButton.setIcon(Const.PROFILE_PIC);
         nameButton.setSize(nameButton.getPreferredSize());
         
@@ -118,7 +122,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     /**
      * getGraphData
      * Converts data into a graph
-     * @param data Graph data
+     * @param data Data array
      * @return Graphed data
      */
     public int[] getGraphData(String data) {
@@ -126,6 +130,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
             int[] dataArr = {0, 0, 0, 0, 0, 0, 0};
             return dataArr;
         }
+        //splits data into days
         String[] dataArr = data.split("\\$+");
         int[] graphData = new int[7];
         for(int i = 0; i < dataArr.length; i += 2) {
@@ -191,13 +196,15 @@ public class ProfileTab extends JPanel implements ActionListener  {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+    	
+    	//navigation bar
         if(e.getSource() == profile) {
-        	try {
+            Window.layout.show(Window.container, "profile");
+            try {
 				importProfileData();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-            Window.layout.show(Window.container, "profile");
         }
         
         else if(e.getSource() == history) {
@@ -219,6 +226,8 @@ public class ProfileTab extends JPanel implements ActionListener  {
             Window.layout.show(Window.container, "social");
             focused = false;
         }
+        
+        //gives the user the option to edit their information
         else if(e.getSource() == nameButton) {
             String name = JOptionPane.showInputDialog(window, "Enter name: ", null);
             if (name != null) {
