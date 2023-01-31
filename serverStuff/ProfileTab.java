@@ -100,7 +100,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
         
         String[] split = client.getProfileInfo().split("\\$+");
-        nameButton.setText("" + split[0]);
+        nameButton.setText(split[0]);
         nameButton.setIcon(Const.PROFILE_PIC);
         nameButton.setSize(nameButton.getPreferredSize());
         
@@ -234,7 +234,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
                 if (name.contains("$")) {
                     JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
                 } else if (!name.isBlank()) {
-                    nameButton.setText("Name: " + name);
+                    nameButton.setText(name);
                     nameButton.setSize(nameButton.getPreferredSize());
                     client.sendName(name);
                 } else {
