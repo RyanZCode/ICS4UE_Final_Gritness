@@ -2,14 +2,7 @@ package gritnessApp;
 
 import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 /**
  * [Window.java]
  * Window constructor class for application
