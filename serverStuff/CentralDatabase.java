@@ -221,6 +221,13 @@ class CentralDatabase {
 							}
 							break;
 						}
+						case "getCalorieGoal": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							output.println(user.getCalorieGoal());
+							output.flush();
+							break;
+						}
 						case "test": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);

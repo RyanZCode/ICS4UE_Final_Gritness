@@ -286,6 +286,22 @@ public class Client implements Runnable {
 		return (serverMessage);
 	}
 	
+	// Get calorie goal from server
+	public String getCalorieGoal() throws IOException {
+		// Send message to server
+		output.println("getCalorieGoal" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
 	public String sendTest() throws IOException {
 		output.println("test" + "$$" + username);
 		output.flush();

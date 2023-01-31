@@ -111,31 +111,36 @@ public class LoginScreen extends JPanel implements ActionListener{
 	                if (serverMessage.equals("success")) {
 	                	client.setUsername(username);
 	                	
-	                	ProfileTab profile;
-	                	try {
-	    					profile = new ProfileTab(client);
-	    					Window.container.add(profile, "profile");
-	    				} catch (IOException e1) {
-	    					e1.printStackTrace();
-	    				}
-	    				
-	                    HistoryTab history = new HistoryTab();
-	                    WorkoutTab workout = new WorkoutTab();
-	                    NutritionTab nutrition = new NutritionTab();
-	                    
-	                    SocialTab social;
+						ProfileTab profile;
+						SocialTab social;
+						NutritionTab nutrition;
+						
+						try {
+							profile = new ProfileTab(client);
+							Window.container.add(profile, "profile");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						
+		                HistoryTab history = new HistoryTab();
+		                Window.container.add(history, "history");
+		                
+						try {
+							nutrition = new NutritionTab(client);
+							Window.container.add(nutrition, "nutrition");
+						} catch (IOException e2) {
+							e2.printStackTrace();
+						}
+						
+						WorkoutTab workout = new WorkoutTab();
+		                Window.container.add(workout, "workout");
+		                
 						try {
 							social = new SocialTab(client);
 							Window.container.add(social, "social");
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-	                    
-	                    Window.container.add(history, "history");
-	                    Window.container.add(workout, "workout");
-	                    Window.container.add(nutrition, "nutrition");
-	                    
 	                	
 	                	Window.layout.show(Window.container, "profile");
 	                } else {
@@ -159,9 +164,4 @@ public class LoginScreen extends JPanel implements ActionListener{
             Window.layout.show(Window.container, "signup");
         }
     }
-    
-//    public void windowClosing(WindowEvent evt) {
-//	   Frame frame = (Frame) evt.getSource();
-//	   System.out.println("Closing = "+frame.getTitle());
-//    }
 }

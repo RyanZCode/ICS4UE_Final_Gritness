@@ -142,6 +142,8 @@ public class InformationTab extends JPanel implements ActionListener{
 					
 					ProfileTab profile;
 					SocialTab social;
+					NutritionTab nutrition;
+					
 					try {
 						profile = new ProfileTab(client);
 						Window.container.add(profile, "profile");
@@ -150,11 +152,17 @@ public class InformationTab extends JPanel implements ActionListener{
 					}
 					
 	                HistoryTab history = new HistoryTab();
-	                WorkoutTab workout = new WorkoutTab();
-	                NutritionTab nutrition = new NutritionTab();
 	                Window.container.add(history, "history");
+	                
+					try {
+						nutrition = new NutritionTab(client);
+						Window.container.add(nutrition, "nutrition");
+					} catch (IOException e2) {
+						e2.printStackTrace();
+					}
+					
+					WorkoutTab workout = new WorkoutTab();
 	                Window.container.add(workout, "workout");
-	                Window.container.add(nutrition, "nutrition");
 	                
 					try {
 						social = new SocialTab(client);
