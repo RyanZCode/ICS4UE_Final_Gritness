@@ -108,7 +108,7 @@ public class Client implements Runnable {
 	// Get profile data from server
 	public String getProfileInfo() throws IOException {
 		// Send message to server
-		output.println("profileTab" + "$$" + username);
+		output.println("getProfileInfo" + "$$" + username);
 		output.flush();
 		String serverMessage = null;
 		while (true) {
@@ -124,7 +124,23 @@ public class Client implements Runnable {
 	// Get profile data from server
 	public String getProfileCalHistory(String username) throws IOException {
 		// Send message to server
-		output.println("profileCalHistory" + "$$" + username);
+		output.println("getProfileCalHistory" + "$$" + username);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Get profile data from server
+	public String getProfileWorkoutNumHistory(String username) throws IOException {
+		// Send message to server
+		output.println("getProfileWorkoutNumHistory" + "$$" + username);
 		output.flush();
 		String serverMessage = null;
 		while (true) {
@@ -140,22 +156,6 @@ public class Client implements Runnable {
 	// Get username
 	public String getUsername() {
 		return this.username;
-	}
-	
-	// Get profile data from server
-	public String getProfileWorkoutNumHistory(String username) throws IOException {
-		// Send message to server
-		output.println("profileWorkoutNum" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
 	}
 	
 	// Get display name from server
@@ -210,6 +210,22 @@ public class Client implements Runnable {
 	public String sendFriendRequest(String friendUsername) throws IOException {
 		// Send message to server
 		output.println("sendFriendRequest" + "$$" + username + "$$" + friendUsername);
+		output.flush();
+		String serverMessage = null;
+		while (true) {
+			if (input.ready()) {
+				// Get a response from the server
+				serverMessage = input.readLine();
+				break;
+			}
+		}
+		return (serverMessage);
+	}
+	
+	// Send workout data to server
+	public String sendWorkoutData(String workoutName, int elapsedTime) throws IOException {
+		// Send message to server
+		output.println("sendWorkoutData" + "$$" + username + "$$" + workoutName + "$$" + elapsedTime);
 		output.flush();
 		String serverMessage = null;
 		while (true) {

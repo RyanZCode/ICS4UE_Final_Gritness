@@ -8,8 +8,6 @@ import java.time.Period;
 import java.util.*;
 
 /**
- * CentralDatabase is the server of the app
- * NEED TO CLOSE THREADS, CPU LEAKAGE
  * 
  * @author Ryan Zhou
  * @version Jan 2023
@@ -77,13 +75,21 @@ class CentralDatabase {
 						dataQ.add(data);
 					}
 					if (!dataQ.isEmpty()) {
+						
 						data = dataQ.poll();
 						String[] inputData = data.split("\\$+");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
+						
+						if (inputData[0].equals("stop")) {
+							input.close();
+			                output.close();
+							break;
+						}
+						
+						String username = inputData[1];
 						switch (inputType) {
 						case "signup": {
-							String username = inputData[1];
 							String password = inputData[2];
 							if (loginInfo.containsKey(username)) {
 								output.println("Username Taken");
@@ -96,7 +102,6 @@ class CentralDatabase {
 							break;
 						}
 						case "login": {
-							String username = inputData[1];
 							String password = inputData[2];
 							User user = loginInfo.get(username);
 							if (user == null) {
@@ -111,110 +116,89 @@ class CentralDatabase {
 							}
 							break;
 						}
-						case "profileTab": {
-							String username = inputData[1];
+						case "getProfileInfo": {
 							User user = loginInfo.get(username);
 							output.println(user.getDisplayName() + "$$" + user.getAge()  + "$$" +  user.getWeight()  + "$$" +  user.getHeight());
 							output.flush();
 							break;
 						}
-						case "profileCalHistory": {
-							String username = inputData[1];
+						case "getProfileCalHistory": {
 							User user = loginInfo.get(username);
 							output.println(user.getCalorieHistory());
 							System.out.println(user.getCalorieHistory());
 							output.flush();
 							break;
 						}
-						case "profileWorkoutNum": {
-							String username = inputData[1];
+						case "getProfileWorkoutNumHistory": {
 							User user = loginInfo.get(username);
 							output.println(user.getWorkoutNumberHistory());
 							output.flush();
 							break;
 						}
-						case "historyTab": {
-							String username = inputData[1];
-							User user = loginInfo.get(username);
-							break;
-						}
-						case "workoutTab": {
-							String username = inputData[1];
-							User user = loginInfo.get(username);
-							break;
-						}
 						case "getNutritionTab": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
 							output.flush();
 							break;
 						}
 						case "socialTab": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getFriendsString());
 							output.flush();
 							break;
 						}
 						case "sendAge": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setAge(Integer.parseInt(inputData[2]));
 							break;
 						}
 						case "sendWeight": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setWeight(Double.parseDouble(inputData[2]));
 							break;
 						}
 						case "sendHeight": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setHeight(Integer.parseInt(inputData[2]));
 							break;
 						}
 						case "sendName": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setDisplayName(inputData[2]);
 							break;
 						} 
 						case "sendCalorieGoal": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setCalorieGoal(Integer.parseInt(inputData[2]));
 							break;
 						}
 						case "getDisplayName":{
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getDisplayName());
 							output.flush();
 							break;
 						}
 						case "getFriendUsernames" :{
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getFriendsString());
 							output.flush();
 							break;
 						}
 						case "getFriendData":{
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getDisplayName() + "$$" + user.getAge() + "$$" + user.getWeight() + "$$" + user.getHeight() + "$$" + user.getBMI() + "$$" + user.getBMR());
 							output.flush();
 							break;
 						}
 						case "sendFriendRequest":{
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							User friend = null;
 							friend = loginInfo.get(inputData[2]);
 							if (friend == null) {
 								output.println("Username not found");
+								output.flush();
+							} else if (user.getFriendsString().contains(inputData[2])) {
+								output.println("Friend already added");
 								output.flush();
 							} else {
 								user.addFriend(inputData[2]);
@@ -224,14 +208,12 @@ class CentralDatabase {
 							break;
 						}
 						case "getCalorieGoal": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							output.println(user.getCalorieGoal());
 							output.flush();
 							break;
 						}
 						case "sendMealInfo": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.addCalories(Integer.parseInt(inputData[2]));
 							user.addProtein(Integer.parseInt(inputData[3]));
@@ -242,9 +224,15 @@ class CentralDatabase {
 							user.addSodium(Integer.parseInt(inputData[8]));
 							output.println("Meal added successfully");
 							output.flush();
+							break;
+						}
+						case "sendWorkoutData": {
+							User user = loginInfo.get(username);
+							output.println("Workout complete!");
+							output.flush();
+							break;
 						}
 						case "sendDayCheck": {
-							String username = inputData[1];
 							User user = loginInfo.get(username);
 							if (user.getHistory().size() != 0) {
 								if (!user.getHistory().get(user.getHistory().size() - 1).getDate().isEqual(LocalDate.now())) {
@@ -281,11 +269,6 @@ class CentralDatabase {
 //							user.addDay(day3);
 							output.println("Testing");
 							output.flush();
-							break;
-						}
-						case "stop":{
-							input.close();
-			                output.close();
 							break;
 						}
 						default:
