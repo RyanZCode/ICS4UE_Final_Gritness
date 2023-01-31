@@ -61,12 +61,12 @@ public class NutritionTab extends JPanel implements ActionListener{
         caloriesTitle.setBounds(420, 30, 200, 50);
         this.add(caloriesTitle);
         
-        operators = new JLabel("-                               +                                  =");
+        operators = new JLabel("-                            +                         =");
         operators.setFont(Const.TEXT_FONT);
         operators.setBounds(280, 120, 800, 50);
         this.add(operators);
 
-        caloriesText = new JLabel("Goal                           Food                      Exercise                  Remaining");
+        caloriesText = new JLabel("Goal                       Food                  Exercise            Remaining");
         caloriesText.setFont(Const.TEXT_FONT);
         caloriesText.setBounds(160, 170, 800, 50);
         this.add(caloriesText);

@@ -13,7 +13,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class Client implements Runnable {
-	final String LOCAL_HOST = "192.168.0.32";
+	final String LOCAL_HOST = "localhost";
 	final int PORT = 10111;
 	Socket clientSocket;
 	PrintWriter output;
@@ -78,7 +78,7 @@ public class Client implements Runnable {
 	}
 	
 	// Sends user weight to server
-	public void sendWeight(int weight) {
+	public void sendWeight(double weight) {
 		// Send message to server
 		output.println("sendWeight" + "$$" + username + "$$" + weight);
 		output.flush();
@@ -92,11 +92,18 @@ public class Client implements Runnable {
 	}
 	
 	// Sends user display name to server
-		public void sendName(String name) {
-			// Send message to server
-			output.println("sendName" + "$$" + username + "$$" + name);
-			output.flush();
-		}
+	public void sendName(String name) {
+		// Send message to server
+		output.println("sendName" + "$$" + username + "$$" + name);
+		output.flush();
+	}
+	
+	// Sends user calorie goal to server
+	public void sendCalorieGoal(int calorieGoal) {
+		// Send message to server
+		output.println("sendCalorieGoal" + "$$" + username + "$$" + calorieGoal);
+		output.flush();
+	}
 	
 	// Get profile data from server
 	public String getProfileInfo() throws IOException {

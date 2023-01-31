@@ -10,7 +10,7 @@ public class User {
 	String username;
 	String password;
 	double weight;
-	String goal;
+	int calorieGoal;
 	ArrayList<Workout> userWorkoutTemplates;
 	ArrayList<Meal> userMealTemplates;
 	ArrayList<Day> history;
@@ -59,7 +59,6 @@ public class User {
 		}
 		return calHistory;
 	}
-
 	
 	public String getWorkoutNumberHistory() {		
 		String workoutHistory = "";
@@ -81,14 +80,6 @@ public class User {
 			}
 		}
 		return workoutHistory;
-	}
-	
-	public void updateWeight(double weight) {
-		this.weight = weight;
-	}
-	
-	public void updateGoal(String goal) {
-		this.goal = goal;
 	}
 	
 	public int getAge() {
@@ -139,12 +130,12 @@ public class User {
 		this.weight = weight;
 	}
 
-	public String getGoal() {
-		return goal;
+	public int getCalorieGoal() {
+		return calorieGoal;
 	}
 
-	public void setGoal(String goal) {
-		this.goal = goal;
+	public void setCalorieGoal(int calorieGoal) {
+		this.calorieGoal = calorieGoal;
 	}
 
 	public ArrayList<Workout> getUserWorkoutTemplates() {

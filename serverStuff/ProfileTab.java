@@ -32,12 +32,12 @@ public class ProfileTab extends JPanel implements ActionListener  {
         BMIButton = newProfileButton("BMI:", 75,425,145);
         BMRButton = newProfileButton("BMR: ", 355, 425, 145);
         
-        profile = newNavBarButton("Profile", 0, Const.PROFILE_ICON);
-        profile.setBackground(Const.NAV_BAR_COLOUR.brighter());
-        history = newNavBarButton("History", 250, Const.HISTORY_ICON);
-        workout = newNavBarButton("Workout", 500, Const.WORKOUT_ICON);
-        food = newNavBarButton("Food", 750, Const.FOOD_ICON);   
-        social = newNavBarButton("Social", 1000 ,Const.SOCIAL_ICON);
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        profile.setBackground(Const.BUTTON_COLOUR2.brighter());
         
         heightField  = new JTextField();
         weightField  = new JTextField();
@@ -75,7 +75,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	
     	String[] split = info.split("\\$+");
     	System.out.println(Arrays.toString(split));
-    	// displayname, age, weight, height
+    	
     	nameButton = newProfileButton("Name: " + split[0], 80,35,250);
     	nameButton.setSize(nameButton.getPreferredSize());
     	
@@ -171,43 +171,60 @@ public class ProfileTab extends JPanel implements ActionListener  {
         }
         else if(e.getSource() == nameButton) {
         	String name = JOptionPane.showInputDialog(window, "Enter name: ", null);
-        	if(name != null) {
-        		nameButton.setText("Name: " + name);
-        		nameButton.setSize(nameButton.getPreferredSize());
-        		client.sendName(name);
+        	if (name != null) {
+	        	if (name.contains("$")) {
+					JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+	        	} else if (!name.isBlank()) {
+	        		nameButton.setText("Name: " + name);
+	        		nameButton.setSize(nameButton.getPreferredSize());
+	        		client.sendName(name);
+	        	} else {
+	        		JOptionPane.showMessageDialog(this, "Name must contain characters");
+	        	}
         	}
         }
         else if(e.getSource() == ageButton) {
         	String age = JOptionPane.showInputDialog(window,
                     "Enter age: ", null);
-        	if(age != null) {
-        		ageButton.setText("Age: " + age);
-        		ageField.setText(age);
-        		ageButton.setSize(ageButton.getPreferredSize());
-        		client.sendAge(Integer.parseInt(age));
+        	if (age != null) {
+	        	if (!isInt(age)) {
+					JOptionPane.showMessageDialog(this, "Age must be an integer");
+	        	} else {
+	        		ageButton.setText("Age: " + age);
+	        		ageField.setText(age);
+	        		ageButton.setSize(ageButton.getPreferredSize());
+	        		client.sendAge(Integer.parseInt(age));
+	        	}
+	        	addBMRAndBMICheck();
         	}
-        	addBMRAndBMICheck();
-        	
         }
         else if(e.getSource() == heightButton) {
         	String height = JOptionPane.showInputDialog(window, "Enter height (cm): ", JOptionPane.OK_CANCEL_OPTION);
-        	if(height != null) {
-        		heightButton.setText("Height: " + height +  " cm");	
-        		heightField.setText(height);
-        		heightButton.setSize(heightButton.getPreferredSize());
-        		client.sendHeight(Integer.parseInt(height));
+        	if (height != null) {
+	        	if (!isInt(height)) {
+					JOptionPane.showMessageDialog(this, "Height must be an integer");
+	        	} else {
+	        		heightButton.setText("Height: " + height +  " cm");	
+	        		heightField.setText(height);
+	        		heightButton.setSize(heightButton.getPreferredSize());
+	        		client.sendHeight(Integer.parseInt(height));
+	        	}
+	        	addBMRAndBMICheck();
         	}
-        	addBMRAndBMICheck();
         }
         else if(e.getSource() == weightButton) {
         	String weight = JOptionPane.showInputDialog(window, "Enter weight(kg): ", JOptionPane.OK_CANCEL_OPTION);
-        	if(weight != null) {
-        		weightButton.setText("Weight: " + weight + " kg");
-        		weightField.setText(weight);
-        		weightButton.setSize(weightButton.getPreferredSize());
-        		client.sendWeight(Integer.parseInt(weight));
+        	if (weight != null) {
+	        	if (!isDouble(weight)) {
+					JOptionPane.showMessageDialog(this, "Weight must be an integer");
+	        	} else {
+	        		weightButton.setText("Weight: " + weight + " kg");
+	        		weightField.setText(weight);
+	        		weightButton.setSize(weightButton.getPreferredSize());
+	        		client.sendWeight(Double.parseDouble(weight));
+	        	}
+	        	addBMRAndBMICheck();
         	}
-        	addBMRAndBMICheck();
         }
     }
     public void addBMRAndBMICheck() {
@@ -254,10 +271,28 @@ public class ProfileTab extends JPanel implements ActionListener  {
     	button.setIcon(icon);
     	
     	button.setFont(Const.BUTTON_FONT);
-    	button.setBounds(x, 570, 270, 125);
+    	button.setBounds(x, 570, 256, 125);
     	button.setHorizontalTextPosition(JButton.CENTER);
     	button.setVerticalTextPosition(JButton.BOTTOM);
     	this.add(button);
     	return button;
     }
+    
+	public static boolean isInt(String str) { 
+		try {  
+			Integer.parseInt(str);  
+			return true;
+		} catch (NumberFormatException e) {  
+			return false;  
+		}  
+	}
+	
+	public static boolean isDouble(String str) { 
+		try {  
+			Double.parseDouble(str);  
+			return true;
+		} catch (NumberFormatException e) {  
+			return false;  
+		}  
+	}
 }

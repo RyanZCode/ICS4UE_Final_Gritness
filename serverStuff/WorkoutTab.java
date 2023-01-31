@@ -44,11 +44,12 @@ public class WorkoutTab extends JPanel implements ActionListener{
         createWorkout.setForeground(Color.white);
         createWorkout.setFocusable(false);
 
-        profile =  newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
-        history =  newNavBarButton ("History", 250, Const.HISTORY_ICON);
-        workout =  newNavBarButton ("Workout", 500, Const.WORKOUT_ICON);
-        food =  newNavBarButton ("Food", 750, Const.FOOD_ICON);
-        social =  newNavBarButton ("Social", 1000, Const.SOCIAL_ICON);
+        profile = newNavBarButton ("Profile", 0, Const.PROFILE_ICON);
+        history = newNavBarButton ("History", 256, Const.HISTORY_ICON);
+        workout = newNavBarButton ("Workout", 512, Const.WORKOUT_ICON);
+        food = newNavBarButton ("Food", 768, Const.FOOD_ICON);
+        social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
+        workout.setBackground(Const.BUTTON_COLOUR2.brighter());
 
         
         this.add(profile);
@@ -81,7 +82,7 @@ public class WorkoutTab extends JPanel implements ActionListener{
         button.addActionListener(this);
         button.setIcon(icon);
         button.setFont(Const.BUTTON_FONT);
-        button.setBounds(x, 570, 270, 125);
+        button.setBounds(x, 570, 256, 125);
         button.setHorizontalTextPosition(JButton.CENTER);
         button.setVerticalTextPosition(JButton.BOTTOM);
         this.add(button);

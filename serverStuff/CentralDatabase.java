@@ -79,7 +79,6 @@ class CentralDatabase {
 						String[] inputData = data.split("\\$+");
 						System.out.println(Arrays.toString(inputData));
 						String inputType = inputData[0];
-						System.out.println("type: " + inputType);
 						switch (inputType) {
 						case "signup": {
 							String username = inputData[1];
@@ -159,28 +158,29 @@ class CentralDatabase {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setAge(Integer.parseInt(inputData[2]));
-							System.out.println("age is " + user.getAge());
 							break;
 						}
 						case "sendWeight": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setWeight(Double.parseDouble(inputData[2]));
-							System.out.println("weight is " + user.getWeight());
 							break;
 						}
 						case "sendHeight": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setHeight(Integer.parseInt(inputData[2]));
-							System.out.println("height is " + user.getHeight());
 							break;
 						}
 						case "sendName": {
 							String username = inputData[1];
 							User user = loginInfo.get(username);
 							user.setDisplayName(inputData[2]);
-							System.out.println("name is " + user.getDisplayName());
+							break;
+						} case "sendCalorieGoal": {
+							String username = inputData[1];
+							User user = loginInfo.get(username);
+							user.setCalorieGoal(Integer.parseInt(inputData[2]));
 							break;
 						}
 						case "test": {

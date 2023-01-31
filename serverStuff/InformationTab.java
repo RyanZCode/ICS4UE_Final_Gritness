@@ -120,44 +120,67 @@ public class InformationTab extends JPanel implements ActionListener{
 			weightText = weightField.getText();
 			calorieText = calorieField.getText();
 			
-			if(!nameText.equalsIgnoreCase("") && !ageText.equalsIgnoreCase("") && !heightText.equalsIgnoreCase("") 
-					&& !weightText.equalsIgnoreCase("") && !calorieText.equalsIgnoreCase("")){
-                
-				client.sendName(nameText);
-				client.sendAge(Integer.parseInt(ageText));
-				client.sendHeight(Integer.parseInt(heightText));
-				client.sendWeight(Integer.parseInt(weightText));
-			//	client.sendCalorieGoal
-				
-				ProfileTab profile;
-                
-				try {
-					profile = new ProfileTab(client);
-					Window.container.add(profile, "profile");
+			if (nameText.contains("$")) {
+				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+			} else if (!isInt(ageText)) {
+				JOptionPane.showMessageDialog(this, "Age must be an integer");
+			} else if (!isInt(heightText)) {
+				JOptionPane.showMessageDialog(this, "Height must be an integer");
+			} else if (!isDouble(weightText)) {
+				JOptionPane.showMessageDialog(this, "Weight must be a number");
+			} else if (!isInt(calorieText)) {
+				JOptionPane.showMessageDialog(this, "Calorie goal must be an integer");
+			} else {
+				if (!nameText.isBlank() && !ageText.isBlank() && !heightText.isBlank() 
+						&& !weightText.isBlank() && !calorieText.isBlank()){
+	                
+					client.sendName(nameText);
+					client.sendAge(Integer.parseInt(ageText));
+					client.sendHeight(Integer.parseInt(heightText));
+					client.sendWeight(Double.parseDouble(weightText));
+					client.sendCalorieGoal(Integer.parseInt(calorieText));
 					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-                HistoryTab history = new HistoryTab();
-                WorkoutTab workout = new WorkoutTab();
-                NutritionTab nutrition = new NutritionTab();
-                SocialTab social = new SocialTab();
-                
-                Window.container.add(history, "history");
-                Window.container.add(workout, "workout");
-                Window.container.add(nutrition, "nutrition");
-                Window.container.add(social, "social");
-	            Window.layout.show(Window.container, "profile");
+					ProfileTab profile;
+	                
+					try {
+						profile = new ProfileTab(client);
+						Window.container.add(profile, "profile");
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+	                HistoryTab history = new HistoryTab();
+	                WorkoutTab workout = new WorkoutTab();
+	                NutritionTab nutrition = new NutritionTab();
+	                SocialTab social = new SocialTab();
+	                
+	                Window.container.add(history, "history");
+	                Window.container.add(workout, "workout");
+	                Window.container.add(nutrition, "nutrition");
+	                Window.container.add(social, "social");
+		            Window.layout.show(Window.container, "profile");
+				} else {
+		        	JOptionPane.showMessageDialog(this, "Please fill in all fields");
+		        }
 			}
-	        else {
-	        	JOptionPane.showMessageDialog(this, "Please fill in the remaining blanks");
-	        }
-
-        }
-		// TODO Auto-generated method stub
-		
+        }		
 	}
-
+	
+	public static boolean isInt(String str) { 
+		try {  
+			Integer.parseInt(str);  
+			return true;
+		} catch (NumberFormatException e) {  
+			return false;  
+		}  
+	}
+	
+	public static boolean isDouble(String str) { 
+		try {  
+			Double.parseDouble(str);  
+			return true;
+		} catch (NumberFormatException e) {  
+			return false;  
+		}  
+	}
 }

@@ -26,7 +26,7 @@ public class Const {
     public static final ImageIcon QUOTE_ICON = new ImageIcon("C:\\\\Users\\\\ryanz\\\\OneDrive\\\\Documents\\\\GitHub\\\\ICS4UE_Final_Gritness\\\\client\\\\icons\\\\quote.png");
     public static final ImageIcon FOOD_ICON = new ImageIcon("C:\\\\Users\\\\ryanz\\\\OneDrive\\\\Documents\\\\GitHub\\\\ICS4UE_Final_Gritness\\\\client\\\\icons\\\\food.png");
     public static final ImageIcon SOCIAL_ICON = new ImageIcon("C:\\\\Users\\\\ryanz\\\\OneDrive\\\\Documents\\\\GitHub\\\\ICS4UE_Final_Gritness\\\\client\\\\icons\\\\social.png");
-    public static final Font SMALLER_FONT = new Font("Calibri", Font.PLAIN, 18);
+    public static final Font SMALLER_FONT = new Font("Bahnschrift", Font.PLAIN, 16);
     public static final Font BUTTON_FONT = new Font("Bahnschrift", Font.PLAIN, 35);
     public static final Font BUTTON_FONT2 = new Font("Bahnschrift", Font.PLAIN, 25);
     public static final Font TEXT_FONT = new Font("Bahnschrift", Font.PLAIN, 25);

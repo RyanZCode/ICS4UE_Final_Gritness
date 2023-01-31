@@ -17,9 +17,6 @@ public class SignUpTab extends JPanel implements ActionListener{
     private JButton signup;
     private GraphicsPanel canvas;  
     private JTextArea textArea = new JTextArea();
-    private boolean loggedIn;
-    private String usernameEntered;
-    private String passwordEntered;
     Client client;
     
     SignUpTab(Client client){
@@ -54,18 +51,12 @@ public class SignUpTab extends JPanel implements ActionListener{
         passwordField = new JPasswordField();
         passwordField.setBounds(570, 280, 150, 30);
 
-//        showPassword = new JCheckBox("Show password");
-
         signup = new JButton("Create Account");
         signup.addActionListener(this);
         signup.setBounds(570, 340, 150, 30);
         signup.setBackground(Color.WHITE);
         signup.setFocusable(false);
-        signup.setBorderPainted(false);
-//        showPassword.addActionListener(this);
-        
-        //passwordField.setEchoChar('â—�');
-//        showPassword.setBounds(590, 310, 300, 30);        
+        signup.setBorderPainted(false);     
 
         this.add(title);
         this.add(text);
@@ -74,14 +65,10 @@ public class SignUpTab extends JPanel implements ActionListener{
         this.add(account);
         this.add(usernameField);
         this.add(passwordField);
-//        this.add(showPassword);
         this.add(signup);
         this.add(background);
         
-        this.loggedIn = false;
-        
         this.setLayout(null);
-//        window.repaint();
         this.setVisible(true);
     }
 
@@ -99,28 +86,31 @@ public class SignUpTab extends JPanel implements ActionListener{
 	@Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == signup) {
-        	String pwd = new String(passwordField.getPassword());
-        	setEnteredUsername(usernameField.getText());
-        	setEnteredPassword(pwd);
-        	this.loggedIn = true;
-        	//System.out.println(usernameField.getText());
-        	//System.out.println(new String(passwordField.getPassword()));
+        	String username = usernameField.getText();
+        	String password = passwordField.getText();
         	
-        	// Send sign up data to server, receive message back
-        	String serverMessage = null;
-			try {
-				serverMessage = client.sendSignUp(usernameField.getText(), new String(passwordField.getPassword()));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-            if (serverMessage.equals("success")) {
-            	client.setUsername(usernameField.getText());                
-            	Window.layout.show(Window.container, "information");
-            } else {
-            	JOptionPane.showMessageDialog(new JFrame(), serverMessage);
-            }
+        	if (username.contains("$") ||  password.contains("$")) {
+				JOptionPane.showMessageDialog(this, "The use of the $ character is not permitted");
+        	} else {
+	        	// Send sign up data to server, receive message back
+	        	if (!username.isBlank() && !password.isBlank()) {
+	        		String serverMessage = null;
+	        		try {
+	    				serverMessage = client.sendSignUp(username, password);
+	    			} catch (IOException e1) {
+	    				e1.printStackTrace();
+	    			}
+	
+	                if (serverMessage.equals("success")) {
+	                	client.setUsername(username);
+	                	Window.layout.show(Window.container, "information");
+	                } else {
+	                	JOptionPane.showMessageDialog(new JFrame(), serverMessage);
+	                }
+	        	} else {
+	        		JOptionPane.showMessageDialog(new JFrame(), "Please fill in all fields");
+	        	}
+        	}
         }
         else if (e.getSource() == showPassword) {
             if(showPassword.isSelected()) {
@@ -131,21 +121,4 @@ public class SignUpTab extends JPanel implements ActionListener{
             }
         }
     }
-
-    public boolean userLoggedIn() {
-    	return this.loggedIn;
-    }
-
-	public String getEnteredUsername() {
-		return usernameEntered;
-	}
-	public void setEnteredUsername(String enteredUsername) {
-		this.usernameEntered = enteredUsername;
-	}
-	public void setEnteredPassword(String enteredPassword) {
-		this.passwordEntered = enteredPassword;
-	}
-	public String getEnteredPassword() {
-		return this.passwordEntered;
-	}
 }
