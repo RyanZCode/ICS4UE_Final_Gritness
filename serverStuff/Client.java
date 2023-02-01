@@ -16,7 +16,7 @@ import java.util.Queue;
  * @version 1.0 Jan 24, 2023
  */
 public class Client implements Runnable {
-	final String LOCAL_HOST = "10.0.0.7";
+	final String LOCAL_HOST = "localhost";
 	final int PORT = 10111;
 	Socket clientSocket;
 	PrintWriter output;
