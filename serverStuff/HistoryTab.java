@@ -71,30 +71,29 @@ public class HistoryTab extends JPanel implements ActionListener{
         String[] workoutDayInfo = client.getWorkoutDayInfo(selectedDateString).split("\\$+");
         
         workoutColumn = new String[]{"Name", "Time"};
-        workoutData = new Object[workoutDayInfo.length / 2][];
+        
+        workoutData = new Object[][] {
+        	{"", ""},
+        	{"", ""},
+        	{"", ""},
+        	{"", ""},
+        	{"", ""}
+        };
         
         workoutTable = newTable(workoutColumn, workoutData,30);
         JScrollPane scrollPane = new JScrollPane(workoutTable);
         scrollPane.setBounds(30,225,TABLE_WIDTH,TABLE_HEIGHT);
         workoutTable.addMouseListener(mouseListener);
         
-        this.add(scrollPane, BorderLayout.CENTER);
-        System.out.println("info length is " + workoutDayInfo.length + ", " + client.getWorkoutDayInfo(selectedDateString));
-        if (workoutDayInfo.length > 1) {
-	        for (int i = 0; i < workoutDayInfo.length; i += 2) {
-	        	System.out.println("adding thang " + i);
-		        DefaultTableModel model = new DefaultTableModel(workoutData, workoutColumn);
-		    	model.addRow(new Object[]{workoutDayInfo[i]});
-		    	Object[][] updatedData = new Object[workoutData.length + 1][1];
-		    	updatedData[workoutData.length] = new Object[] {workoutDayInfo[i]};
-		    	workoutData = updatedData;
-		    	workoutTable.setModel(model);
-		    	workoutTable.revalidate();
-		    	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-		    	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-		    	workoutTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-	        }
+        for (int i = 0; i < workoutDayInfo.length; i++) {
+        	if (i % 2 == 0) {
+        		workoutTable.setValueAt(workoutDayInfo[i], i / 2, 0);
+        	} else {
+        		workoutTable.setValueAt(workoutDayInfo[i], (int) Math.floor(i / 2), 1);
+        	}
         }
+        
+        this.add(scrollPane, BorderLayout.CENTER);
     	
         nutritionColumn = new String[] {"Macro", "Total"};
         nutritionData = new Object[][] {
@@ -109,11 +108,9 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         nutritionTable = newTable(nutritionColumn, nutritionData,TABLE_WIDTH + 40);
         
-        
         dateLabel = newDisplayLabel(selectedDate, Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 500)/ 2, 55,500, 65);
         workoutLabel= newDisplayLabel("Workout", Const.HISTORY_LABEL_FONT, workoutTable.getX() + 75, 130, TABLE_WIDTH - 150, 90);
         caloriesLabel = newDisplayLabel("Nutrition", Const.HISTORY_LABEL_FONT, nutritionTable.getX() + 75, 130, TABLE_WIDTH - 150, 90 );
-        
         
         this.addMouseListener(mouseListener);
         this.add(dateComboBox);
@@ -144,18 +141,21 @@ public class HistoryTab extends JPanel implements ActionListener{
     
     public void updateData() throws IOException {
         String[] dayInfo = client.getDayInfo(selectedDateString).split("\\$+");
-    	
-        nutritionColumn = new String[] {"Macro", "Total"};
-        nutritionData = new Object[][] {
-        	{"Macro","Total"},
-        	{"Calories",dayInfo[0]},
-        	{"Protein",dayInfo[1]},
-        	{"Carbs",dayInfo[2]},
-        	{"Fats",dayInfo[3]}
-        };
         
-        nutritionTable = new JTable(nutritionData, nutritionColumn);
-        nutritionTable.setBorder(new LineBorder(Color.GRAY, 1));
+        nutritionTable.setValueAt(dayInfo[0], 0, 1);
+        nutritionTable.setValueAt(dayInfo[1], 1, 1);
+        nutritionTable.setValueAt(dayInfo[2], 2, 1);
+        nutritionTable.setValueAt(dayInfo[3], 3, 1);
+        
+        String[] workoutDayInfo = client.getWorkoutDayInfo(selectedDateString).split("\\$+");
+        
+        for (int i = 0; i < workoutDayInfo.length; i++) {
+        	if (i % 2 == 0) {
+        		workoutTable.setValueAt(workoutDayInfo[i], i / 2, 0);
+        	} else {
+        		workoutTable.setValueAt(workoutDayInfo[i], (int) Math.floor(i / 2), 1);
+        	}
+        }
     }
     
     public JTable newTable(String[] columns, Object[][] data, int x) {
@@ -209,9 +209,16 @@ public class HistoryTab extends JPanel implements ActionListener{
         }
         else if(e.getSource() == dateComboBox) {
         	selectedDate = (String)(dateComboBox.getSelectedItem());
-//        	selectedDateString = String.valueOf(dateComboBox.getSelectedItem()).split(" ");
+        	String[] str = String.valueOf(dateComboBox.getSelectedItem()).split(" ");
+        	selectedDateString = str[2] + "-" + numericalMonthValue(str[0]) + "-" + str[1].replaceAll(",", "");
+        	System.out.println("datestring is " + selectedDateString);
         	dateLabel.setText(selectedDate.replace('-', ' '));
         	dateLabel.setSize(dateLabel.getPreferredSize());
+        	try {
+				updateData();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
         }
     }
     public class DemoMouseListener implements MouseListener{
@@ -257,6 +264,36 @@ public class HistoryTab extends JPanel implements ActionListener{
     	
     	this.add(button);
     	return button;
+    }
+    
+    public String numericalMonthValue(String str) {
+    	if (str.equals("JANUARY")) {
+    		return "01";
+    	} else if (str.equals("FEBRUARY")) {
+    		return "02";
+    	} else if (str.equals("MARCH")) {
+    		return "03";
+    	} else if (str.equals("APRIL")) {
+    		return "04";
+    	} else if (str.equals("MAY")) {
+    		return "05";
+    	} else if (str.equals("JUNE")) {
+    		return "06";
+    	} else if (str.equals("JULY")) {
+    		return "07";
+    	} else if (str.equals("AUGUST")) {
+    		return "08";
+    	} else if (str.equals("SEPTEMBER")) {
+    		return "09";
+    	} else if (str.equals("OCTOBER")) {
+    		return "10";
+    	} else if (str.equals("NOVEMBER")) {
+    		return "11";
+    	} else if (str.equals("DECEMBER")) {
+    		return "12";
+    	} else {
+    		return "";
+    	}
     }
 	
 }
