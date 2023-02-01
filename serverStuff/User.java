@@ -1,12 +1,11 @@
 package gritnessApp;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.*;
 
-/**
- * 
- * @author Ryan Zhou
- *
- */
+// Ryan
 public class User {
 	String displayName;
 	String username;
@@ -25,33 +24,34 @@ public class User {
 		this.history = new ArrayList<Day>();
 		this.friends = new ArrayList<String>();
 	}
+	//output.println(user.getCalories() + "$$" + user.getProtein() + "$$" + user.getCarbs() + "$$" + user.getSugar() + "$$" + user.getFiber() + "$$" + user.getFats() + "$$" + user.getSodium());
 
 	public int getCalories() {
-		return getToday().getTotalCalories();
+		return history.get(history.size() - 1).getTotalCalories();
 	}
 	
 	public int getProtein() {
-		return getToday().getTotalProtein();
+		return history.get(history.size() - 1).getTotalProtein();
 	}
 	
 	public int getCarbs() {
-		return getToday().getTotalCarbs();
+		return history.get(history.size() - 1).getTotalCarbs();
 	}
 	
 	public int getSugar() {
-		return getToday().getTotalSugar();
+		return history.get(history.size() - 1).getTotalSugar();
 	}
 	
 	public int getFiber() {
-		return getToday().getTotalFiber();
+		return history.get(history.size() - 1).getTotalFiber();
 	}
 	
 	public int getFats() {
-		return getToday().getTotalFats();
+		return history.get(history.size() - 1).getTotalFats();
 	}
 	
 	public int getSodium() {
-		return getToday().getTotalSodium();
+		return history.get(history.size() - 1).getTotalSodium();
 	}
 	
 	public void addDay(Day day) {
@@ -63,32 +63,32 @@ public class User {
 	}
 	
 	public void addCalories(int calories) {
-		getToday().addCalories(calories);
+		history.get(history.size() - 1).addCalories(calories);
 		System.out.println("new calories is " + history.get(history.size() - 1).getTotalCalories());
 	}
 	
 	public void addProtein(int protein) {
-		getToday().addProtein(protein);
+		history.get(history.size() - 1).addProtein(protein);
 	}
 	
 	public void addCarbs(int carbs) {
-		getToday().addCarbs(carbs);
+		history.get(history.size() - 1).addCarbs(carbs);
 	}
 	
 	public void addSugar(int sugar) {
-		getToday().addSugar(sugar);
+		history.get(history.size() - 1).addSugar(sugar);
 	}
 	
 	public void addFiber(int fiber) {
-		getToday().addFiber(fiber);
+		history.get(history.size() - 1).addFiber(fiber);
 	}
 	
 	public void addFats(int fats) {
-		getToday().addFats(fats);
+		history.get(history.size() - 1).addFats(fats);
 	}
 	
 	public void addSodium(int sodium) {
-		getToday().addSodium(sodium);
+		history.get(history.size() - 1).addSodium(sodium);
 	}
 	
     public String getFriendsString() {
@@ -97,6 +97,25 @@ public class User {
     		friendsString += friends.get(i) + "$$";
     	}
     	return friendsString;
+    }
+    
+    public String getHistoryString() {
+    	String historyString = "";
+    	for (int i = 0; i < history.size(); i++) {
+    		historyString += history.get(i).getDate();
+    		historyString += "$$";
+    	}
+    	return historyString;
+    }
+    
+    public Day getDay(String dayString) {
+    	for (int i = 0; i < history.size(); i++) {
+    		if (String.valueOf(history.get(i).getDate()).equals(dayString)) {
+    			return history.get(i);
+    		}
+    	}
+    	
+    	return null;
     }
 	
 	public String getCalorieHistory() {
