@@ -29,6 +29,7 @@ public class InformationTab extends JPanel implements ActionListener{
      * @param client User client
      */
 	InformationTab(Client client){
+		
 		//draws buttons
 		this.client = client;
 		quote = new JLabel("<html> \"When you hit failure, your workout has just begun.\"<br/>- Ronnie Coleman</html>");
@@ -138,7 +139,7 @@ public class InformationTab extends JPanel implements ActionListener{
 				if (!nameText.isBlank() && !ageText.isBlank() && !heightText.isBlank() 
 						&& !weightText.isBlank() && !calorieText.isBlank()){
 					
-					//converts input
+					//parses input into corresponding types
 					client.sendName(nameText);
 					client.sendAge(Integer.parseInt(ageText));
 					client.sendHeight(Integer.parseInt(heightText));

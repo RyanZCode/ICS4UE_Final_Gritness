@@ -91,10 +91,12 @@ public class ProfileTab extends JPanel implements ActionListener  {
     
     /**
      * importProfileData
-     * Integrates profile data from other tabs
+     * Integrates profile data from other tabs and
+     * parses it into their respective types
      * @throws IOException
      */
     public void importProfileData() throws IOException {
+    	
     	//integrates workout history and nutrition history
         barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
         lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
@@ -121,7 +123,8 @@ public class ProfileTab extends JPanel implements ActionListener  {
     
     /**
      * getGraphData
-     * Converts data into a graph
+     * Converts data into a graph and
+     * splits it into corresponding days
      * @param data Data array
      * @return Graphed data
      */
@@ -289,7 +292,8 @@ public class ProfileTab extends JPanel implements ActionListener  {
     
     /**
      * addBMRAndBMICheck
-     * Converts input into BMR AND BMI values
+     * Calculates BMR AND BMI values from input 
+     * after parsing the input
      */
     public void addBMRAndBMICheck() {
         if(!weightField.getText().equals("") && !heightField.getText().equals("")){
