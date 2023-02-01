@@ -158,8 +158,14 @@ public class InformationTab extends JPanel implements ActionListener{
 						e1.printStackTrace();
 					}
 					
-	                HistoryTab history = new HistoryTab();
-	                Window.container.add(history, "history");
+	                HistoryTab history;
+					try {
+						history = new HistoryTab(client);
+						Window.container.add(history, "history");
+					} catch (IOException e3) {
+						// TODO Auto-generated catch block
+						e3.printStackTrace();
+					}
 	                
 					try {
 						nutrition = new NutritionTab(client);
