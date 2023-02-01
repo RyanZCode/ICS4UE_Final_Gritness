@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
- * [Day.Java]
+ * [Day.java]
  * Helper class to match the date  
  * with food intake and workouts
  * @author Ryan Zhou
