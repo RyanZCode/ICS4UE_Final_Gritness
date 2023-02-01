@@ -11,7 +11,7 @@ import java.util.Queue;
 /**
  * [Client.java]
  * This class obtains information and data from server
- * Sends data to the serevr
+ * Sends data to the server
  * @author Ryan Zhou
  * @author Jason Wu
  * @version 1.0 Jan 24, 2023
