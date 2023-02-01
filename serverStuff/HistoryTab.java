@@ -20,11 +20,11 @@ public class HistoryTab extends JPanel implements ActionListener{
     JLabel dateLabel, workoutLabel, caloriesLabel;
     JComboBox<String> dateComboBox;
     JTable workoutTable, nutritionTable;
-    JScrollPane workoutScrollPane, nutritionScrollPane;
+    JScrollPane workoutScrollPane;
     String selectedDate;
     String selectedDateString;
     String[] workoutColumn, nutritionColumn;
-    Object[][] workoutData, nutritionData;
+    String[][] workoutData, nutritionData;
     DemoMouseListener mouseListener;
     final int NUMBER_ROWS_DISPLAYED = 5;
     final int ROW_HEIGHT = 66;
@@ -72,7 +72,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         workoutColumn = new String[]{"Name", "Time"};
         
-        workoutData = new Object[][] {
+        workoutData = new String[][] {
         	{"", ""},
         	{"", ""},
         	{"", ""},
@@ -101,7 +101,8 @@ public class HistoryTab extends JPanel implements ActionListener{
         this.add(scrollPane, BorderLayout.CENTER);
     	
         nutritionColumn = new String[] {"Macro", "Total"};
-        nutritionData = new Object[][] {
+        nutritionData = new String[][] {
+        	{"Macro", "Total"},
         	{"Calories",dayInfo[0]},
         	{"Protein",dayInfo[1]},
         	{"Carbs",dayInfo[2]},
@@ -115,7 +116,9 @@ public class HistoryTab extends JPanel implements ActionListener{
         
         dateLabel = newDisplayLabel(selectedDate, Const.HISTORY_LABEL_FONT,(Const.MAIN_LENGTH - 500)/ 2, 55,500, 65);
         workoutLabel= newDisplayLabel("Workout", Const.HISTORY_LABEL_FONT, workoutTable.getX() + 75, 130, TABLE_WIDTH - 150, 90);
-        caloriesLabel = newDisplayLabel("Nutrition", Const.HISTORY_LABEL_FONT, nutritionTable.getX() + 75, 130, TABLE_WIDTH - 150, 90 );
+        caloriesLabel = newDisplayLabel("Nutrition", Const.HISTORY_LABEL_FONT, nutritionTable.getX() + 75, 130, TABLE_WIDTH - 150, 90);
+        
+        
         
         this.addMouseListener(mouseListener);
         this.add(dateComboBox);
@@ -147,10 +150,10 @@ public class HistoryTab extends JPanel implements ActionListener{
     public void updateData() throws IOException {
         String[] dayInfo = client.getDayInfo(selectedDateString).split("\\$+");
         
-        nutritionTable.setValueAt(dayInfo[0], 0, 1);
-        nutritionTable.setValueAt(dayInfo[1], 1, 1);
-        nutritionTable.setValueAt(dayInfo[2], 2, 1);
-        nutritionTable.setValueAt(dayInfo[3], 3, 1);
+        nutritionTable.setValueAt(dayInfo[0], 1, 1);
+        nutritionTable.setValueAt(dayInfo[1], 2, 1);
+        nutritionTable.setValueAt(dayInfo[2], 3, 1);
+        nutritionTable.setValueAt(dayInfo[3], 4, 1);
         
         String[] workoutDayInfo = client.getWorkoutDayInfo(selectedDateString).split("\\$+");
         
@@ -163,7 +166,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         }
     }
     
-    public JTable newTable(String[] columns, Object[][] data, int x) {
+    public JTable newTable(String[] columns, String[][] data, int x) {
     	JTable table = new JTable(data, columns);
     	
     	table.setRowHeight(ROW_HEIGHT);
@@ -174,6 +177,7 @@ public class HistoryTab extends JPanel implements ActionListener{
     	
     	table.setBorder((new LineBorder(Color.GRAY, 1)));
     	table.setBackground(Const.BACKGROUND_COLOUR);
+    	
     	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
     	for(int i = 0; i < columns.length; i++) {
