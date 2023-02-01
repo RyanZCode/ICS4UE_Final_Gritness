@@ -122,7 +122,7 @@ public class LoginScreen extends JPanel implements ActionListener{
 	    				e1.printStackTrace();
 	    			}
 	
-	    			//successful login
+	    			//successful login creates the tabs
 	                if (serverMessage.equals("success")) {
 	                	client.setUsername(username);
 	                	

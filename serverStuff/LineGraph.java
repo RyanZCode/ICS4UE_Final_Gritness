@@ -1,18 +1,36 @@
 package gritnessApp;
-import java.awt.*;
-import javax.swing.*;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+/**
+ * [LineGraph.java]
+ * Constructs a line graph
+ * @author Jason Wu
+ * @version 1.0 Jan 24, 2023
+ */
 public class LineGraph extends Graph{
+	/**
+	 * LineGraph
+	 * @param data Bar graph data
+	 * @param xAxisLabel X-Label
+	 * @param yAxisLabel Y-Label
+	 * @param title Graph title
+	 * @param x X-location
+	 * @param y Y-location
+	 * @param maxValue Maximum graph value
+	 */
     public LineGraph(int[] data, String xAxisLabel, String yAxisLabel, String title, int x, int y, int maxValue) {
     	super(data, xAxisLabel, yAxisLabel, title, x, y, maxValue);
     }
 
+    /**
+     * draw
+     * Draws the line graph
+     * @param g Draw
+     */
     public void draw(Graphics g) {
-
-        // Draw x and y axis
-        
-    	
-    	
 
         //X-Axis line
         g.setColor(Color.black);
@@ -21,16 +39,13 @@ public class LineGraph extends Graph{
         //Y-Axis line
         g.drawLine(x, y , x, y - AXIS_LENGTH);
 
-        
-
         // Draw labels
         g.drawString(xAxisLabel,(2 * x + AXIS_LENGTH) / 2, y + LABEL_DISTANCE_BETWEEN_AXIS);
         g.drawString(yAxisLabel, x - LABEL_DISTANCE_BETWEEN_AXIS - 50, (2 * y - AXIS_LENGTH) / 2);
-        g.setFont(new Font("dialog", Font.PLAIN, 25));
+        g.setFont(new Font("Bahnschrift", Font.PLAIN, 25));
         g.drawString(title, (2 * x + AXIS_LENGTH) / 2 - 35, y - AXIS_LENGTH );
         
-        g.setFont(new Font("dialog", Font.PLAIN, 12));
-        
+        g.setFont(new Font("Bahnschrift", Font.PLAIN, 12));  
         
         //Y-Axis Scale
         for (int i = 0; i <= MAX_VALUE; i++) {

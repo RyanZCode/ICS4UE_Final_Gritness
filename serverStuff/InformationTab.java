@@ -42,6 +42,7 @@ public class InformationTab extends JPanel implements ActionListener{
 		background = new JLabel(Const.COVER_PHOTO);
         background.setBounds(0,0,1280,720);
 		
+        //Labels
         newInformationPanel("Before we get started, tell us a little about yourself.", 175);
 
         newInformationPanel("Display Name:", 240);

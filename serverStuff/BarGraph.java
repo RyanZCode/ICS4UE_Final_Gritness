@@ -1,13 +1,36 @@
 package gritnessApp;
-import java.awt.*;
-import javax.swing.*;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+/**
+ * [BarGraph.java]
+ * This class constructs a bar graph
+ * @author Jason Wu
+ * @version 1.0 Jan 24, 2023
+ */
 public class BarGraph extends Graph{    
-    BarGraph(int[] data, String xAxisLabel, String yAxisLabel, String title, int x, int y, int maxValue) {
+    
+	/**
+	 * BarGraph
+	 * @param data Bar graph data
+	 * @param xAxisLabel X-Label
+	 * @param yAxisLabel Y-Label
+	 * @param title Graph title
+	 * @param x X-location
+	 * @param y Y-location
+	 * @param maxValue Maximum graph value
+	 */
+	BarGraph(int[] data, String xAxisLabel, String yAxisLabel, String title, int x, int y, int maxValue) {
     	super(data, xAxisLabel, yAxisLabel, title, x, y, maxValue);
     }
     
-    
+    /**
+     * draw
+     * Draws the axis and graph
+     * @param g Draw
+     */
     public void draw(Graphics g) {
     	
     	for (int i = 0; i < data.length; i++) {
@@ -17,10 +40,8 @@ public class BarGraph extends Graph{
         		 g.fillRect(x + i* (AXIS_LENGTH / NUMBER_DAYS) , y -  data[i] * (AXIS_LENGTH / MAX_VALUE), 10, data[i] * (AXIS_LENGTH / MAX_VALUE));
         	}
            
-        }
-    	
-    	
-    	// Draw x and y axis
+        }  	
+
         //X-Axis line
     	g.setColor(Color.black);
         g.drawLine(x, y, x + AXIS_LENGTH, y);
@@ -28,16 +49,13 @@ public class BarGraph extends Graph{
         //Y-Axis line
         g.drawLine(x, y , x, y - AXIS_LENGTH);
 
-        // Draw data bars
-        
-
         // Draw labels
         g.drawString(xAxisLabel,(2 * x + AXIS_LENGTH) / 2, y + LABEL_DISTANCE_BETWEEN_AXIS);
         g.drawString(yAxisLabel, x - LABEL_DISTANCE_BETWEEN_AXIS - 50, (2 * y - AXIS_LENGTH) / 2);
-        g.setFont(new Font("dialog", Font.PLAIN, 25));
+        g.setFont(new Font("Bahnschrift", Font.PLAIN, 25));
         g.drawString(title, (2 * x + AXIS_LENGTH) / 2 - 35, y - AXIS_LENGTH );
         
-        g.setFont(new Font("dialog", Font.PLAIN, 12));
+        g.setFont(new Font("Bahnschrift", Font.PLAIN, 12));
         
         
         //Y-Axis Scale

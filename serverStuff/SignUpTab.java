@@ -39,7 +39,7 @@ public class SignUpTab extends JPanel implements ActionListener{
     SignUpTab(Client client){
     	this.client = client;
     	
-    	//adds buttons
+    	//adds labels
         background = new JLabel(Const.COVER_PHOTO);
         background.setBounds(0,0,1280,720);
         
@@ -57,6 +57,7 @@ public class SignUpTab extends JPanel implements ActionListener{
         username.setForeground(Color.white);
         username.setBounds(490, 250, 1000, 30);
         
+        //username field
         usernameField = new JTextField();
         usernameField.setBounds(570, 250, 150, 30);
         
@@ -66,9 +67,11 @@ public class SignUpTab extends JPanel implements ActionListener{
         
         account = new JLabel("Create an account");
         
+        //password field
         passwordField = new JPasswordField();
         passwordField.setBounds(570, 280, 150, 30);
 
+        //signup button
         signup = new JButton("Create Account");
         signup.addActionListener(this);
         signup.setBounds(570, 340, 150, 30);

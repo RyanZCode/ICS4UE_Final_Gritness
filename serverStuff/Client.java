@@ -11,12 +11,13 @@ import java.util.Queue;
 /**
  * [Client.java]
  * This class obtains information and data from server
+ * Sends data to the serevr
  * @author Ryan Zhou
  * @author Jason Wu
  * @version 1.0 Jan 24, 2023
  */
 public class Client implements Runnable {
-	final String LOCAL_HOST = "localhost";
+	final String LOCAL_HOST = "10.0.0.7";
 	final int PORT = 10111;
 	Socket clientSocket;
 	PrintWriter output;
