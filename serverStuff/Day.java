@@ -38,6 +38,9 @@ public class Day {
 		workouts = new ArrayList<String>();
 	}
 
+	public void addWorkout(String name, int time) {
+		workouts.add(name + "$$" + time + "$$");
+	}
 	
 	/**
 	 * getWorkouts
