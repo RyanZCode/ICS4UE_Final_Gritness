@@ -77,6 +77,11 @@ public class HistoryTab extends JPanel implements ActionListener{
         	{"", ""},
         	{"", ""},
         	{"", ""},
+        	{"", ""},
+        	{"", ""},
+        	{"", ""},
+        	{"", ""},
+        	{"", ""},
         	{"", ""}
         };
         
@@ -89,7 +94,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         	if (i % 2 == 0) {
         		workoutTable.setValueAt(workoutDayInfo[i], i / 2, 0);
         	} else {
-        		workoutTable.setValueAt(workoutDayInfo[i], (int) Math.floor(i / 2), 1);
+        		workoutTable.setValueAt(Math.round((Integer.parseInt(workoutDayInfo[i]) / 60000.0) * 100) / 100.0 + " mins", (int) Math.floor(i / 2), 1);
         	}
         }
         
@@ -153,7 +158,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         	if (i % 2 == 0) {
         		workoutTable.setValueAt(workoutDayInfo[i], i / 2, 0);
         	} else {
-        		workoutTable.setValueAt(workoutDayInfo[i], (int) Math.floor(i / 2), 1);
+        		workoutTable.setValueAt(Math.round((Integer.parseInt(workoutDayInfo[i]) / 60000.0) * 100) / 100.0 + " mins", (int) Math.floor(i / 2), 1);
         	}
         }
     }
