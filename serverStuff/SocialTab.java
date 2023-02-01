@@ -8,6 +8,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -68,7 +70,7 @@ public class SocialTab extends JPanel implements ActionListener{
         } else {
             friendsNum = 0;
         }
-
+        this.addComponentListener(new ComponentListenerPanel());
         //Add new friend button
         addFriend = new JButton ("Add New Friend");
         addFriend.addActionListener(this);
@@ -409,5 +411,31 @@ public class SocialTab extends JPanel implements ActionListener{
             }
         }
         return graphData;
+    }
+    
+    private class ComponentListenerPanel implements ComponentListener {
+    	@Override
+    	public void componentShown(ComponentEvent evt) {
+            try {
+            	String usernames = client.getFriendUsernames();
+                String[] split = usernames.split("\\$+");
+                if (!usernames.isBlank()) {
+                    updateFriendsProfileInformation(split[0]);
+                } else {
+                    friendsNum = 0;
+                }
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		@Override
+		public void componentResized(ComponentEvent e) {
+		}
+		@Override
+		public void componentMoved(ComponentEvent e) {
+		}
+		@Override
+		public void componentHidden(ComponentEvent e) {
+		}
     }
 }
