@@ -222,41 +222,26 @@ class CentralDatabase {
 								output.flush();
 								break;
 							}
-							case "sendDayCheck": {
-								if (user.getHistory().size() != 0) {
-									if (!user.getToday().getDate().isEqual(LocalDate.now())) {
-										user.addDay(new Day());
-	//									output.println("New day");
-	//									output.flush();
-									} else {
-	//									output.println("Same day");
-	//									output.flush();
-									}
-								} else {
-									user.addDay(new Day());
-	//								output.println("New day");
-	//								output.flush();
-								}
+							case "getHistoryTab": {
+								output.println(user.getHistoryString());
+								output.flush();
 								break;
 							}
-							case "test": {
-	//							String username = inputData[1];
-	//							User user = loginInfo.get(username);
-	//							Day day = new Day();
-	//							day.addWorkout("testing");
-	//							day.setTotalCalories(2000);
-	//							user.addDay(day);
-	//							Day day2 = new Day();
-	//							day2.addWorkout("testing");
-	//							day2.setTotalCalories(2000);
-	//							day2.setDate(day2.getDate().minus(Period.ofDays(-1)));
-	//							user.addDay(day2);
-	//							Day day3 = new Day();
-	//							day3.addWorkout("testing");
-	//							day3.setTotalCalories(1000);
-	//							day3.setDate(day3.getDate().minus(Period.ofDays(-2)));
-	//							user.addDay(day3);
-								output.println("Testing");
+							case "getDayInfo": {
+								String dayString = inputData[2];
+								Day day = user.getDay(dayString);
+								output.println(day.getTotalCalories() + "$$" + day.getTotalProtein() + "$$" + day.getTotalCarbs() + "$$" + day.getTotalFats() + "$$" + day.getTotalSodium());
+								output.flush();
+								break;
+							}
+							case "getWorkoutDayInfo": {
+								String dayString = inputData[2];
+								Day day = user.getDay(dayString);
+								String out = "";
+								for (int i = 0; i < day.getNumberWorkouts(); i++) {
+									out += day.getWorkouts().get(i);
+								}
+								output.println(out);
 								output.flush();
 								break;
 							}

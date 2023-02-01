@@ -349,20 +349,54 @@ public class Client implements Runnable {
   		}
   		return (serverMessage);
   	}
-	
-	public String sendTest() throws IOException {
-		output.println("test" + "$$" + username);
-		output.flush();
-		String serverMessage = null;
-		while (true) {
-			if (input.ready()) {
-				// Get a response from the server
-				serverMessage = input.readLine();
-				break;
-			}
-		}
-		return (serverMessage);
-	}
+  	
+	// Get history tab info from server
+  	public String getHistoryTab() throws IOException {
+  		// Send message to server
+  		output.println("getHistoryTab" + "$$" + username);
+  		output.flush();
+  		String serverMessage = null;
+  		while (true) {
+  			if (input.ready()) {
+  				// Get a response from the server
+  				serverMessage = input.readLine();
+  				break;
+  			}
+  		}
+  		return (serverMessage);
+  	}
+  	
+  	// Get day info from server
+   	public String getDayInfo(String dayString) throws IOException {
+   		// Send message to server
+   		output.println("getDayInfo" + "$$" + username + "$$" + dayString);
+   		output.flush();
+   		String serverMessage = null;
+   		while (true) {
+   			if (input.ready()) {
+   				// Get a response from the server
+   				serverMessage = input.readLine();
+   				break;
+   			}
+   		}
+   		return (serverMessage);
+   	}
+   	
+   	// Get workout info from a day from server
+   	public String getWorkoutDayInfo(String dayString) throws IOException {
+   		// Send message to server
+   		output.println("getWorkoutDayInfo" + "$$" + username + "$$" + dayString);
+   		output.flush();
+   		String serverMessage = null;
+   		while (true) {
+   			if (input.ready()) {
+   				// Get a response from the server
+   				serverMessage = input.readLine();
+   				break;
+   			}
+   		}
+   		return (serverMessage);
+   	}
 	
 	// Tells server to close I/O
 	public void sendStop() {

@@ -3,11 +3,14 @@ package gritnessApp;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.text.*;
+import java.time.Month;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 //Jason
 public class HistoryTab extends JPanel implements ActionListener{
@@ -18,32 +21,36 @@ public class HistoryTab extends JPanel implements ActionListener{
     JComboBox<String> dateComboBox;
     JTable workoutTable, nutritionTable;
     JScrollPane workoutScrollPane, nutritionScrollPane;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("EE MMMM dd yyyy");
     String selectedDate;
+    String selectedDateString;
     String[] workoutColumn, nutritionColumn;
-    String[][] workoutData, nutritionData;
+    Object[][] workoutData, nutritionData;
     DemoMouseListener mouseListener;
     final int NUMBER_ROWS_DISPLAYED = 5;
     final int ROW_HEIGHT = 66;
     final int TABLE_WIDTH = Const.MAIN_LENGTH / 2 - 40;
     final int TABLE_HEIGHT = NUMBER_ROWS_DISPLAYED * ROW_HEIGHT;
+    Client client;
     
-    HistoryTab(){    	
+    HistoryTab(Client client) throws IOException {
+    	this.addComponentListener(new ComponentListenerPanel());
+    	this.client = client;
+    	
+    	String[] split = client.getHistoryTab().split("\\$+");
     	
     	mouseListener = new DemoMouseListener();
     	
     	dateComboBox = new JComboBox<>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-        for (int i = 0; i < 59; i++) {
-            Date date = calendar.getTime();
-            String dateString = dateFormat.format(date);
+
+        for (int i = 0; i < split.length; i++) {
+        	String[] dateSplit = split[i].split("-");
+            String dateString = Month.of(Integer.parseInt(dateSplit[1])) + " " + dateSplit[2] + ", " + dateSplit[0];
             dateComboBox.addItem(dateString);
             dateComboBox.setFont(new Font("Calibri", Font.PLAIN, 25));
 
-            calendar.add(Calendar.DATE, 1);
             if(i == 0) {
             	selectedDate = dateString;
+            	selectedDateString = split[i];
             }
         }
         
@@ -60,34 +67,11 @@ public class HistoryTab extends JPanel implements ActionListener{
         social = newNavBarButton ("Social", 1024, Const.SOCIAL_ICON);
         history.setBackground(Const.BUTTON_COLOUR2.brighter());       
         
-        workoutColumn = new String[]{""};
-        workoutData = new String[][]{
-        	{"Lat Pulldown"},
-            {"1. 135 x 10lbs"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 10"},
-            {"Text 12"}
-        };
+        String[] dayInfo = client.getDayInfo(selectedDateString).split("\\$+");
+        String[] workoutDayInfo = client.getWorkoutDayInfo(selectedDateString).split("\\$+");
         
-        nutritionColumn = new String[] {"", "Total","Goal"};
-        nutritionData = new String[][] {
-        	{"","Total","Goal"},
-        	{"Protein","",""},
-        	{"Carbs","",""},
-        	{"Fats","",""},
-        	{"Sodium","",""}
-        };
-        
-        nutritionTable = new JTable(nutritionData, nutritionColumn);
-        nutritionTable.setBorder(new LineBorder(Color.GRAY, 1));
-        
-        
+        workoutColumn = new String[]{"Name", "Time"};
+        workoutData = new Object[workoutDayInfo.length / 2][];
         
         workoutTable = newTable(workoutColumn, workoutData,30);
         JScrollPane scrollPane = new JScrollPane(workoutTable);
@@ -95,6 +79,33 @@ public class HistoryTab extends JPanel implements ActionListener{
         workoutTable.addMouseListener(mouseListener);
         
         this.add(scrollPane, BorderLayout.CENTER);
+        System.out.println("info length is " + workoutDayInfo.length + ", " + client.getWorkoutDayInfo(selectedDateString));
+        if (workoutDayInfo.length > 1) {
+	        for (int i = 0; i < workoutDayInfo.length; i += 2) {
+	        	System.out.println("adding thang " + i);
+		        DefaultTableModel model = new DefaultTableModel(workoutData, workoutColumn);
+		    	model.addRow(new Object[]{workoutDayInfo[i]});
+		    	Object[][] updatedData = new Object[workoutData.length + 1][1];
+		    	updatedData[workoutData.length] = new Object[] {workoutDayInfo[i]};
+		    	workoutData = updatedData;
+		    	workoutTable.setModel(model);
+		    	workoutTable.revalidate();
+		    	DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		    	centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		    	workoutTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+	        }
+        }
+    	
+        nutritionColumn = new String[] {"Macro", "Total"};
+        nutritionData = new Object[][] {
+        	{"Calories",dayInfo[0]},
+        	{"Protein",dayInfo[1]},
+        	{"Carbs",dayInfo[2]},
+        	{"Fats",dayInfo[3]}
+        };
+        
+        nutritionTable = new JTable(nutritionData, nutritionColumn);
+        nutritionTable.setBorder(new LineBorder(Color.GRAY, 1));
         
         nutritionTable = newTable(nutritionColumn, nutritionData,TABLE_WIDTH + 40);
         
@@ -109,10 +120,45 @@ public class HistoryTab extends JPanel implements ActionListener{
         this.setVisible(true);
         this.setLayout(null);
         
-        
-        
     }
-    public JTable newTable(String[] columns, String[][] data, int x) {
+    
+    private class ComponentListenerPanel implements ComponentListener {
+    	@Override
+    	public void componentShown(ComponentEvent evt) {
+            try {
+				updateData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		@Override
+		public void componentResized(ComponentEvent e) {
+		}
+		@Override
+		public void componentMoved(ComponentEvent e) {
+		}
+		@Override
+		public void componentHidden(ComponentEvent e) {
+		}
+    }
+    
+    public void updateData() throws IOException {
+        String[] dayInfo = client.getDayInfo(selectedDateString).split("\\$+");
+    	
+        nutritionColumn = new String[] {"Macro", "Total"};
+        nutritionData = new Object[][] {
+        	{"Macro","Total"},
+        	{"Calories",dayInfo[0]},
+        	{"Protein",dayInfo[1]},
+        	{"Carbs",dayInfo[2]},
+        	{"Fats",dayInfo[3]}
+        };
+        
+        nutritionTable = new JTable(nutritionData, nutritionColumn);
+        nutritionTable.setBorder(new LineBorder(Color.GRAY, 1));
+    }
+    
+    public JTable newTable(String[] columns, Object[][] data, int x) {
     	JTable table = new JTable(data, columns);
     	
     	table.setRowHeight(ROW_HEIGHT);
@@ -163,6 +209,7 @@ public class HistoryTab extends JPanel implements ActionListener{
         }
         else if(e.getSource() == dateComboBox) {
         	selectedDate = (String)(dateComboBox.getSelectedItem());
+//        	selectedDateString = String.valueOf(dateComboBox.getSelectedItem()).split(" ");
         	dateLabel.setText(selectedDate.replace('-', ' '));
         	dateLabel.setSize(dateLabel.getPreferredSize());
         }
@@ -174,7 +221,6 @@ public class HistoryTab extends JPanel implements ActionListener{
             if (row >= 0 && col >= 0) {
                 JPopupMenu popup = new JPopupMenu();
                 workoutTable.setComponentPopupMenu(popup);
-//                JOptionPane.showMessageDialog(workoutTable, "Cell contents: " + workoutTable.getValueAt(row, col));
                 popup.show(workoutTable, e.getX(), e.getY());
             }
         }
