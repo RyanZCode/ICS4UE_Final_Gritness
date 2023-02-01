@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -36,7 +38,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
     String[] BMRMessage, BMIMessage;
     int[] lineGraphData, barGraphData;
     LineGraph lineGraph;
-    boolean focused;
 
     /**
      * ProfileTab
@@ -47,7 +48,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
     ProfileTab(Client client) throws IOException { 
         this.client = client;
         
-        focused = false;
         window = new JFrame();
         
         //adding buttons
@@ -68,6 +68,7 @@ public class ProfileTab extends JPanel implements ActionListener  {
         heightField  = new JTextField();
         weightField  = new JTextField();
         ageField  = new JTextField();
+        this.addComponentListener(new ComponentListenerPanel());
         
         this.add(heightField);
         this.add(weightField);
@@ -96,7 +97,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
      * @throws IOException
      */
     public void importProfileData() throws IOException {
-    	
     	//integrates workout history and nutrition history
         barGraphData = getGraphData(client.getProfileWorkoutNumHistory(client.getUsername()));
         lineGraphData = getGraphData(client.getProfileCalHistory(client.getUsername()));
@@ -177,15 +177,6 @@ public class ProfileTab extends JPanel implements ActionListener  {
         // Anti-aliasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         
-        if (!focused) {
-        	try {
-				importProfileData();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        	focused = true;
-        }
-        
         barGraph = new BarGraph(barGraphData, "Day", "# Workouts", "WORKOUTS", 600, 400, 5);
         barGraph.draw(g);
         
@@ -212,22 +203,18 @@ public class ProfileTab extends JPanel implements ActionListener  {
         
         else if(e.getSource() == history) {
             Window.layout.show(Window.container, "history");
-            focused = false;
         }
         
         else if (e.getSource() == workout) {
             Window.layout.show(Window.container, "workout");
-            focused = false;
         }
         
         else if (e.getSource() == food) {
             Window.layout.show(Window.container, "nutrition");
-            focused = false;
         }
         
         else if (e.getSource() == social) {
             Window.layout.show(Window.container, "social");
-            focused = false;
         }
         
         //gives the user the option to edit their information
@@ -391,5 +378,26 @@ public class ProfileTab extends JPanel implements ActionListener  {
         } catch (NumberFormatException e) {  
             return false;  
         }  
+    }
+    
+    private class ComponentListenerPanel implements ComponentListener {
+    	@Override
+    	public void componentShown(ComponentEvent evt) {
+            try {
+				importProfileData();
+				repaint();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        }
+		@Override
+		public void componentResized(ComponentEvent e) {
+		}
+		@Override
+		public void componentMoved(ComponentEvent e) {
+		}
+		@Override
+		public void componentHidden(ComponentEvent e) {
+		}
     }
 }
