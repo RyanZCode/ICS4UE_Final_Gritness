@@ -7,6 +7,7 @@ import javax.swing.JFrame;
  * [Window.java]
  * Window constructor class for application
  * @author Nathan Kong
+ * @author Justin Zhou
  * @version 1.0 Jan 24, 2023
  */
 public class Window extends JFrame{

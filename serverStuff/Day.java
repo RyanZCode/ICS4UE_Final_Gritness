@@ -37,16 +37,7 @@ public class Day {
 		totalSodium = 0;
 		workouts = new ArrayList<String>();
 	}
-	
-	/**
-	 * addWorkout
-	 * Adds a workout to the set day
-	 * @param name Name of workout
-	 * @param time Time of day
-	 */
-	public void addWorkout(String name, int time) {
-		workouts.add(name + "$$" + time);
-	}
+
 	
 	/**
 	 * getWorkouts
@@ -135,15 +126,6 @@ public class Day {
 	public LocalDate getDate() {
 		return date;
 	}
-
-	/**
-	 * setDate
-	 * Sets computer date to date
-	 * @param date Computer date
-	 */
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
 	
 	/**
 	 * getTotalCalories
@@ -152,15 +134,6 @@ public class Day {
 	 */
 	public int getTotalCalories() {
 		return totalCalories;
-	}
-
-	/**
-	 * setTotalCalories
-	 * Sets total calories for the day
-	 * @param totalCalories Daily Total Calories
-	 */
-	public void setTotalCalories(int totalCalories) {
-		this.totalCalories = totalCalories;
 	}
 
 	/**
@@ -173,15 +146,6 @@ public class Day {
 	}
 
 	/**
-	 * setTotalProtein
-	 * Sets total protein for the day
-	 * @param totalProtein Daily total protein
-	 */
-	public void setTotalProtein(int totalProtein) {
-		this.totalProtein = totalProtein;
-	}
-
-	/**
 	 * getTotalCarbs
 	 * Ggets the total carb intake for the day
 	 * @return Daily total carb intake
@@ -189,16 +153,7 @@ public class Day {
 	public int getTotalCarbs() {
 		return totalCarbs;
 	}
-
-	/**
-	 * setTotalCarbs
-	 * Sets the total daily carbs
-	 * @param totalCarbs Daily total carb intake
-	 */
-	public void setTotalCarbs(int totalCarbs) {
-		this.totalCarbs = totalCarbs;
-	}
-
+	
 	/**
 	 * getTotalFiber
 	 * Gets daily fiber intake
@@ -208,14 +163,6 @@ public class Day {
 		return totalFiber;
 	}
 
-	/**
-	 * seTotalFiber
-	 * Sets the daily fiber intake
-	 * @param totalFiber Total daily fiber intake
-	 */
-	public void setTotalFiber(int totalFiber) {
-		this.totalFiber = totalFiber;
-	}
 
 	/**
 	 * getTotalSugar
@@ -227,15 +174,6 @@ public class Day {
 	}
 
 	/**
-	 * setTotalSugar
-	 * sets daily sugar amount
-	 * @param totalSugar Daily total sugar
-	 */
-	public void setTotalSugar(int totalSugar) {
-		this.totalSugar = totalSugar;
-	}
-
-	/**
 	 * getTotalFats
 	 * Gets total fat intake for day
 	 * @return Daily fat intake
@@ -243,16 +181,6 @@ public class Day {
 	public int getTotalFats() {
 		return totalFats;
 	}
-
-	/**
-	 * setTotalFats
-	 * Sets daily fat intake
-	 * @param totalFat Daily fat
-	 */
-	public void setTotalFats(int totalFat) {
-		this.totalFats = totalFat;
-	}
-
 	/**
 	 * getTotalSodium
 	 * Gets the total daily sodium intake
@@ -261,33 +189,6 @@ public class Day {
 	public int getTotalSodium() {
 		return totalSodium;
 	}
-
-	/**
-	 * setTotalSodium
-	 * Sets the total daily sodium intake
-	 * @param totalSodium Daily sodium intake
-	 */
-	public void setTotalSodium(int totalSodium) {
-		this.totalSodium = totalSodium;
-	}
-
-	/**
-	 * getTotalExerciseMinutes
-	 * Gets daily exercise time
-	 * @return Daily time worked out
-	 */
-	public int getTotalExerciseMinutes() {
-		return totalExerciseMinutes;
-	}
-
-	/**
-	 * setTotalExerciseMinutes
-	 * Sets the daily total workout time
-	 * @param totalExerciseMinutes Total workout time
-	 */
-	public void setTotalExerciseMinutes(int totalExerciseMinutes) {
-		this.totalExerciseMinutes = totalExerciseMinutes;
-	}	
 	
 	/**
 	 * getNumberWorkouts
